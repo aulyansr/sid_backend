@@ -27,8 +27,14 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
         $routes->post('config/store', 'ConfigController::store');
         $routes->get('config/edit/(:segment)', 'ConfigController::edit/$1', ['as' => 'edit_config_path']);
         $routes->post('config/update/(:segment)', 'ConfigController::update/$1');
-
         $routes->get('config/delete/(:segment)', 'ConfigController::delete/$1', ['as' => 'delete_config_path']);
+
+        $routes->get('media_sosial', 'MediaSosialController::index');
+        $routes->get('media_sosial/new', 'MediaSosialController::new');
+        $routes->post('media_sosial/store', 'MediaSosialController::store');
+        $routes->get('media_sosial/edit/(:segment)', 'MediaSosialController::edit/$1');
+        $routes->post('media_sosial/update/(:segment)', 'MediaSosialController::update/$1');
+        $routes->get('media_sosial/delete/(:segment)', 'MediaSosialController::delete/$1');
     });
     // $routes->get('Article', 'Article::index');
 });
