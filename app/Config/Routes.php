@@ -35,6 +35,20 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
         $routes->get('media_sosial/edit/(:segment)', 'MediaSosialController::edit/$1');
         $routes->post('media_sosial/update/(:segment)', 'MediaSosialController::update/$1');
         $routes->get('media_sosial/delete/(:segment)', 'MediaSosialController::delete/$1');
+
+        $routes->get('menu', 'MenuController::index');
+        $routes->get('menu/new', 'MenuController::new');
+        $routes->post('menu/store', 'MenuController::store');
+        $routes->get('menu/edit/(:segment)', 'MenuController::edit/$1');
+        $routes->post('menu/update/(:segment)', 'MenuController::update/$1');
+        $routes->get('menu/delete/(:segment)', 'MenuController::delete/$1');
+
+        $routes->get('setting_modul', 'SettingModulController::index');
+        $routes->get('setting_modul/new', 'SettingModulController::new');
+        $routes->post('setting_modul/store', 'SettingModulController::store');
+        $routes->get('setting_modul/edit/(:segment)', 'SettingModulController::edit/$1');
+        $routes->post('setting_modul/update/(:segment)', 'SettingModulController::update/$1');
+        $routes->get('setting_modul/delete/(:segment)', 'SettingModulController::delete/$1');
     });
     // $routes->get('Article', 'Article::index');
 });
