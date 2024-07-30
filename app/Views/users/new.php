@@ -18,7 +18,7 @@
                             <!-- Form Group (full name) -->
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="inputFullName">Nama Lengkap</label>
-                                <input class="form-control" id="inputFullName" name="full_name" type="text" placeholder="Nama Lengkap" value="<?= old('full_name'); ?>" required>
+                                <input class="form-control" id="inputFullName" name="nama" type="text" placeholder="Nama Lengkap" value="<?= old('full_name'); ?>" required>
                             </div>
                             <!-- Form Group (username) -->
                             <div class="col-md-6 mb-3">

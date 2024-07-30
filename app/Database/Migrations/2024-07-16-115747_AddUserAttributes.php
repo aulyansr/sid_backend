@@ -24,7 +24,47 @@ class AddUserAttributes extends Migration
     public function up()
     {
         $fields = [
-            'full_name' => ['type' => 'VARCHAR', 'constraint' => '255', 'null' => true],
+
+            'password' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 40,
+            ],
+            'id_grup' => [
+                'type' => 'INT',
+            ],
+            'email' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+            ],
+            'last_login' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+            'nama' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 50,
+            ],
+            'company' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ],
+            'phone' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 20,
+                'null'       => true,
+            ],
+            'foto' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ],
+            'session' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 40,
+                'null'       => true,
+            ],
+
         ];
         $this->forge->addColumn($this->tables['users'], $fields);
     }

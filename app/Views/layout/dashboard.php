@@ -15,6 +15,9 @@
     <link href="/assets/css/admin/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+    <!-- dropify -->
+    <link href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css" rel="stylesheet">
+
     <!-- Custom styles for this template-->
     <link href="/assets/css/admin/sb-admin-2.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/gkk.png" type="image/x-icon">
@@ -100,6 +103,17 @@
             </li>
 
             <?php if (auth()->user()->inGroup('superadmin')) : ?>
+                <div class="sidebar-heading">
+                    Manajemen Pengguna
+                </div>
+
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= route_to('users_path') ?>">
+                        <i class="fas fa-fw fa-id-card"></i>
+                        <span>Pengguna</span></a>
+                </li>
                 <div class="sidebar-heading">
                     Manajemen Pengguna
                 </div>
@@ -406,6 +420,9 @@
 
     <!-- Page level plugins -->
     <script src="/assets/js/admin/vendor/chart.js/Chart.min.js"></script>
+    <!-- dropify -->
+    <script src=" https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
+
 
     <?php $this->renderSection('script'); ?>
 

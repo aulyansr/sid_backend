@@ -4,12 +4,13 @@
 
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Pengguna</h1>
+    <h1 class="h3 mb-2 text-gray-800">Identitas Desa</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Manajemen Pengguna</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Manajemen Desa</h6>
         </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped compact" id="dataTable" width="100%" cellspacing="0">
@@ -17,58 +18,42 @@
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Username</th>
-                            <th>Nama</th>
-                            <th>Group</th>
-                            <th>Last Login</th>
+                            <th>Nama Desa</th>
+                            <th>Kode Desa</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Username</th>
-                            <th>Nama</th>
-                            <th>Group</th>
-                            <th>Last Login</th>
+                            <th>Nama Desa</th>
+                            <th>Kode Desa</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($users as $index => $user) : ?>
+
+                        <?php foreach ($configs as $index => $config) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="uibutton-group">
-                                        <a href="/admin/users/edit/<?= esc($user->id); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                        <a href="/admin/config/edit/<?= esc($config['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/users/delete/<?= esc($user->id); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
+                                        <a href="/admin/config/delete/<?= esc($config['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-                                        <a href="/admin/users/view/<?= esc($user->id); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                        <a href="/admin/config/view/<?= esc($config['id']); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
                                             <i class="fa fa-lock"></i>
                                         </a>
                                     </div>
+
                                 </td>
-                                <td><?= esc($user->username); ?></td>
-                                <td><?= esc($user->nama); ?></td>
-                                <td>
-                                    <?php if (method_exists($user, 'getGroups')) : ?>
-                                        <?php
-                                        $groups = $user->getGroups();
-                                        if (is_array($groups)) {
-                                            echo implode(', ', array_map('esc', $groups)); // Convert array to comma-separated string with escaping
-                                        } else {
-                                            echo esc($groups); // If it's not an array, just escape the value
-                                        }
-                                        ?>
-                                    <?php else : ?>
-                                        Tidak ada grup
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= esc($user->last_login); ?></td>
+                                <td><?= esc($config['nama_desa']); ?></td>
+                                <td><?= esc($config['kode_desa']); ?></td>
                             </tr>
                         <?php endforeach; ?>
+
                     </tbody>
                 </table>
 
@@ -99,7 +84,7 @@
 
 <script>
     // Define the JavaScript variable with the URL from PHP
-    var newUserPath = '/admin/users/new';
+    var newConfigPath = '/admin/config/new';
 
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
@@ -109,7 +94,7 @@
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
                         // Redirect to the new user path
-                        window.location.href = newUserPath;
+                        window.location.href = newConfigPath;
                     },
                 },
                 {

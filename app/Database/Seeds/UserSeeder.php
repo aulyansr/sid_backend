@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         $userData = [
             'username' => 'superadmin',
             'email'    => 'superadmin@sida.id',
-            'password' => 'password', // Shield will handle hashing
+            'password' => 'password',
         ];
 
         // Create a new user entity
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             $users->save($user);
             $user = $users->findById($users->getInsertID());
             $users->addToDefaultGroup($user);
-        } catch (ShieldException $e) {
+        } catch (\Exception $e) {
             // Handle exceptions thrown by Shields
             echo "Error during user creation: " . $e->getMessage() . "\n";
         }

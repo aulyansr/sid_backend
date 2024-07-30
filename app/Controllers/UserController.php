@@ -3,19 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
-use CodeIgniter\Controller;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ShieldException;
 
-
-
-
-
 class UserController extends BaseController
 {
-
     protected $userModel;
 
     public function __construct()
@@ -25,7 +18,6 @@ class UserController extends BaseController
 
     public function index()
     {
-
         $data['users'] = $this->userModel->findAll();
         return view('users/index', $data);
     }
@@ -33,11 +25,7 @@ class UserController extends BaseController
     public function new()
     {
         $config = config('AuthGroups');
-
-        // Get the groups from the config
-        $data = [
-            'groups'  => $config->groups,
-        ];
+        $data = ['groups' => $config->groups];
         return view('users/new', $data);
     }
 
@@ -45,50 +33,52 @@ class UserController extends BaseController
     {
         $users = auth()->getProvider();
 
-        // Validation
         $validation = \Config\Services::validation();
-
         $validation->setRules([
-            'full_name' => 'required',
+            'nama' => 'required',
             'username' => 'required|alpha_numeric|min_length[3]|is_unique[users.username]',
             'password' => 'required|min_length[8]',
             'password_confirmation' => 'required|matches[password]',
-            'group' => 'required'
+            'group' => 'required',
+            'foto' => [
+                'label' => 'Foto',
+                'rules' => 'uploaded[foto]'
+                    . '|is_image[foto]'
+                    . '|mime_in[foto,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
+                    . '|max_size[foto,1000]'
+                    . '|max_dims[foto,4000,4000]',
+            ],
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
-            // Validation failed
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
+
+        // Handle file upload
+        $image = $this->request->getFile('foto');
+        $newName = $image->getRandomName();
+        $image->move('uploads', $newName);
+        $fotoPath = 'uploads/' . $newName;
 
         $data = [
             'username' => $this->request->getVar('username'),
             'email'    => $this->request->getVar('email'),
-            'full_name' => $this->request->getVar('full_name'),
-            'password' => $this->request->getVar('password')
+            'nama'     => $this->request->getVar('nama'),
+            'password' => $this->request->getVar('password'),
+            'foto'     => $fotoPath,
         ];
 
-        $user = new User($data);
-
         try {
-            // Save the user
+            $user = new User($data);
             $users->save($user);
-
-            // Assign user to group
-            $userId =  $users->findById($users->getInsertID());
-            $group = $this->request->getVar('group');
-
-            $userId->addGroup($group);
-
+            $user->addGroup($this->request->getVar('group'));
             return redirect()->to('/admin/users')->with('message', 'User created successfully.');
         } catch (ShieldException $e) {
-            // Handle exceptions thrown by Shields
             return redirect()->back()->withInput()->with('error', "Error during user creation: " . $e->getMessage());
         }
     }
 
-
-    public function edit($id = null)
+    public function edit($id)
     {
         $config = config('AuthGroups');
         $data['user'] = $this->userModel->find($id);
@@ -99,45 +89,61 @@ class UserController extends BaseController
 
     public function update()
     {
-        // Get the ID of the user to be updated
         $id = $this->request->getPost('id');
-
-        // Get the user provider from the auth library
         $users = auth()->getProvider();
 
-        // Prepare the data array for updating the user
+        // Handle file upload
+        $image = $this->request->getFile('foto');
+        if ($image && $image->isValid()) {
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'foto' => [
+                    'rules' => 'uploaded[foto]'
+                        . '|is_image[foto]'
+                        . '|mime_in[foto,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
+                        . '|max_size[foto,1000]'
+                ],
+            ]);
+
+            if (!$validation->withRequest($this->request)->run()) {
+                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            }
+
+            $newName = $image->getRandomName();
+            $image->move('uploads', $newName);
+            $fotoPath = 'uploads/' . $newName;
+        }
+
         $data = [
-            'username'  => $this->request->getPost('username'),
-            'email'     => $this->request->getPost('email'),
-            'full_name' => $this->request->getPost('full_name'),
-            'password'  => $this->request->getVar('password')
+            'username' => $this->request->getPost('username'),
+            'email'    => $this->request->getPost('email'),
+            'nama'     => $this->request->getPost('nama'),
+            'password' => $this->request->getPost('password'),
         ];
 
-        // Update the user in the database
+        if (isset($fotoPath)) {
+            $data['foto'] = $fotoPath;
+        }
+
         $this->userModel->update($id, $data);
 
-        // Get the group to which the user should be assigned
-        $group = $this->request->getVar('group');
+        // Update user group
+        $user = $users->findById($id);
+        $user->syncGroups($this->request->getPost('group'));
 
-        // Find the user by ID and sync their groups
-        $userId = $users->findById($id);
-        $userId->syncGroups($group);
-
-        // Set a flashdata message indicating success
-        session()->setFlashdata('message', 'Pengguna Berhasil di Ubah');
-
-        // Redirect to the users admin page
+        session()->setFlashdata('message', 'User updated successfully.');
         return redirect()->to('/admin/users');
     }
 
-
-    public function delete($id = null)
+    public function delete($id)
     {
         $users = auth()->getProvider();
-        $users->delete($id, true);
-
-        session()->setFlashdata('message', 'Pengguna Berhasil di Hapus');
-
+        try {
+            $users->delete($id, true);
+            session()->setFlashdata('message', 'User deleted successfully.');
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', 'Error deleting user: ' . $e->getMessage());
+        }
         return redirect()->to('/admin/users');
     }
 }

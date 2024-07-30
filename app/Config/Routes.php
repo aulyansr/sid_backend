@@ -21,6 +21,14 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
         $routes->get('users/edit/(:segment)', 'UserController::edit/$1', ['as' => 'edit_user_path']);
         $routes->post('users/update', 'UserController::update');
         $routes->get('users/delete/(:segment)', 'UserController::delete/$1', ['as' => 'delete_user_path']);
+
+        $routes->get('config', 'ConfigController::index', ['as' => 'config_path']);
+        $routes->get('config/new', 'ConfigController::new', ['as' => 'new_config_path']);
+        $routes->post('config/store', 'ConfigController::store');
+        $routes->get('config/edit/(:segment)', 'ConfigController::edit/$1', ['as' => 'edit_config_path']);
+        $routes->post('config/update/(:segment)', 'ConfigController::update/$1');
+
+        $routes->get('config/delete/(:segment)', 'ConfigController::delete/$1', ['as' => 'delete_config_path']);
     });
     // $routes->get('Article', 'Article::index');
 });
