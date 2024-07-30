@@ -32,24 +32,24 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($menus as $index => $menu) : ?>
+                        <?php foreach ($kategoris as $index => $kategori) : ?>
                             <tr>
-                                <td align="center"><?= $index + 1; ?></td>
+                                <td align="center"><?= esc($kategori['urut']); ?></td>
                                 <td>
                                     <div class="uibutton-group">
-                                        <a href="/admin/menu/edit/<?= esc($menu['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                        <a href="/admin/kategori/edit/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/menu/delete/<?= esc($menu['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
+                                        <a href="/admin/kategori/delete/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
 
                                     </div>
                                 </td>
 
-                                <td><?= esc($menu['nama']); ?></td>
+                                <td><?= esc($kategori['kategori']); ?></td>
                                 <td>
-                                    <?php if ($menu['enabled']) : ?>
+                                    <?php if ($kategori['enabled']) : ?>
                                         <span class="badge badge-success">Active</span>
                                     <?php else : ?>
                                         <span class="badge badge-danger">Not Active</span>
@@ -89,17 +89,17 @@
 
 <script>
     // Define the JavaScript variable with the URL from PHP
-    var newmenud = '/admin/menu/new';
+    var newkategorid = '/admin/kategori/new';
 
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Menu Baru`,
+                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Kategori Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
                         // Redirect to the new user path
-                        window.location.href = newmenud;
+                        window.location.href = newkategorid;
                     },
                 },
                 {

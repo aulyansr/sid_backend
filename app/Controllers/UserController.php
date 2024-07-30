@@ -71,7 +71,8 @@ class UserController extends BaseController
         try {
             $user = new User($data);
             $users->save($user);
-            $user->addGroup($this->request->getVar('group'));
+            $users = $users->findById($users->getInsertID());
+            $users->addGroup($this->request->getVar('group'));
             return redirect()->to('/admin/users')->with('message', 'User created successfully.');
         } catch (ShieldException $e) {
             return redirect()->back()->withInput()->with('error', "Error during user creation: " . $e->getMessage());

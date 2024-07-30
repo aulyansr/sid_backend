@@ -17,6 +17,7 @@ class MenuController extends BaseController
     public function index()
     {
         $data['menus'] = $this->menu->findAll();
+        $data['activeTab'] = 'menu-statis';
         return view('menu/index', $data);
     }
 
@@ -30,36 +31,7 @@ class MenuController extends BaseController
 
     public function store()
     {
-        $ikon = $this->request->getFile('ikon');
-        $validation = \Config\Services::validation();
-        $ikonpath = null;
 
-        // Validate the uploaded image
-        if ($ikon && $ikon->isValid()) {
-            $validation->setRules([
-                'ikon' => [
-                    'rules' => 'uploaded[ikon]'
-                        . '|is_image[ikon]'
-                        . '|mime_in[ikon,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                        . '|max_size[ikon,1000]', // 1000 KB limit
-                    'errors' => [
-                        'uploaded' => 'No image uploaded.',
-                        'is_image' => 'The file must be an image.',
-                        'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp.',
-                        'max_size' => 'The image size must be less than 1 MB.'
-                    ]
-                ],
-            ]);
-
-            if (!$validation->withRequest($this->request)->run()) {
-                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-            }
-
-            // Move the file to the uploads directory
-            $newName = $ikon->getRandomName();
-            $ikon->move('uploads', $newName);
-            $ikonpath = 'uploads/' . $newName;
-        }
         // Gather data for insertion
         $data = [
             'link' => $this->request->getVar('link'),
@@ -68,7 +40,7 @@ class MenuController extends BaseController
             // 'parrent' => $this->request->getVar('parrent'),
             'enabled' => $this->request->getVar('enabled'),
             'link_tipe' => $this->request->getVar('link_tipe'),
-            'ikon' => $ikonpath
+
         ];
 
         // Save the data using the model

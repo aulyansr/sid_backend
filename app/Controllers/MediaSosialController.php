@@ -17,6 +17,7 @@ class MediaSosialController extends BaseController
     public function index()
     {
         $data['media_socials'] = $this->medsos->findAll();
+        $data['activeTab'] = 'media-sosial';
         return view('media_social/index', $data);
     }
 

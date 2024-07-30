@@ -33,7 +33,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
                 <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
                     <img src="/assets/img/gkk.png" height="50px" alt="Logo Gunungkidul">
@@ -50,7 +50,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/admin">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Beranda</span></a>
             </li>
@@ -114,22 +114,12 @@
                         <i class="fas fa-fw fa-id-card"></i>
                         <span>Pengguna</span></a>
                 </li>
-                <div class="sidebar-heading">
-                    Manajemen Pengguna
-                </div>
 
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= route_to('users_path') ?>">
-                        <i class="fas fa-fw fa-id-card"></i>
-                        <span>Pengguna</span></a>
-                </li>
             <?php endif; ?>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="admin-web.html">
+                <a class="nav-link" href="/admin/artikel">
                     <i class="fas fa-fw fa-user-lock"></i>
                     <span>Admin Web</span></a>
             </li>
@@ -324,7 +314,7 @@
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Riwayat Aktifitas
+                                    Riwayat Aktifitasdl
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -402,7 +392,7 @@
                 <div class="modal-body">Pilih "Logout" untuk mengakhiri sesi anda..</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="/logout">Logout</a>
                 </div>
             </div>
         </div>

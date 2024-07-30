@@ -1,7 +1,6 @@
 <?= $this->extend('layout/dashboard'); ?>
 
 <?= $this->section('content'); ?>
-
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Admin Web</h1>
@@ -17,8 +16,11 @@
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-
-                            <th>Nama</th>
+                            <th>Judul</th>
+                            <th>Gambar</th>
+                            <th>Kategori</th>
+                            <th>Uploader</th>
+                            <th>Tanggal Upload</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -26,47 +28,53 @@
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-
-                            <th>Nama</th>
+                            <th>Judul</th>
+                            <th>Gambar</th>
+                            <th>Kategori</th>
+                            <th>Uploader</th>
+                            <th>Tanggal Upload</th>
                             <th>Status</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($menus as $index => $menu) : ?>
+                        <?php foreach ($artikels as $index => $artikel) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
-                                    <div class="uibutton-group">
-                                        <a href="/admin/menu/edit/<?= esc($menu['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                    <div class="btn-group">
+                                        <a href="<?= site_url('/admin/artikel/edit/' . esc($artikel['id'])); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/menu/delete/<?= esc($menu['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
+                                        <a href="<?= site_url('/admin/artikel/delete/' . esc($artikel['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus artikel ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-
+                                        <a href="<?= site_url('/admin/artikel/view/' . esc($artikel['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                            <i class="fa fa-eye"></i> Lihat
+                                        </a>
                                     </div>
                                 </td>
-
-                                <td><?= esc($menu['nama']); ?></td>
+                                <td><?= esc($artikel['judul']); ?></td>
                                 <td>
-                                    <?php if ($menu['enabled']) : ?>
-                                        <span class="badge badge-success">Active</span>
+                                    <?php if ($artikel['gambar']) : ?>
+                                        <img src="/<?= esc($artikel['gambar']); ?>" alt="Gambar Artikel" width="100">
                                     <?php else : ?>
-                                        <span class="badge badge-danger">Not Active</span>
+                                        No Image
                                     <?php endif; ?>
                                 </td>
-
-
+                                <td><?= esc($artikel['kategori_name']); ?></td>
+                                <td><?= esc($artikel['user_name']); ?></td>
+                                <td><?= esc($artikel['tgl_upload']); ?></td>
+                                <td>
+                                    <?= esc($artikel['enabled'] == 1 ? 'Publis' : 'Draft'); ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
 </div>
-
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
@@ -85,33 +93,28 @@
 <script src="/assets/js/admin/vendor/datatables/extensions/Buttons-2.4.2/js/buttons.print.min.js"></script>
 
 <!-- Page level custom scripts -->
-<!-- <script src="/assets/js/admin/demo/datatables-pengguna.js"></script> -->
-
 <script>
-    // Define the JavaScript variable with the URL from PHP
-    var newmenud = '/admin/menu/new';
-
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Menu Baru`,
+                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Artikel Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
-                        // Redirect to the new user path
-                        window.location.href = newmenud;
+                        window.location.href = '/admin/artikel/new';
                     },
                 },
                 {
                     text: `<i class="fa fa-print" aria-hidden="true"></i>&nbsp;Cetak`,
                     className: "btn-sm",
-                    split: ["csv", "pdf", "excel"],
+                    extend: 'collection',
+                    buttons: ['csv', 'pdf', 'excel']
                 },
                 {
                     text: `<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Preferensi Kolom`,
                     className: "btn-sm",
-                    extend: "colvis",
-                },
+                    extend: 'colvis'
+                }
             ],
         });
 
