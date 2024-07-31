@@ -10,6 +10,11 @@ service('auth')->routes($routes);
 $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
+$routes->get(
+    'artikel/(:segment)',
+    'ArtikelController::show/$1',
+    ['as' => 'article_path']
+);
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
@@ -61,6 +66,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('artikel', 'ArtikelController::index');
     $routes->get('artikel/new', 'ArtikelController::new');
     $routes->post('artikel/store', 'ArtikelController::store');
+
     $routes->get('artikel/edit/(:segment)', 'ArtikelController::edit/$1');
     $routes->post('artikel/update/(:segment)', 'ArtikelController::update/$1');
     $routes->get('artikel/delete/(:segment)', 'ArtikelController::delete/$1');

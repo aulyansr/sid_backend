@@ -4,17 +4,21 @@ namespace App\Controllers;
 
 use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
+use App\Models\UserModel;
 use CodeIgniter\Controller;
+use CodeIgniter\I18n\Time;
 
 class ArtikelController extends Controller
 {
     protected $artikelModel;
     protected $kategori;
+    protected $user;
 
     public function __construct()
     {
         $this->artikelModel = new ArtikelModel();
         $this->kategori = new KategoriModel();
+        $this->user = new UserModel();
     }
 
     public function index()
@@ -34,8 +38,8 @@ class ArtikelController extends Controller
     {
 
         $image = $this->request->getFile('gambar');
+
         $validation = \Config\Services::validation();
-        $gambarpath = null;
 
         $validationRules = [
             'gambar' => [
@@ -50,6 +54,33 @@ class ArtikelController extends Controller
                     'max_size' => 'The image size must be less than 1 MB.'
                 ]
             ],
+            'gambar1' => [
+                'rules' => 'permit_empty|uploaded[gambar1]|is_image[gambar1]|mime_in[gambar1,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar1,1000]',
+                'errors' => [
+                    'uploaded' => 'No image uploaded for gambar1.',
+                    'is_image' => 'The file must be an image for gambar1.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp for gambar1.',
+                    'max_size' => 'The image size must be less than 1 MB for gambar1.'
+                ]
+            ],
+            'gambar2' => [
+                'rules' => 'permit_empty|uploaded[gambar2]|is_image[gambar2]|mime_in[gambar2,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar2,1000]',
+                'errors' => [
+                    'uploaded' => 'No image uploaded for gambar2.',
+                    'is_image' => 'The file must be an image for gambar2.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp for gambar2.',
+                    'max_size' => 'The image size must be less than 1 MB for gambar2.'
+                ]
+            ],
+            'gambar3' => [
+                'rules' => 'permit_empty|uploaded[gambar3]|is_image[gambar3]|mime_in[gambar3,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar3,1000]',
+                'errors' => [
+                    'uploaded' => 'No image uploaded for gambar3.',
+                    'is_image' => 'The file must be an image for gambar3.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp for gambar3.',
+                    'max_size' => 'The image size must be less than 1 MB for gambar3.'
+                ]
+            ],
             'isi'          => 'required|string',
             'enabled'      => 'required|integer|max_length[1]',
             'tgl_upload'   => 'required|valid_date',
@@ -57,10 +88,6 @@ class ArtikelController extends Controller
             'id_user'      => 'required|integer',
             'judul'        => 'required|string|max_length[100]',
             'headline'     => 'integer|max_length[1]',
-            'gambar1'      => 'permit_empty|string|max_length[200]',
-            'gambar2'      => 'permit_empty|string|max_length[200]',
-            'gambar3'      => 'permit_empty|string|max_length[200]',
-            'dokumen'      => 'permit_empty|string|max_length[400]',
             'link_dokumen' => 'permit_empty|string|max_length[200]',
         ];
 
@@ -68,9 +95,39 @@ class ArtikelController extends Controller
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $newName = $image->getRandomName();
-        $image->move('uploads', $newName);
-        $gambarpath = 'uploads/' . $newName;
+        $random_id =  (new \DateTime())->format('YmdHis');
+        $uploadPath = 'uploads/artikel/' . $random_id;
+
+        // Create directory if it doesn't exist
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
+        // Move the main image
+        $newName = $image->getFilename();
+        $image->move($uploadPath, $newName);
+        $gambarpath = $uploadPath . '/' . $newName;
+
+        $imageService = \Config\Services::image()
+            ->withFile($gambarpath)
+            ->fit(160, 160) // Crop the image to 160x160
+            ->save($uploadPath . '/thumb_' . $newName);
+
+
+
+        $additionalImages = ['gambar1', 'gambar2', 'gambar3'];
+        $additionalImagePaths = [];
+
+        foreach ($additionalImages as $key) {
+            $additionalImage = $this->request->getFile($key);
+            if ($additionalImage && $additionalImage->isValid()) {
+                $newName = $additionalImage->getRandomName();
+                $additionalImage->move($uploadPath, $newName);
+                $additionalImagePaths[$key] = $uploadPath . '/' . $newName;
+            } else {
+                $additionalImagePaths[$key] = null;
+            }
+        }
 
         $data = [
             'gambar'       => $gambarpath,
@@ -81,18 +138,34 @@ class ArtikelController extends Controller
             'id_user'      => $this->request->getVar('id_user'),
             'judul'        => $this->request->getVar('judul'),
             'headline'     => $this->request->getVar('headline'),
-            'gambar1'      => $this->request->getVar('gambar1'),
-            'gambar2'      => $this->request->getVar('gambar2'),
-            'gambar3'      => $this->request->getVar('gambar3'),
+            'gambar1'      => $additionalImagePaths['gambar1'],
+            'gambar2'      => $additionalImagePaths['gambar2'],
+            'gambar3'      => $additionalImagePaths['gambar3'],
             'dokumen'      => $this->request->getVar('dokumen'),
             'link_dokumen' => $this->request->getVar('link_dokumen'),
         ];
 
         if ($this->artikelModel->save($data)) {
+
             return redirect()->to('/admin/artikel')->with('message', 'Artikel added successfully.');
         } else {
             return redirect()->back()->withInput()->with('errors', $this->artikelModel->errors());
         }
+    }
+
+    public function show($id)
+    {
+        $data['artikel'] = $this->artikelModel->find($id);
+        $data['user'] =  $this->user->find($data['artikel']['id_user']);
+        $kategoriModel = new KategoriModel();
+        $data['categories_with_articles'] = $kategoriModel->getCategoriesWithArticles();
+        if (isset($data['artikel']['tgl_upload'])) {
+            $data['artikel']['tgl_upload'] = Time::parse($data['artikel']['tgl_upload']);
+        }
+        if (!$data['artikel']) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
+        }
+        return view('artikel/show', $data);
     }
 
     public function edit($id)
@@ -109,27 +182,40 @@ class ArtikelController extends Controller
     {
         $image = $this->request->getFile('gambar');
         $validation = \Config\Services::validation();
-        $gambarpath = null;
 
-        if ($image && $image->isValid()) {
-            $validation->setRules([
-                'gambar' => [
-                    'rules' => 'uploaded[gambar]'
-                        . '|is_image[gambar]'
-                        . '|mime_in[gambar,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                        . '|max_size[gambar,1000]'
-                ],
-            ]);
-
-            if (!$validation->withRequest($this->request)->run()) {
-                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-            }
-
-            $newName = $image->getRandomName();
-            $image->move('uploads', $newName);
-            $gambarpath = 'uploads/' . $newName;
-        }
         $validationRules = [
+            'gambar' => [
+                'rules' => 'permit_empty|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar,1000]',
+                'errors' => [
+                    'is_image' => 'The file must be an image.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp.',
+                    'max_size' => 'The image size must be less than 1 MB.'
+                ]
+            ],
+            'gambar1' => [
+                'rules' => 'permit_empty|is_image[gambar1]|mime_in[gambar1,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar1,1000]',
+                'errors' => [
+                    'is_image' => 'The file must be an image for gambar1.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp for gambar1.',
+                    'max_size' => 'The image size must be less than 1 MB for gambar1.'
+                ]
+            ],
+            'gambar2' => [
+                'rules' => 'permit_empty|is_image[gambar2]|mime_in[gambar2,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar2,1000]',
+                'errors' => [
+                    'is_image' => 'The file must be an image for gambar2.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp for gambar2.',
+                    'max_size' => 'The image size must be less than 1 MB for gambar2.'
+                ]
+            ],
+            'gambar3' => [
+                'rules' => 'permit_empty|is_image[gambar3]|mime_in[gambar3,image/jpg,image/jpeg,image/gif,image/png,image/webp]|max_size[gambar3,1000]',
+                'errors' => [
+                    'is_image' => 'The file must be an image for gambar3.',
+                    'mime_in' => 'The file type must be jpg, jpeg, gif, png, or webp for gambar3.',
+                    'max_size' => 'The image size must be less than 1 MB for gambar3.'
+                ]
+            ],
             'isi'          => 'required|string',
             'enabled'      => 'required|integer|max_length[1]',
             'tgl_upload'   => 'required|valid_date',
@@ -137,10 +223,6 @@ class ArtikelController extends Controller
             'id_user'      => 'required|integer',
             'judul'        => 'required|string|max_length[100]',
             'headline'     => 'integer|max_length[1]',
-            'gambar1'      => 'permit_empty|string|max_length[200]',
-            'gambar2'      => 'permit_empty|string|max_length[200]',
-            'gambar3'      => 'permit_empty|string|max_length[200]',
-            'dokumen'      => 'permit_empty|string|max_length[400]',
             'link_dokumen' => 'permit_empty|string|max_length[200]',
         ];
 
@@ -148,33 +230,70 @@ class ArtikelController extends Controller
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $data = [
-            'id'           => $id,
+        // Fetch existing article data
+        $artikel = $this->artikelModel->find($id);
 
-            'isi'          => $this->request->getPost('isi'),
-            'enabled'      => $this->request->getPost('enabled'),
-            'tgl_upload'   => $this->request->getPost('tgl_upload'),
-            'id_kategori'  => $this->request->getPost('id_kategori'),
-            'id_user'      => $this->request->getPost('id_user'),
-            'judul'        => $this->request->getPost('judul'),
-            'headline'     => $this->request->getPost('headline'),
-            'gambar1'      => $this->request->getPost('gambar1'),
-            'gambar2'      => $this->request->getPost('gambar2'),
-            'gambar3'      => $this->request->getPost('gambar3'),
-            'dokumen'      => $this->request->getPost('dokumen'),
-            'link_dokumen' => $this->request->getPost('link_dokumen'),
-        ];
-
-        if ($gambarpath) {
-            $data['gambar'] = $gambarpath;
+        if (!$artikel) {
+            return redirect()->back()->with('error', 'Artikel not found.');
         }
 
-        $result = $this->artikelModel->update($id, $data);
-        $message = $result ? 'Artikel updated successfully.' : 'Update failed';
-        $redirect = $result ? '/admin/artikel' : 'back';
+        $uploadPath = 'uploads/artikel/' . $id;
 
-        return redirect()->to($redirect)->with('message', $message)->withInput();
+        // Create directory if it doesn't exist
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
+        $gambarpath = $artikel['gambar']; // Default to existing image path
+        if ($image && $image->isValid()) {
+            $newName = (new \DateTime())->format('YmdHis');
+            $image->move($uploadPath, $newName);
+            $gambarpath = $uploadPath . '/' . $newName;
+
+            // Generate thumbnail
+            $imageService = \Config\Services::image()
+                ->withFile($gambarpath)
+                ->fit(160, 160)
+                ->save($uploadPath . '/thumb_' . $newName);
+        }
+
+        $additionalImages = ['gambar1', 'gambar2', 'gambar3'];
+        $additionalImagePaths = [];
+
+        foreach ($additionalImages as $key) {
+            $additionalImage = $this->request->getFile($key);
+            if ($additionalImage && $additionalImage->isValid()) {
+                $newName = $additionalImage->getRandomName();
+                $additionalImage->move($uploadPath, $newName);
+                $additionalImagePaths[$key] = $uploadPath . '/' . $newName;
+            } else {
+                $additionalImagePaths[$key] = $artikel[$key] ?? null; // Retain existing path if no new upload
+            }
+        }
+
+        $data = [
+            'gambar'       => $gambarpath,
+            'isi'          => $this->request->getVar('isi'),
+            'enabled'      => $this->request->getVar('enabled'),
+            'tgl_upload'   => $this->request->getVar('tgl_upload'),
+            'id_kategori'  => $this->request->getVar('id_kategori'),
+            'id_user'      => $this->request->getVar('id_user'),
+            'judul'        => $this->request->getVar('judul'),
+            'headline'     => $this->request->getVar('headline'),
+            'gambar1'      => $additionalImagePaths['gambar1'],
+            'gambar2'      => $additionalImagePaths['gambar2'],
+            'gambar3'      => $additionalImagePaths['gambar3'],
+            'dokumen'      => $this->request->getVar('dokumen'),
+            'link_dokumen' => $this->request->getVar('link_dokumen'),
+        ];
+
+        if ($this->artikelModel->update($id, $data)) {
+            return redirect()->to('/admin/artikel')->with('message', 'Artikel updated successfully.');
+        } else {
+            return redirect()->back()->withInput()->with('errors', $this->artikelModel->errors());
+        }
     }
+
 
     public function delete($id)
     {

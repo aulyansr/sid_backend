@@ -1,6 +1,12 @@
 <?= $this->extend('layout/public'); ?>
 
 <?= $this->section('content'); ?>
+<?php
+
+
+use CodeIgniter\I18n\Time;
+?>
+<?= \Config\Services::helper('url'); ?>
 <div class="container px-5">
 
     <!-- carousel -->
@@ -118,201 +124,44 @@
         </button>
     </div>
 
-    <!-- sticky news -->
-    <!-- <div class="card mb-4 sticky-news">
-                            <div class="card-body p-0">
-                                <div class="row g-0">
-                                    <div class="col-lg-6 p-5">
-                                        <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="#!">Pengumuman</a>
-                                        <a class="text-dark" href="#!">
-                                            <h1>
-                                                Pengumuman Penerima PTSL Periode 2023 Kalurahan Candirejo
-                                            </h1>
-                                        </a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt repellat
-                                            possimus delectus odit vero! Accusantium, omnis! Amet reiciendis ex numquam.
-                                            Minus corporis, tempore facere placeat repellat ipsum eaque similique neque.
-                                        </p>
-                                        <div class="flex-text align-self-center d-flex justify-content-between">
-                                            <a class="text-arrow-icon small" href="#!">
-                                                Selengkapnya
-                                                <i data-feather="arrow-right"></i>
-                                            </a>
-                                            <small>13 hari yang lalu</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 align-self-stretch bg-img-cover d-none d-lg-flex" style="
-                        background-image: url('https://source.unsplash.com/six-white-sticky-notes--1_RZL8BGBM/1200x800');
-                      "></div>
-                                </div>
-                            </div>
-                        </div> -->
-
     <hr class="mb-4" />
 
     <!-- main row -->
     <div class="row gx-5">
         <!-- list artikel -->
         <div class="col-lg-7 col-xl-8">
-            <div class="d-flex">
-                <div class="flex-grow-1">
-                    <a class="text-dark" href="detail.html">
-                        <h5 class="mt-0">
-                            Tanda-tanda Musim penghujan Mulai Tiba
-                        </h5>
-                    </a>
-                    <p>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel
-                        metus scelerisque ante sollicitudin. Cras purus odio,
-                        vestibulum in vulputate at, tempus viverra turpis. Fusce
-                        condimentum nunc ac nisi vulputate fringilla. Donec
-                        lacinia congue felis in faucibus.
-                    </p>
-                    <p class="timestamps text-sm">
-                        <small>13 hari yang lalu</small>
-                    </p>
-                    <a class="text-arrow-icon small" href="detail.html">
-                        Selengkapnya
-                        <i data-feather="arrow-right"></i>
-                    </a>
+            <?php foreach ($artikels as $index => $artikel) : ?>
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <a class="text-dark" href="detail.html">
+                            <h5 class="mt-0">
+                                <?= $artikel['judul']; ?>
+                            </h5>
+                        </a>
+                        <p>
+                            <?= esc(substr(strip_tags($artikel['isi']), 0, 250)) . (strlen($artikel['isi']) > 250 ? '...' : ''); ?>
+                        </p>
+                        <p class="timestamps text-sm">
+                            <small><?= Time::parse($artikel['tgl_upload'])->humanize(); ?></small>
+                        </p>
+                        <a class="text-arrow-icon small" href="<?= route_to('article_path', $artikel['id']); ?>">
+                            Selengkapnya
+                            <i data-feather="arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="flex-shrink-0 ms-4">
+                        <?php
+                        $originalImagePath = esc($artikel['gambar']);
+                        $thumbnailImagePath = str_replace(basename($originalImagePath), 'thumb_' . basename($originalImagePath), $originalImagePath);
+                        ?>
+                        <img class="rounded mx-auto d-block" src="<?= base_url($thumbnailImagePath); ?>" alt="<?= $artikel['judul']; ?>" />
+                    </div>
                 </div>
-                <div class="flex-shrink-0 ms-4">
-                    <img class="rounded mx-auto d-block" src="https://source.unsplash.com/red-and-yellow-truck-on-snow-covered-ground-during-daytime-P6wkHW0SWBw/160x160" alt="..." />
-                </div>
-            </div>
-            <hr class="my-4" />
-            <div class="d-flex">
-                <div class="flex-grow-1">
-                    <a class="text-dark" href="detail.html">
-                        <h5 class="mt-0">
-                            Inilah Peraih Anugrah dan Kejuaran Pekan Olahraga Desa
-                        </h5>
-                    </a>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Incidunt repellat possimus delectus odit vero!
-                        Accusantium, omnis! Amet reiciendis ex numquam. Minus
-                        corporis, tempore facere placeat repellat ipsum eaque
-                        similique neque.
-                    </p>
-                    <p class="timestamps text-sm">
-                        <small>13 hari yang lalu</small>
-                    </p>
-                    <a class="text-arrow-icon small" href="detail.html">
-                        Selengkapnya
-                        <i data-feather="arrow-right"></i>
-                    </a>
-                </div>
-                <div class="flex-shrink-0 ms-4">
-                    <img class="rounded mx-auto d-block" src="https://source.unsplash.com/man-in-blue-crew-neck-t-shirt-sitting-on-brown-wooden-swing-eJ8fp2GDB5E/160x160" alt="..." />
-                </div>
-            </div>
-            <hr class="my-4" />
-            <div class="d-flex">
-                <div class="flex-grow-1">
-                    <a class="text-dark" href="detail.html">
-                        <h5 class="mt-0">
-                            Libur Pelayanan Kantor Urusan Agama Kapenewon Semin
-                        </h5>
-                    </a>
-                    <p>
-                        Quasi error voluptates, commodi enim voluptate, quisquam
-                        vitae temporibus asperiores velit vero aperiam culpa
-                        iste eius autem praesentium ducimus similique iusto
-                        dolorum.
-                    </p>
-                    <p class="timestamps text-sm">
-                        <small>13 hari yang lalu</small>
-                    </p>
-                    <a class="text-arrow-icon small" href="detail.html">
-                        Selengkapnya
-                        <i data-feather="arrow-right"></i>
-                    </a>
-                </div>
-                <div class="flex-shrink-0 ms-4">
-                    <img class="rounded mx-auto d-block" src="https://source.unsplash.com/white-and-brown-printer-paper-TEF3woGG3b0/160x160" alt="..." />
-                </div>
-            </div>
-            <hr class="my-4" />
-            <div class="d-flex">
-                <div class="flex-grow-1">
-                    <a class="text-dark" href="detail.html">
-                        <h5 class="mt-0">
-                            Keseruan Dan Kegembiraan Perayaan HUT RI di Kalurahan
-                        </h5>
-                    </a>
-                    <p>
-                        Quasi error voluptates, commodi enim voluptate, quisquam
-                        vitae temporibus asperiores velit vero aperiam culpa
-                        iste eius autem praesentium ducimus similique iusto
-                        dolorum.
-                    </p>
-                    <p class="timestamps text-sm">
-                        <small>13 hari yang lalu</small>
-                    </p>
-                    <a class="text-arrow-icon small" href="detail.html">
-                        Selengkapnya
-                        <i data-feather="arrow-right"></i>
-                    </a>
-                </div>
-                <div class="flex-shrink-0 ms-4">
-                    <img class="rounded mx-auto d-block" src="https://source.unsplash.com/red-and-white-flag-under-blue-sky-during-daytime-5i3oyOrojvk/160x160" alt="..." />
-                </div>
-            </div>
-            <hr class="my-4" />
-            <div class="d-flex">
-                <div class="flex-grow-1">
-                    <a class="text-dark" href="detail.html">
-                        <h5 class="mt-0">
-                            Keseruan Dan Kegembiraan Perayaan HUT RI di Kalurahan
-                        </h5>
-                    </a>
-                    <p>
-                        Quasi error voluptates, commodi enim voluptate, quisquam
-                        vitae temporibus asperiores velit vero aperiam culpa
-                        iste eius autem praesentium ducimus similique iusto
-                        dolorum.
-                    </p>
-                    <p class="timestamps text-sm">
-                        <small>13 hari yang lalu</small>
-                    </p>
-                    <a class="text-arrow-icon small" href="detail.html">
-                        Selengkapnya
-                        <i data-feather="arrow-right"></i>
-                    </a>
-                </div>
-                <div class="flex-shrink-0 ms-4">
-                    <img class="rounded mx-auto d-block" src="https://source.unsplash.com/man-in-blue-crew-neck-t-shirt-sitting-on-brown-wooden-swing-eJ8fp2GDB5E/160x160" alt="..." />
-                </div>
-            </div>
-            <hr class="my-4" />
-            <div class="d-flex">
-                <div class="flex-grow-1">
-                    <a class="text-dark" href="detail.html">
-                        <h5 class="mt-0">
-                            Keseruan Dan Kegembiraan Perayaan HUT RI di Kalurahan
-                        </h5>
-                    </a>
-                    <p>
-                        Quasi error voluptates, commodi enim voluptate, quisquam
-                        vitae temporibus asperiores velit vero aperiam culpa
-                        iste eius autem praesentium ducimus similique iusto
-                        dolorum.
-                    </p>
-                    <p class="timestamps text-sm">
-                        <small>13 hari yang lalu</small>
-                    </p>
-                    <a class="text-arrow-icon small" href="detail.html">
-                        Selengkapnya
-                        <i data-feather="arrow-right"></i>
-                    </a>
-                </div>
-                <div class="flex-shrink-0 ms-4">
-                    <img class="rounded mx-auto d-block" src="https://source.unsplash.com/red-and-white-flag-under-blue-sky-during-daytime-5i3oyOrojvk/160x160" alt="..." />
-                </div>
-            </div>
-            <hr class="my-4 d-lg-none" />
+                <?php if ($index < count($artikels) - 1) : ?>
+                    <hr class="my-4" />
+                <?php endif; ?>
+
+            <?php endforeach; ?>
         </div>
 
         <!-- right side -->

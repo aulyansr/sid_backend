@@ -63,7 +63,7 @@
 
                         <div class="logo d-flex justify-content-center p-3">
                             <div class="logo">
-                                <a href="home.html">
+                                <a href=" <?= base_url() ?> ">
                                     <img src="/assets/img/logo-gk-removebg-preview.png" alt="Gunung Kidul" height="90">
                                 </a>
                             </div>
@@ -80,147 +80,29 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto me-lg-5">
-                                <li class="nav-item"><a class="nav-link" href="home.html">Beranda</a></li>
-                                <li class="nav-item dropdown no-caret">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Berita Desa
-                                        <i class="fas fa-chevron-right dropdown-arrow"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Program Bantuan Pengeboran Sumur Dinas PUPR
-                                            </div>
+                                <li class="nav-item"><a class="nav-link" href=" <?= base_url() ?> ">Beranda</a></li>
+
+                                <?php foreach ($categories as $item) : ?>
+
+                                    <li class="nav-item dropdown no-caret">
+                                        <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <?= $item['kategori'] ?>
+                                            <i class="fas fa-chevron-right dropdown-arrow"></i>
                                         </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown no-caret">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Agenda Desa
-                                        <i class="fas fa-chevron-right dropdown-arrow"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Program Bantuan Pengeboran Sumur Dinas PUPR
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pawai Karnaval Dan Lomba Hari Kemerdekaan
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown no-caret">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Produk Desa
-                                        <i class="fas fa-chevron-right dropdown-arrow"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Produksi Kripik Tempe
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Pusat Kerajinan Eceng Gondok
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Revitalisasi Umbul Untuk Wisata
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Bantuan Mesin Giling Pakan
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item py-3" href="" target="_blank">
-                                            <div>
-                                                <div class="small text-gray-500">10 hari yang lalu</div>
-                                                Sapi Paling Besar Se-Kabupaten
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
+                                        <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
+
+                                            <a class="dropdown-item py-3" href="" target="_blank">
+                                                <div>
+                                                    <div class="small text-gray-500">10 hari yang lalu</div>
+                                                    Program Bantuan Pengeboran Sumur Dinas PUPR
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-divider m-0"></div>
+
+                                        </div>
+                                    </li>
+
+                                <?php endforeach; ?>
                                 <li class="nav-item dropdown d-block d-sm-block d-md-none">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Profile</a>
                                     <ul class="dropdown-menu">

@@ -48,7 +48,7 @@
                                         <a href="<?= site_url('/admin/artikel/delete/' . esc($artikel['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus artikel ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-                                        <a href="<?= site_url('/admin/artikel/view/' . esc($artikel['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                        <a href="<?= site_url('/artikel/' . esc($artikel['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
                                             <i class="fa fa-eye"></i> Lihat
                                         </a>
                                     </div>

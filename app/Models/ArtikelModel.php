@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use \Tatter\Relations\Traits\ModelTrait;
 
 class ArtikelModel extends Model
 {
     protected $table      = 'artikel';
+    protected $with = 'user';
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
@@ -62,7 +64,7 @@ class ArtikelModel extends Model
     public function getArtikels()
     {
         $builder = $this->builder();
-        $builder->select('artikel.*, kategori.kategori as kategori_name, users.username as user_name');
+        $builder->select('artikel.*, kategori.kategori as kategori_name, users.username as user_name, users.foto as user_foto');
         $builder->join('kategori', 'kategori.id = artikel.id_kategori', 'left');
         $builder->join('users', 'users.id = artikel.id_user', 'left');
         $query = $builder->get();

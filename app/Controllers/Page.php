@@ -2,10 +2,26 @@
 
 namespace App\Controllers;
 
+use App\Models\ArtikelModel;
+use App\Models\KategoriModel;
+use \Tatter\Relations\Traits\ModelTrait;
+
 class Page extends BaseController
 {
-    public function index(): string
+    protected $artikelModel;
+    protected $kategori;
+
+    public function __construct()
     {
-        return view('pages/index');
+        $this->artikelModel = new ArtikelModel();
+        $this->kategori = new KategoriModel();
+    }
+
+    public function index()
+    {
+        $data['artikels'] = $this->artikelModel->getArtikels();
+        $kategoriModel = new KategoriModel();
+        $data['categories'] = $kategoriModel->findAll();
+        return view('pages/index', $data);
     }
 }

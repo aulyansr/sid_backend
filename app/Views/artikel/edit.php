@@ -14,29 +14,19 @@
                         <input id="inputGambar" name="gambar" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar'])); ?>">
                         <!-- Additional images -->
                         <div class="my-3">
-                            <?php if (isset($artikel)) : ?>
-                                <?php if ($artikel['gambar1']) : ?>
-                                    <img src="/<?= esc($artikel['gambar1']); ?>" alt="Current Gambar 1" width="100">
-                                <?php endif; ?>
-                                <input id="inputGambar1" name="gambar1" type="file" class="dropify" accept="image/*">
 
-                                <?php if ($artikel['gambar2']) : ?>
-                                    <img src="/<?= esc($artikel['gambar2']); ?>" alt="Current Gambar 2" width="100">
-                                <?php endif; ?>
-                                <input id="inputGambar2" name="gambar2" type="file" class="dropify" accept="image/*">
+                            <div class="mb-4">
+                                <input id="inputGambar1" name="gambar1" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar1'])); ?>">
+                            </div>
 
-                                <?php if ($artikel['gambar3']) : ?>
-                                    <img src="/<?= esc($artikel['gambar3']); ?>" alt="Current Gambar 3" width="100">
-                                <?php endif; ?>
-                                <input id="inputGambar3" name="gambar3" type="file" class="dropify" accept="image/*">
-                            <?php else : ?>
-                                <label class="small mb-1" for="inputGambar1">Gambar 1</label>
-                                <input id="inputGambar1" name="gambar1" type="file" class="dropify" accept="image/*">
-                                <label class="small mb-1" for="inputGambar2">Gambar 2</label>
-                                <input id="inputGambar2" name="gambar2" type="file" class="dropify" accept="image/*">
-                                <label class="small mb-1" for="inputGambar3">Gambar 3</label>
-                                <input id="inputGambar3" name="gambar3" type="file" class="dropify" accept="image/*">
-                            <?php endif; ?>
+                            <div class="mb-4">
+                                <input id="inputGambar2" name="gambar2" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar2'])); ?>">
+                            </div>
+
+                            <div class="mb-4">
+                                <input id="inputGambar3" name="gambar3" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar3'])); ?>">
+                            </div>
+
                         </div>
                     </div>
                 </div>
