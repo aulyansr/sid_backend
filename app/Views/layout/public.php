@@ -82,27 +82,37 @@
                             <ul class="navbar-nav ms-auto me-lg-5">
                                 <li class="nav-item"><a class="nav-link" href=" <?= base_url() ?> ">Beranda</a></li>
 
+                                <?php
+                                $kategoriModel = new \App\Models\KategoriModel();
+                                $categories = $kategoriModel->findAll(); // Fetch all categories
+                                ?>
                                 <?php foreach ($categories as $item) : ?>
 
                                     <li class="nav-item dropdown no-caret">
-                                        <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <?= $item['kategori'] ?>
+                                        <a class="nav-link dropdown-toggle" id="navbarDropdown<?= $item['id'] ?>" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <?= esc($item['kategori']) ?>
                                             <i class="fas fa-chevron-right dropdown-arrow"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
 
-                                            <a class="dropdown-item py-3" href="" target="_blank">
-                                                <div>
-                                                    <div class="small text-gray-500">10 hari yang lalu</div>
-                                                    Program Bantuan Pengeboran Sumur Dinas PUPR
-                                                </div>
-                                            </a>
-                                            <div class="dropdown-divider m-0"></div>
-
+                                        <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdown<?= $item['id'] ?>">
+                                            <?php
+                                            $articleModel = new \App\Models\ArtikelModel();
+                                            $articles = $articleModel->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
+                                            ?>
+                                            <?php foreach ($articles as $article) : ?>
+                                                <a class="dropdown-item py-3" href="<?= base_url('path/to/article/' . $article['id']) ?>" target="_blank">
+                                                    <div>
+                                                        <div class="small text-gray-500"><?= date('d F Y', strtotime($article['tgl_upload'])) ?></div>
+                                                        <?= esc($article['judul']) ?>
+                                                    </div>
+                                                </a>
+                                                <div class="dropdown-divider m-0"></div>
+                                            <?php endforeach; ?>
                                         </div>
                                     </li>
 
                                 <?php endforeach; ?>
+
                                 <li class="nav-item dropdown d-block d-sm-block d-md-none">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Profile</a>
                                     <ul class="dropdown-menu">
