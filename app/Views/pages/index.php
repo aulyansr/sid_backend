@@ -101,23 +101,28 @@ use CodeIgniter\I18n\Time;
                     <h6>Galeri</h6>
                     <hr />
                     <div class="mb-5">
-                        <a class="card lift h-100" href="<?= route_to('detail_gallery_path', $gallery[0]['id']); ?>">
-                            <div class="card-flag card-flag-dark card-flag-top-right card-flag-lg">
-                                <?php
-                                $fotoModel = new \App\Models\GambarGalleryModel();
-                                $fotos = $fotoModel->where('parrent', $gallery[0]['id'])->findAll(); // Fetch all articles for this category
-                                $total = count($fotos);
-                                ?>
-                                <?= $total; ?> Foto
-                            </div>
+                        <?php if (!empty($gallery) && isset($gallery[0])) : ?>
+                            <a class="card lift h-100" href="<?= route_to('detail_gallery_path', $gallery[0]['id']); ?>">
+                                <div class="card-flag card-flag-dark card-flag-top-right card-flag-lg">
+                                    <?php
+                                    $fotoModel = new \App\Models\GambarGalleryModel();
+                                    $fotos = $fotoModel->where('parrent', $gallery[0]['id'])->findAll(); // Fetch all images for this gallery
+                                    $total = count($fotos);
+                                    ?>
+                                    <?= $total; ?> Foto
+                                </div>
 
-                            <img class="card-img-top" src="<?= base_url($gallery[0]['gambar']); ?>" alt="..." />
-                            <div class="card-body p-3">
-                                <div class="card-title small mb-0"><?= $gallery[0]['nama']; ?></div>
-                                <div class="text-xs text-gray-500"><?= Time::parse($gallery[0]['tgl_upload'])->humanize(); ?></div>
+                                <img class="card-img-top" src="<?= base_url($gallery[0]['gambar']); ?>" alt="..." />
+                                <div class="card-body p-3">
+                                    <div class="card-title small mb-0"><?= esc($gallery[0]['nama']); ?></div>
+                                    <div class="text-xs text-gray-500"><?= Time::parse($gallery[0]['tgl_upload'])->humanize(); ?></div>
+                                </div>
+                            </a>
+                        <?php else : ?>
+                            <!-- Optionally, you can add some fallback content here -->
+                            <p>No gallery items available.</p>
+                        <?php endif; ?>
 
-                            </div>
-                        </a>
                     </div>
                     <a class="text-arrow-icon small align-right" href="<?= route_to('galleries_path'); ?>">
                         Selengkapnya

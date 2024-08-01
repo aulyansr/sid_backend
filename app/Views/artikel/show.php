@@ -12,7 +12,7 @@
 
                 <div class="d-flex align-items-center justify-content-between mb-5">
                     <div class="single-post-meta me-4">
-                        <img class="single-post-meta-img" src="<?= base_url($user->foto); ?>" />
+                        <img class="single-post-meta-img" src="<?= base_url($user->foto ?? 'assets/img/illustrations/profiles/profile-3.png'); ?>" />
                         <div class="single-post-meta-details">
                             <div class="single-post-meta-details-name">
 
