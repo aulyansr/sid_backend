@@ -105,7 +105,7 @@
                                             ?>
 
                                             <?php foreach ($articles as $index => $article) : ?>
-                                                <a class="dropdown-item py-3" href="<?= base_url('path/to/article/' . $article['id']) ?>" target="_blank">
+                                                <a class="dropdown-item py-3" href="<?= route_to('detail_article_path', $article['id']) ?>" target="_blank">
                                                     <div>
                                                         <div class="small text-gray-500"><?= date('d F Y', strtotime($article['tgl_upload'])) ?></div>
                                                         <?= esc($article['judul']) ?>

@@ -87,7 +87,6 @@ class ArtikelController extends Controller
             'id_kategori'  => 'required|integer',
             'id_user'      => 'required|integer',
             'judul'        => 'required|string|max_length[100]',
-            'headline'     => 'integer|max_length[1]',
             'link_dokumen' => 'permit_empty|string|max_length[200]',
         ];
 
@@ -137,7 +136,7 @@ class ArtikelController extends Controller
             'id_kategori'  => $this->request->getVar('id_kategori'),
             'id_user'      => $this->request->getVar('id_user'),
             'judul'        => $this->request->getVar('judul'),
-            'headline'     => $this->request->getVar('headline'),
+            'headline'     => $this->request->getVar('headline') ? 1 : 0,
             'gambar1'      => $additionalImagePaths['gambar1'],
             'gambar2'      => $additionalImagePaths['gambar2'],
             'gambar3'      => $additionalImagePaths['gambar3'],
@@ -157,8 +156,8 @@ class ArtikelController extends Controller
     {
         $data['artikel'] = $this->artikelModel->find($id);
         $data['user'] =  $this->user->find($data['artikel']['id_user']);
-        $kategoriModel = new KategoriModel();
-        $data['categories_with_articles'] = $kategoriModel->getCategoriesWithArticles();
+        $data['kategori'] =  $this->kategori->find($data['artikel']['id_kategori']);
+
         if (isset($data['artikel']['tgl_upload'])) {
             $data['artikel']['tgl_upload'] = Time::parse($data['artikel']['tgl_upload']);
         }
@@ -222,7 +221,6 @@ class ArtikelController extends Controller
             'id_kategori'  => 'required|integer',
             'id_user'      => 'required|integer',
             'judul'        => 'required|string|max_length[100]',
-            'headline'     => 'integer|max_length[1]',
             'link_dokumen' => 'permit_empty|string|max_length[200]',
         ];
 
@@ -273,18 +271,18 @@ class ArtikelController extends Controller
 
         $data = [
             'gambar'       => $gambarpath,
-            'isi'          => $this->request->getVar('isi'),
-            'enabled'      => $this->request->getVar('enabled'),
-            'tgl_upload'   => $this->request->getVar('tgl_upload'),
-            'id_kategori'  => $this->request->getVar('id_kategori'),
-            'id_user'      => $this->request->getVar('id_user'),
-            'judul'        => $this->request->getVar('judul'),
-            'headline'     => $this->request->getVar('headline'),
+            'isi'          => $this->request->getPost('isi'),
+            'enabled'      => $this->request->getPost('enabled'),
+            'tgl_upload'   => $this->request->getPost('tgl_upload'),
+            'id_kategori'  => $this->request->getPost('id_kategori'),
+            'id_user'      => $this->request->getPost('id_user'),
+            'judul'        => $this->request->getPost('judul'),
+            'headline'     => $this->request->getPost('headline') ? 1 : 0,
             'gambar1'      => $additionalImagePaths['gambar1'],
             'gambar2'      => $additionalImagePaths['gambar2'],
             'gambar3'      => $additionalImagePaths['gambar3'],
-            'dokumen'      => $this->request->getVar('dokumen'),
-            'link_dokumen' => $this->request->getVar('link_dokumen'),
+            'dokumen'      => $this->request->getPost('dokumen'),
+            'link_dokumen' => $this->request->getPost('link_dokumen'),
         ];
 
         if ($this->artikelModel->update($id, $data)) {

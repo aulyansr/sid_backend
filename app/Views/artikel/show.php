@@ -4,6 +4,7 @@
 <div class="container px-5">
     <div class="row gx-5 justify-content-center">
         <div class="col-lg-10 col-xl-8">
+            <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="<?= route_to('detail_category_path', $kategori['id']) ?>"><?= $kategori['kategori']; ?></a>
             <div class="single-post">
                 <h1>
                     <?= $artikel['judul']; ?>
@@ -45,6 +46,9 @@
                             <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
                         </div>
                     </div>
+
+                    <p>Dokumen:</p>
+                    <a href="<?= $artikel['link_dokumen']; ?>"><?= $artikel['dokumen']; ?></a>
 
                     <hr class="my-5" />
                     <div class="text-center">

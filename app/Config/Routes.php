@@ -21,6 +21,11 @@ $routes->get(
     ['as' => 'detail_article_path']
 );
 $routes->get(
+    'kategori/(:segment)',
+    'KategoriController::show/$1',
+    ['as' => 'detail_category_path']
+);
+$routes->get(
     'kategori',
     'Page::categories',
     ['as' => 'categories_path']
@@ -35,6 +40,7 @@ $routes->get(
     'Page::galleries',
     ['as' => 'galleries_path']
 );
+$routes->get('/search-articles', 'Page::search', ['as' => 'search_articles_path']);
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 

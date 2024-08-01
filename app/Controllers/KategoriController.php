@@ -2,16 +2,19 @@
 
 namespace App\Controllers;
 
+use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class KategoriController extends BaseController
 {
     protected $kategori;
+    protected $artikel;
 
     public function __construct()
     {
         $this->kategori = new KategoriModel();
+        $this->artikel = new ArtikelModel();
     }
 
     public function index()
@@ -59,6 +62,31 @@ class KategoriController extends BaseController
         }
     }
 
+    public function show($id)
+    {
+        // Fetch category by ID
+        $data['kategori'] = $this->kategori->find($id);
+
+        // Check if category exists
+        if (!$data['kategori']) {
+            throw new PageNotFoundException('Kategori not found');
+        }
+
+        // Set up pagination
+        $pager = \Config\Services::pager();
+        $perPage = 10; // Number of articles per page
+        $page = $this->request->getVar('page') ? (int)$this->request->getVar('page') : 1;
+
+        // Fetch articles related to the category with pagination
+        $data['articles'] = $this->artikel->where('id_kategori', $id)
+            ->paginate($perPage, 'articles', $page);
+
+        // Pass pagination data to the view
+        $data['pager'] = $this->artikel->pager;
+
+        // Pass data to the view
+        return view('kategori/show', $data);
+    }
 
     public function edit($id)
     {

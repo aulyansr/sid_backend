@@ -21,8 +21,8 @@ class Page extends BaseController
 
     public function index()
     {
-        $data['artikels'] = $this->artikelModel->limit(5)->findAll();
-        $data['headline'] = $this->artikelModel->where('headline', 1)->findAll();
+        $data['artikels'] = $this->artikelModel->limit(5)->getArtikels();
+        $data['headline'] = $this->artikelModel->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('tipe', 0)->findAll(1);
         $data['categories'] = $this->kategori->findAll();
         return view('pages/index', $data);
@@ -53,5 +53,28 @@ class Page extends BaseController
         $data['currentPage'] = $page;
 
         return view('pages/galleries', $data);
+    }
+
+    public function search()
+    {
+        $pager = \Config\Services::pager();
+
+        $query = $this->request->getGet('query');
+        $perPage = 10; // Number of articles per page
+        $page = $this->request->getGet('page') ? (int)$this->request->getGet('page') : 1;
+
+        // Fetch paginated articles with search in title and content
+        $data['articles'] = $this->artikelModel
+            ->groupStart()
+            ->like('judul', $query)
+            ->orLike('isi', $query)
+            ->groupEnd()
+            ->paginate($perPage, 'search', $page);
+
+        $data['pager'] = $this->artikelModel->pager;
+        $data['currentPage'] = $page;
+        $data['query'] = $query;
+
+        return view('pages/search_results', $data);
     }
 }

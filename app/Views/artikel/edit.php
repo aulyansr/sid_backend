@@ -55,8 +55,15 @@
                             <!-- Form Group (headline) -->
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1" for="inputHeadline">Headline</label>
-                                <input class="form-control" id="inputHeadline" name="headline" type="number" placeholder="Headline" value="<?= esc($artikel['headline'] ?? old('headline')); ?>">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="inputHeadline" name="headline" value="1" <?= (isset($artikel['headline']) && $artikel['headline'] == 1) ? 'checked' : ''; ?>>
+                                    <label class="custom-control-label" for="inputHeadline">
+                                        Set Sebagai Headline
+                                    </label>
+                                </div>
                             </div>
+
+
                             <!-- Form Group (dokumen) -->
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1" for="inputDokumen">Dokumen</label>
@@ -77,7 +84,10 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1" for="tgl_upload">Tanggal Publish</label>
-                                <input class="form-control" id="tgl_upload" name="tgl_upload" type="date" value="<?= esc($artikel['tgl_upload'] ?? old('tgl_upload')); ?>">
+                                <input class="form-control" id="tgl_upload" name="tgl_upload" type="date" value="<?= esc(isset($artikel['tgl_upload']) ? strftime('%Y-%m-%d', strtotime($artikel['tgl_upload'])) : date('Y-m-d')); ?>">
+
+
+
                             </div>
                         </div>
                         <!-- Submit button -->

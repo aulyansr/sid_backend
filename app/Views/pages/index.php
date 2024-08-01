@@ -23,7 +23,8 @@ use CodeIgniter\I18n\Time;
                     <div class="card-body p-0">
                         <div class="row g-0">
                             <div class="col-lg-6 p-5 bg-white">
-                                <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="<?= route_to('detail_article_path', $headline['id']); ?>"><?= $headline['kategori_name']; ?></a>
+
+                                <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="<?= route_to('detail_category_path', $headline['id_kategori']) ?>"><?= $headline['kategori_name']; ?></a>
                                 <a class="text-dark" href="<?= route_to('detail_article_path', $headline['id']); ?>">
                                     <h1>
                                         <?= $headline['judul']; ?>
@@ -258,7 +259,7 @@ use CodeIgniter\I18n\Time;
                 $articles = $articleModel->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
                 ?>
                 <?php foreach ($articles as $article) : ?>
-                    <a class="text-dark mb-4" href="detail.html">
+                    <a class="text-dark mb-4" href=" <?= route_to('detail_article_path', $article['id']) ?>">
                         <small><?= Time::parse($article['tgl_upload'])->humanize(); ?></small>
                         <h6>
                             <?= $article['judul']; ?>
@@ -271,27 +272,8 @@ use CodeIgniter\I18n\Time;
     </div>
 
     <!-- pencarian -->
-    <div class="pencarian card mb-n5 z-1">
-        <div class="card-body p-5">
-            <div class="row gx-5 align-items-center">
-                <div class="col-lg-6">
-                    <h4>Temukan informasi yang anda inginkan!</h4>
-                    <p class="lead text-gray-500 mb-0">
-                        Temukan informasi berupa berita, artikel, pengumuman, atau jenis informasi
-                        lainnya dengan pencarian berikut ini
-                    </p>
-                </div>
-                <div class="col-lg-6">
-                    <div class="input-group mb-2">
-                        <input class="form-control form-control-solid" type="text" placeholder="Masukkan kata kunci pencarian" aria-label="Recipient's username" aria-describedby="button-addon2" />
-                        <button class="btn btn-primary" id="button-addon2" type="button">
-                            Cari
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?= view('partials/search') ?>
+
 </div>
 
 <?= $this->endSection(); ?>
