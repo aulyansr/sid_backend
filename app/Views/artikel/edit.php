@@ -3,30 +3,25 @@
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($artikel) ? 'Update Artikel' : 'Form Artikel'; ?></h1>
-    <form action="<?= site_url(isset($artikel) ? '/admin/artikel/update/' . $artikel['id'] : '/admin/artikel/store'); ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= isset($artikel) ? '/admin/artikel/update/' . esc($artikel['id']) : '/admin/artikel/store'; ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field(); ?>
         <div class="row justify-content-center">
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-header">Foto Artikel</div>
                     <div class="card-body">
-
-                        <input id="inputGambar" name="gambar" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar'])); ?>">
+                        <input id="inputGambar" name="gambar" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar'])) ?>">
                         <!-- Additional images -->
                         <div class="my-3">
-
                             <div class="mb-4">
-                                <input id="inputGambar1" name="gambar1" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar1'])); ?>">
+                                <input id="inputGambar1" name="gambar1" type="file" class="dropify" accept="image/*" data-default-file="<?= isset($artikel['gambar1']) ? base_url(esc($artikel['gambar1'])) : ''; ?>">
                             </div>
-
                             <div class="mb-4">
-                                <input id="inputGambar2" name="gambar2" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar2'])); ?>">
+                                <input id="inputGambar2" name="gambar2" type="file" class="dropify" accept="image/*" data-default-file="<?= isset($artikel['gambar2']) ? base_url(esc($artikel['gambar2'])) : ''; ?>">
                             </div>
-
                             <div class="mb-4">
-                                <input id="inputGambar3" name="gambar3" type="file" class="dropify" accept="image/*" data-default-file="<?= base_url(esc($artikel['gambar3'])); ?>">
+                                <input id="inputGambar3" name="gambar3" type="file" class="dropify" accept="image/*" data-default-file="<?= isset($artikel['gambar3']) ? base_url(esc($artikel['gambar3'])) : ''; ?>">
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -35,7 +30,6 @@
                 <div class="card mb-4">
                     <div class="card-header">Detail Artikel</div>
                     <div class="card-body">
-                        <!-- Form Row -->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (judul) -->
                             <div class="col-md-12 mb-3">
@@ -47,7 +41,7 @@
                                 <label class="small mb-1" for="inputIsi">Isi Artikel</label>
                                 <textarea class="form-control" id="editor" name="isi" rows="4" placeholder="Isi Artikel"><?= esc($artikel['isi'] ?? old('isi')); ?></textarea>
                             </div>
-
+                            <!-- Form Group (kategori) -->
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1" for="inputKategori">Kategori</label>
                                 <select class="form-control" id="inputKategori" name="id_kategori" required>
@@ -58,7 +52,6 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
                             <!-- Form Group (headline) -->
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1" for="inputHeadline">Headline</label>
@@ -87,9 +80,8 @@
                                 <input class="form-control" id="tgl_upload" name="tgl_upload" type="date" value="<?= esc($artikel['tgl_upload'] ?? old('tgl_upload')); ?>">
                             </div>
                         </div>
-
                         <!-- Submit button -->
-                        <input type="hidden" name="id_user" value="<?= auth()->user()->id; ?>"> <!-- Hidden field for user ID -->
+                        <input type="hidden" name="id_user" value="<?= auth()->user()->id; ?>">
                         <button class="btn btn-primary" type="submit">Simpan Artikel</button>
                     </div>
                 </div>
@@ -109,8 +101,8 @@
 <script>
     tinymce.init({
         selector: 'textarea#editor',
-        plugins: 'lists, link, image, media',
-        toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+        plugins: 'lists link image media',
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
         menubar: false,
     });
 </script>

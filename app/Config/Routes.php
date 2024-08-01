@@ -11,9 +11,29 @@ $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
 $routes->get(
+    'artikel',
+    'Page::articles',
+    ['as' => 'articles_path']
+);
+$routes->get(
     'artikel/(:segment)',
     'ArtikelController::show/$1',
-    ['as' => 'article_path']
+    ['as' => 'detail_article_path']
+);
+$routes->get(
+    'kategori',
+    'Page::categories',
+    ['as' => 'categories_path']
+);
+$routes->get(
+    'gallery/(:segment)',
+    'GambarGalleryController::show/$1',
+    ['as' => 'detail_gallery_path']
+);
+$routes->get(
+    'gallery/',
+    'Page::galleries',
+    ['as' => 'galleries_path']
 );
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
@@ -70,6 +90,15 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('artikel/edit/(:segment)', 'ArtikelController::edit/$1');
     $routes->post('artikel/update/(:segment)', 'ArtikelController::update/$1');
     $routes->get('artikel/delete/(:segment)', 'ArtikelController::delete/$1');
+
+    $routes->get('gambar-gallery', 'GambarGalleryController::index');
+    $routes->get('gambar-gallery/(:num)', 'GambarGalleryController::view/$1');
+    $routes->get('gambar-gallery/new', 'GambarGalleryController::new');
+    $routes->get('gambar-gallery/add-image/', 'GambarGalleryController::add_image');
+    $routes->post('gambar-gallery/store', 'GambarGalleryController::store');
+    $routes->get('gambar-gallery/edit/(:num)', 'GambarGalleryController::edit/$1');
+    $routes->post('gambar-gallery/update/(:num)', 'GambarGalleryController::update/$1');
+    $routes->get('gambar-gallery/delete/(:num)', 'GambarGalleryController::delete/$1');
 
 
 

@@ -29,12 +29,28 @@
                     </div>
                 </div>
 
+                <img class="img-fluid mb-2 rounded" src="<?= base_url($artikel['gambar']); ?>" />
+
                 <div class="single-post-text my-5">
                     <?= $artikel['isi']; ?>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar1']); ?>" />
+                        </div>
+                        <div class="col-md-6">
+                            <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
+                        </div>
+                        <div class="col-md-6">
+                            <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
+                        </div>
+                    </div>
+
                     <hr class="my-5" />
                     <div class="text-center">
-                        <a class="btn btn-transparent-dark" href="page-blog-overview.html">Back to
-                            Blog Overview</a>
+                        <a class="btn btn-transparent-dark" href="<?= base_url(); ?>">
+                            Kembali
+                        </a>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@
         <a class="nav-link <?= ($activeTab == 'komentar') ? 'active' : '' ?>" id="card-komentar-tab" href="/admin/komentar">Komentar</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link <?= ($activeTab == 'gallery') ? 'active' : '' ?>" id="card-gallery-tab" href="/admin/gallery">Gallery</a>
+        <a class="nav-link <?= ($activeTab == 'gambar-gallery') ? 'active' : '' ?>" id="card-gambar-gallery-tab" href="/admin/gambar-gallery">Gallery</a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($activeTab == 'dokumen') ? 'active' : '' ?>" id="card-dokumen-tab" href="/admin/dokumen">Dokumen</a>

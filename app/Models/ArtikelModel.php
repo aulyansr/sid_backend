@@ -8,7 +8,6 @@ use \Tatter\Relations\Traits\ModelTrait;
 class ArtikelModel extends Model
 {
     protected $table      = 'artikel';
-    protected $with = 'user';
     protected $primaryKey = 'id';
 
     protected $allowedFields = [

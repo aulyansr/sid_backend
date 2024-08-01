@@ -246,7 +246,7 @@ class ArtikelController extends Controller
 
         $gambarpath = $artikel['gambar']; // Default to existing image path
         if ($image && $image->isValid()) {
-            $newName = (new \DateTime())->format('YmdHis');
+            $newName = $image->getRandomName();
             $image->move($uploadPath, $newName);
             $gambarpath = $uploadPath . '/' . $newName;
 

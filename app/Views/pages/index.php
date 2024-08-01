@@ -8,120 +8,49 @@ use CodeIgniter\I18n\Time;
 ?>
 <?= \Config\Services::helper('url'); ?>
 <div class="container px-5">
-
     <!-- carousel -->
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <?php foreach ($headline as $index => $i) : ?>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?= $index ?>" class="<?= $index === 0 ? 'active' : ''; ?>" aria-current="true" aria-label="Slide 1"></button>
+            <?php endforeach; ?>
+
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="card-body p-0">
-                    <div class="row g-0">
-                        <div class="col-lg-6 p-5 bg-white">
-                            <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="#!">Pengumuman</a>
-                            <a class="text-dark" href="detail.html">
-                                <h1>
-                                    Pengumuman Penerima PTSL Periode 2023 Kalurahan Candirejo
-                                </h1>
-                            </a>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-                                repellat
-                                possimus delectus odit vero! Accusantium, omnis! Amet reiciendis ex
-                                numquam.
-                                Minus corporis, tempore facere placeat repellat ipsum eaque
-                                similique neque.
-                            </p>
-                            <div class="flex-text align-self-center d-flex justify-content-between">
-                                <a class="text-arrow-icon small" href="#!">
-                                    Selengkapnya
-                                    <i data-feather="arrow-right"></i>
+            <?php foreach ($headline as $index => $headline) : ?>
+                <div class="carousel-item <?= $index === 0 ? 'active' : ''; ?>">
+
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-6 p-5 bg-white">
+                                <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="<?= route_to('detail_article_path', $headline['id']); ?>"><?= $headline['kategori_name']; ?></a>
+                                <a class="text-dark" href="<?= route_to('detail_article_path', $headline['id']); ?>">
+                                    <h1>
+                                        <?= $headline['judul']; ?>
+                                    </h1>
                                 </a>
-                                <small>13 hari yang lalu</small>
+                                <p>
+                                    <?= esc(substr(strip_tags($headline['isi']), 0, 250)) . (strlen($headline['isi']) > 250 ? '...' : ''); ?>
+                                </p>
+                                <div class="flex-text align-self-center d-flex justify-content-between">
+                                    <a class="text-arrow-icon small" href="<?= route_to('detail_article_path', $headline['id']); ?>">
+                                        Selengkapnya
+                                        <i data-feather="arrow-right"></i>
+                                    </a>
+                                    <small><?= Time::parse($headline['tgl_upload'])->humanize(); ?></small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 align-self-stretch bg-img-cover d-none d-lg-flex" style="
-                                background-image: url('https://source.unsplash.com/six-white-sticky-notes--1_RZL8BGBM/1200x800');
+                            <div class="col-lg-6 align-self-stretch bg-img-cover d-none d-lg-flex" style="
+                                background-image: url('  <?= $headline['gambar']; ?>');
                               "></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card-body p-0">
-                    <div class="row g-0">
-                        <div class="col-lg-6 p-5 bg-white">
-                            <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="#!">Pengumuman</a>
-                            <a class="text-dark" href="#!">
-                                <h1>
-                                    Pengumuman Penerima PTSL Periode 2023 Kalurahan Candirejo
-                                </h1>
-                            </a>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-                                repellat
-                                possimus delectus odit vero! Accusantium, omnis! Amet reiciendis ex
-                                numquam.
-                                Minus corporis, tempore facere placeat repellat ipsum eaque
-                                similique neque.
-                            </p>
-                            <div class="flex-text align-self-center d-flex justify-content-between">
-                                <a class="text-arrow-icon small" href="#!">
-                                    Selengkapnya
-                                    <i data-feather="arrow-right"></i>
-                                </a>
-                                <small>13 hari yang lalu</small>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 align-self-stretch bg-img-cover d-none d-lg-flex" style="
-                                background-image: url('https://source.unsplash.com/six-white-sticky-notes--1_RZL8BGBM/1200x800');
-                              "></div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card-body p-0">
-                    <div class="row g-0">
-                        <div class="col-lg-6 p-5 bg-white">
-                            <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="#!">Pengumuman</a>
-                            <a class="text-dark" href="#!">
-                                <h1>
-                                    Pengumuman Penerima PTSL Periode 2023 Kalurahan Candirejo
-                                </h1>
-                            </a>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-                                repellat
-                                possimus delectus odit vero! Accusantium, omnis! Amet reiciendis ex
-                                numquam.
-                                Minus corporis, tempore facere placeat repellat ipsum eaque
-                                similique neque.
-                            </p>
-                            <div class="flex-text align-self-center d-flex justify-content-between">
-                                <a class="text-arrow-icon small" href="#!">
-                                    Selengkapnya
-                                    <i data-feather="arrow-right"></i>
-                                </a>
-                                <small>13 hari yang lalu</small>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 align-self-stretch bg-img-cover d-none d-lg-flex" style="
-                                background-image: url('https://source.unsplash.com/six-white-sticky-notes--1_RZL8BGBM/1200x800');
-                              "></div>
-                    </div>
-                </div>
-            </div>
+
+            <?php endforeach; ?>
+
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+
     </div>
 
     <hr class="mb-4" />
@@ -133,7 +62,7 @@ use CodeIgniter\I18n\Time;
             <?php foreach ($artikels as $index => $artikel) : ?>
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <a class="text-dark" href="detail.html">
+                        <a class="text-dark" href="<?= route_to('detail_article_path', $artikel['id']); ?>">
                             <h5 class="mt-0">
                                 <?= $artikel['judul']; ?>
                             </h5>
@@ -144,7 +73,7 @@ use CodeIgniter\I18n\Time;
                         <p class="timestamps text-sm">
                             <small><?= Time::parse($artikel['tgl_upload'])->humanize(); ?></small>
                         </p>
-                        <a class="text-arrow-icon small" href="<?= route_to('article_path', $artikel['id']); ?>">
+                        <a class="text-arrow-icon small" href="<?= route_to('detail_article_path', $artikel['id']); ?>">
                             Selengkapnya
                             <i data-feather="arrow-right"></i>
                         </a>
@@ -171,16 +100,25 @@ use CodeIgniter\I18n\Time;
                     <h6>Galeri</h6>
                     <hr />
                     <div class="mb-5">
-                        <a class="card lift h-100" href="photo.html">
-                            <div class="card-flag card-flag-dark card-flag-top-right card-flag-lg">10 Foto</div>
-                            <img class="card-img-top" src="https://source.unsplash.com/woman-in-blue-and-red-jacket-holding-yellow-plastic-bucket-LsMTepYpr88/800x500" alt="..." />
+                        <a class="card lift h-100" href="<?= route_to('detail_gallery_path', $gallery[0]['id']); ?>">
+                            <div class="card-flag card-flag-dark card-flag-top-right card-flag-lg">
+                                <?php
+                                $fotoModel = new \App\Models\GambarGalleryModel();
+                                $fotos = $fotoModel->where('parrent', $gallery[0]['id'])->findAll(); // Fetch all articles for this category
+                                $total = count($fotos);
+                                ?>
+                                <?= $total; ?> Foto
+                            </div>
+
+                            <img class="card-img-top" src="<?= base_url($gallery[0]['gambar']); ?>" alt="..." />
                             <div class="card-body p-3">
-                                <div class="card-title small mb-0">Penyemprotan Pestisida</div>
-                                <div class="text-xs text-gray-500">1 jam yang lalu</div>
+                                <div class="card-title small mb-0"><?= $gallery[0]['nama']; ?></div>
+                                <div class="text-xs text-gray-500"><?= Time::parse($gallery[0]['tgl_upload'])->humanize(); ?></div>
+
                             </div>
                         </a>
                     </div>
-                    <a class="text-arrow-icon small align-right" href="galeri.html">
+                    <a class="text-arrow-icon small align-right" href="<?= route_to('galleries_path'); ?>">
                         Selengkapnya
                         <i data-feather="arrow-right"></i>
                     </a>
@@ -308,138 +246,28 @@ use CodeIgniter\I18n\Time;
 
     <!-- Kategori 1,2,3 -->
     <div class="row gx-5 mb-5">
-        <div class="col-lg-4">
-            <h6>Berita Desa</h6>
-            <hr class="my-4" />
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Tanda-tanda Musim penghujan Mulai Tiba
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Inilah Peraih Anugrah dan Kejuaran Pekan Olahraga Desa
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-arrow-icon small" href="kategori.html">
-                Selengkapnya
-                <i data-feather="arrow-right"></i>
-            </a>
-        </div>
-        <div class="col-lg-4">
-            <h6>Agenda Desa</h6>
-            <hr class="my-4" />
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Tanda-tanda Musim penghujan Mulai Tiba
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Inilah Peraih Anugrah dan Kejuaran Pekan Olahraga Desa
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-arrow-icon small" href="kategori.html">
-                Selengkapnya
-                <i data-feather="arrow-right"></i>
-            </a>
-        </div>
-        <div class="col-lg-4">
-            <h6>Laporan Desa</h6>
-            <hr class="my-4" />
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Tanda-tanda Musim penghujan Mulai Tiba
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Inilah Peraih Anugrah dan Kejuaran Pekan Olahraga Desa
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-dark mb-4" href="detail.html">
-                <small>13 hari yang lalu</small>
-                <h6>
-                    Kekeringan Terlalu Lama, Kebakaran Lahan Melanda
-                </h6>
-            </a>
-            <a class="text-arrow-icon small" href="kategori.html">
-                Selengkapnya
-                <i data-feather="arrow-right"></i>
-            </a>
-        </div>
+        <?php $kategoriModel = new \App\Models\KategoriModel();
+        $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll(3);
+        ?>
+        <?php foreach ($categories as $item) : ?>
+            <div class="col-lg-4">
+                <h6><?= $item['kategori']; ?></h6>
+                <hr class="my-4" />
+                <?php
+                $articleModel = new \App\Models\ArtikelModel();
+                $articles = $articleModel->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
+                ?>
+                <?php foreach ($articles as $article) : ?>
+                    <a class="text-dark mb-4" href="detail.html">
+                        <small><?= Time::parse($article['tgl_upload'])->humanize(); ?></small>
+                        <h6>
+                            <?= $article['judul']; ?>
+                        </h6>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+
     </div>
 
     <!-- pencarian -->

@@ -84,7 +84,9 @@
 
                                 <?php
                                 $kategoriModel = new \App\Models\KategoriModel();
-                                $categories = $kategoriModel->findAll(); // Fetch all categories
+                                // Assuming $kategoriModel is your model instance
+                                $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
+                                // Fetch all categories
                                 ?>
                                 <?php foreach ($categories as $item) : ?>
 
@@ -98,18 +100,25 @@
                                             <?php
                                             $articleModel = new \App\Models\ArtikelModel();
                                             $articles = $articleModel->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
+                                            $totalArticles = count($articles);
+
                                             ?>
-                                            <?php foreach ($articles as $article) : ?>
+
+                                            <?php foreach ($articles as $index => $article) : ?>
                                                 <a class="dropdown-item py-3" href="<?= base_url('path/to/article/' . $article['id']) ?>" target="_blank">
                                                     <div>
                                                         <div class="small text-gray-500"><?= date('d F Y', strtotime($article['tgl_upload'])) ?></div>
                                                         <?= esc($article['judul']) ?>
                                                     </div>
                                                 </a>
-                                                <div class="dropdown-divider m-0"></div>
+
+                                                <?php if ($index < ($totalArticles - 1)) : ?>
+                                                    <div class="dropdown-divider m-0"></div>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </div>
                                     </li>
+
 
                                 <?php endforeach; ?>
 
