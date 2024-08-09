@@ -399,17 +399,17 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="/assets/js/admin/vendor/jquery/jquery.min.js"></script>
-    <script src="/assets/js/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/admin/vendors/jquery/jquery.min.js"></script>
+    <script src="/assets/js/admin/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="/assets/js/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/assets/js/admin/vendors/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="/assets/js/admin/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="/assets/js/admin/vendor/chart.js/Chart.min.js"></script>
+    <script src="/assets/js/admin/vendors/chart.js/Chart.min.js"></script>
     <!-- dropify -->
     <script src=" https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
 
