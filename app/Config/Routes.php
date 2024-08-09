@@ -106,7 +106,12 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('gambar-gallery/update/(:num)', 'GambarGalleryController::update/$1');
     $routes->get('gambar-gallery/delete/(:num)', 'GambarGalleryController::delete/$1');
 
-
+    $routes->get('dokumen', 'DokumenController::index');
+    $routes->get('dokumen/new', 'DokumenController::new');
+    $routes->post('dokumen/store', 'DokumenController::store');
+    $routes->get('dokumen/edit/(:segment)', 'DokumenController::edit/$1');
+    $routes->post('dokumen/update/(:segment)', 'DokumenController::update/$1');
+    $routes->get('dokumen/delete/(:segment)', 'DokumenController::delete/$1');
 
     // $routes->get('Article', 'Article::index');
 });

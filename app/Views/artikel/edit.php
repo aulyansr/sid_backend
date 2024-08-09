@@ -106,7 +106,7 @@
     $('.dropify').dropify();
 </script>
 <!-- TinyMCE CDN -->
-<script src="/assets/js/admin/vendor/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="/assets/js/admin/vendors/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
     tinymce.init({

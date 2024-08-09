@@ -17,51 +17,43 @@
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Image</th>
                             <th>Nama</th>
-                            <th>Status</th>
+                            <th>File</th>
+                            <th>Tanggal Upload</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Image</th>
                             <th>Nama</th>
-                            <th>Status</th>
+                            <th>File</th>
+                            <th>Tanggal Upload</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($media_socials as $index => $medsos) : ?>
+                        <?php foreach ($dokumen as $index => $dok) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="uibutton-group">
-                                        <a href="/admin/media_sosial/edit/<?= esc($medsos['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                        <a href="/admin/dokumen/edit/<?= esc($dok['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/media_sosial/delete/<?= esc($medsos['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
+
+                                        <a href="/admin/dokumen/delete/<?= esc($dok['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-
                                     </div>
                                 </td>
-                                <td align="center"><img src="/<?= $medsos['gambar']; ?>" alt="" style="width:50px"></td>
-                                <td><?= esc($medsos['nama']); ?></td>
-                                <td>
-                                    <?php if ($medsos['enabled']) : ?>
-                                        <span class="badge badge-success">Active</span>
-                                    <?php else : ?>
-                                        <span class="badge badge-danger">Not Active</span>
-                                    <?php endif; ?>
-                                </td>
 
-
+                                <td><?= esc($dok['nama']); ?></td>
+                                <td><a href="<?= base_url($dok['satuan']); ?>" target="_blank"><?= esc($dok['nama']); ?></a></td>
+                                <td><?= date('Y-m-d H:i:s', strtotime($dok['tgl_upload'])); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
@@ -89,13 +81,13 @@
 
 <script>
     // Define the JavaScript variable with the URL from PHP
-    var newUserPath = '/admin/media_sosial/new';
+    var newUserPath = '/admin/dokumen/new';
 
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Social Media Baru`,
+                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Gambar Gallery Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
                         // Redirect to the new user path
