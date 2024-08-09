@@ -36,19 +36,31 @@
                     <?= $artikel['isi']; ?>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar1']); ?>" />
-                        </div>
-                        <div class="col-md-6">
-                            <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
-                        </div>
-                        <div class="col-md-6">
-                            <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
-                        </div>
+                        <?php if (!empty($artikel['gambar1'])): ?>
+                            <div class="col-md-6">
+                                <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar1']); ?>" />
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($artikel['gambar2'])): ?>
+                            <div class="col-md-6">
+                                <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($artikel['gambar3'])): ?>
+                            <div class="col-md-6">
+                                <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar3']); ?>" />
+                            </div>
+                        <?php endif; ?>
                     </div>
 
-                    <p>Dokumen:</p>
-                    <a href="<?= $artikel['link_dokumen']; ?>"><?= $artikel['dokumen']; ?></a>
+
+
+                    <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])): ?>
+                        <p>Dokumen:</p>
+                        <a href="<?= $artikel['link_dokumen']; ?>"><?= htmlspecialchars($artikel['dokumen']); ?></a>
+                    <?php endif; ?>
 
                     <hr class="my-5" />
                     <div class="text-center">
@@ -63,3 +75,5 @@
 </div>
 
 <?= $this->endSection(); ?>
+
+<?= dd($artikel); ?>
