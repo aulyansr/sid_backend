@@ -311,8 +311,12 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Andi Wijayanto</span>
-                                <img class="img-profile rounded-circle" src="/assets/img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?= isset(auth()->user()->nama) ? esc(auth()->user()->nama) : '-' ?>
+                                </span>
+
+                                <img class="img-profile rounded-circle" src="<?= isset(auth()->user()->foto) && !empty(auth()->user()->foto) ? base_url(esc(auth()->user()->foto)) : '/assets/img/undraw_profile.svg' ?>" alt="Profile Image">
+
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
