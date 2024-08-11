@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\ConfigModel;
 use CodeIgniter\Controller;
-use CodeIgniter\HTTP\CLIRequest;
-use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -24,7 +23,7 @@ abstract class BaseController extends Controller
     /**
      * Instance of the main Request object.
      *
-     * @var CLIRequest|IncomingRequest
+     * @var RequestInterface
      */
     protected $request;
 
@@ -38,13 +37,19 @@ abstract class BaseController extends Controller
     protected $helpers = [];
 
     /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
+     * @var \App\Models\ConfigModel
      */
-    // protected $session;
+    protected $desaModel;
 
     /**
-     * @return void
+     * @var array
+     */
+    protected $data = [];
+
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param LoggerInterface $logger
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -53,5 +58,21 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         // E.g.: $this->session = \Config\Services::session();
+
+        // Initialize the ConfigModel
+        $this->desaModel = new ConfigModel();
+        $this->data['desa'] = $this->desaModel->find(1); // Ambil data desa
+    }
+
+    /**
+     * Render a view with the common data.
+     *
+     * @param string $view
+     * @param array $data
+     * @return \CodeIgniter\HTTP\Response
+     */
+    protected function view(string $view, array $data = [])
+    {
+        return view($view, array_merge($this->data, $data));
     }
 }

@@ -1,4 +1,4 @@
-<div class="pencarian card mb-n5 z-1">
+<div class="pencarian card mb-n5 z-1" id="bx-search">
     <div class="card-body p-5">
         <div class="row gx-5 align-items-center">
             <div class="col-lg-6">

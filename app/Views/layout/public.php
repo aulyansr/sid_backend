@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+$kategoriModel = new \App\Models\KategoriModel();
+$desa = new \App\Models\ConfigModel();
+// Assuming $kategoriModel is your model instance
+$categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
+$desa = $desa->find(1);
+// Fetch all categories
+?>
 
 <head>
     <meta charset="utf-8" />
@@ -7,12 +15,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Single</title>
+    <title> <?= $desa['nama_desa']; ?></title>
     <link href="/assets/css/public/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
+
 
 <body>
     <div id="layoutDefault">
@@ -64,15 +73,15 @@
                         <div class="logo d-flex justify-content-center p-3">
                             <div class="logo">
                                 <a href=" <?= base_url() ?> ">
-                                    <img src="/assets/img/logo-gk-removebg-preview.png" alt="Gunung Kidul" height="90">
+                                    <img src="<?= base_url(esc($desa['logo'])); ?>" alt="Gunung Kidul" height="90">
                                 </a>
                             </div>
 
                             <div class="ms-4 d-flex flex-column justify-content-end">
-                                <h4 class="">Kalurahan Candirejo</h4>
+                                <h4 class="">Kalurahan <?= $desa['nama_desa']; ?></h4>
                                 <p class="lh-1">
-                                    <small class="lh-1">Kapanewon Semin</small><br>
-                                    <small class="lh-1">Kabupaten Gunungkidul</small>
+                                    <small class="lh-1">Kapanewon <?= $desa['nama_kecamatan']; ?></small><br>
+                                    <small class="lh-1">Kabupaten <?= $desa['nama_kabupaten']; ?></small>
                                 </p>
                             </div>
                         </div>
@@ -82,12 +91,6 @@
                             <ul class="navbar-nav ms-auto me-lg-5">
                                 <li class="nav-item"><a class="nav-link" href=" <?= base_url() ?> ">Beranda</a></li>
 
-                                <?php
-                                $kategoriModel = new \App\Models\KategoriModel();
-                                // Assuming $kategoriModel is your model instance
-                                $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
-                                // Fetch all categories
-                                ?>
                                 <?php foreach ($categories as $item) : ?>
 
                                     <li class="nav-item dropdown no-caret">
@@ -141,7 +144,7 @@
                                         Desa</a></li>
                                 <li class="nav-item d-block d-sm-block d-md-none"><a href="" class="nav-link small">Kontak</a></li>
                             </ul>
-                            <a class="btn fw-500 ms-lg-4 btn-teal" href="#">
+                            <a class="btn fw-500 ms-lg-4 btn-teal" href="#bx-search">
                                 Pencarian
                                 <i class="ms-2" data-feather="arrow-right"></i>
                             </a>
@@ -170,12 +173,12 @@
                     <div class="row gx-5">
                         <div class="col-lg-3">
                             <div class="footer-brand">
-                                <img src="./assets/img/logo-gk.png" class="w-20" alt="">
+                                <img src="<?= base_url(esc($desa['logo'])); ?>" class="w-20">
                             </div>
                             <div class="mb-3">
-                                <p>Kalurahan Candirejo</p>
-                                <small>Blembem RT 10/01 Kalurahan Candirejo,</small><br />
-                                <small>Kapanewon Semin, Kabupaten Gunungkidul</small>
+                                <p>Kalurahan <?= $desa['nama_desa']; ?></p>
+                                <small><?= $desa['alamat_kantor']; ?></small><br />
+                                <small>Kapanewon <?= $desa['nama_kecamatan']; ?>, Kabupaten <?= $desa['nama_kabupaten']; ?></small>
                             </div>
                             <div class="icon-list-social mb-5">
                                 <a class="icon-list-social-link" href="#!"><i class="fab fa-instagram"></i></a>
@@ -235,7 +238,7 @@
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>. Sistem Informasi Desa (SID)
-                            Kabupaten Gunungkidul
+                            Kabupaten <?= $desa['nama_kabupaten']; ?>
                         </div>
                         <div class="col-md-6 text-md-end small">
                             <a href="privasi.html">Kebijakan Privasi</a>

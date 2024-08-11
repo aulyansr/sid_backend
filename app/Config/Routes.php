@@ -10,7 +10,16 @@ service('auth')->routes($routes);
 $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
-$routes->get('artikel/(:num)', 'ArtikelController::show/$1');
+$routes->get(
+    'artikel',
+    'Page::articles',
+    ['as' => 'articles_path']
+);
+$routes->get(
+    'artikel/(:segment)',
+    'ArtikelController::show/$1',
+    ['as' => 'detail_article_path']
+);
 
 $routes->get(
     'kategori/(:segment)',
@@ -33,6 +42,7 @@ $routes->get(
     ['as' => 'galleries_path']
 );
 $routes->get('/search-articles', 'Page::search', ['as' => 'search_articles_path']);
+$routes->post('/komentar/store', 'KomentarController::store');
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
@@ -110,6 +120,13 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('surat/store', 'SuratController::store');
     $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2');
     $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1');
+
+    $routes->get('komentar', 'KomentarController::index');
+    $routes->get('komentar/create', 'KomentarController::create');
+    $routes->post('komentar/store', 'KomentarController::store');
+    $routes->get('komentar/disable/(:num)', 'KomentarController::disable/$1');
+    $routes->get('komentar/delete/(:num)', 'KomentarController::delete/$1');
+
 
 
     $routes->resource('TwebSuratFormat');

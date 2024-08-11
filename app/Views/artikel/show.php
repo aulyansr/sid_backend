@@ -36,19 +36,19 @@
                     <?= $artikel['isi']; ?>
 
                     <div class="row">
-                        <?php if (!empty($artikel['gambar1'])): ?>
+                        <?php if (!empty($artikel['gambar1'])) : ?>
                             <div class="col-md-6">
                                 <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar1']); ?>" />
                             </div>
                         <?php endif; ?>
 
-                        <?php if (!empty($artikel['gambar2'])): ?>
+                        <?php if (!empty($artikel['gambar2'])) : ?>
                             <div class="col-md-6">
                                 <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar2']); ?>" />
                             </div>
                         <?php endif; ?>
 
-                        <?php if (!empty($artikel['gambar3'])): ?>
+                        <?php if (!empty($artikel['gambar3'])) : ?>
                             <div class="col-md-6">
                                 <img class="img-fluid mb-4 rounded" src="<?= base_url($artikel['gambar3']); ?>" />
                             </div>
@@ -57,7 +57,7 @@
 
 
 
-                    <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])): ?>
+                    <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])) : ?>
                         <p>Dokumen:</p>
                         <a href="<?= $artikel['link_dokumen']; ?>"><?= htmlspecialchars($artikel['dokumen']); ?></a>
                     <?php endif; ?>
@@ -70,10 +70,50 @@
                     </div>
                 </div>
             </div>
+            <h2>Komentar</h2>
+            <?php if (!empty($comments) && is_array($comments)) : ?>
+                <?php foreach ($comments as $comment) : ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-1">
+                                    <img src="https://placehold.co/600x600?text=<?= esc($comment['owner'][0]); ?>" alt="<?= esc($comment['owner']); ?>" class="w-100" style="border-radius: 50%;">
+                                </div>
+                                <div class="col-8">
+                                    <h4 class="mb-0"><?= esc($comment['owner']); ?></h4>
+                                    <p><?= esc($comment['komentar']); ?></p>
+                                    <small><i class="fa-regular fa-clock"></i> <?= esc($comment['tgl_upload']); ?></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p>Belum ada komentar.</p>
+            <?php endif; ?>
+
+            <hr class="my-5" />
+            <h2>Tulis Komentar</h2>
+            <form class="form-floating" action="/komentar/store" method="post">
+                <?= csrf_field(); ?>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInputName" placeholder="nama" name="owner">
+                    <label for="floatingInput">Nama</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="komentar" style="height: 100px"></textarea>
+                    <label for="floatingTextarea">Komentar</label>
+                </div>
+                <input type="hidden" name="id_artikel" value="<?= esc($artikel['id']); ?>">
+                <button class="btn btn-primary" type="submit">Kirim</button>
+
+            </form>
         </div>
     </div>
 </div>
 
 <?= $this->endSection(); ?>
-
-<?= dd($artikel); ?>

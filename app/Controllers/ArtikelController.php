@@ -4,14 +4,16 @@ namespace App\Controllers;
 
 use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
+use App\Models\KomentarModel;
 use App\Models\UserModel;
 use CodeIgniter\Controller;
 use CodeIgniter\I18n\Time;
 
-class ArtikelController extends Controller
+class ArtikelController extends BaseController
 {
     protected $artikelModel;
     protected $kategori;
+    protected $komentar;
     protected $user;
 
     public function __construct()
@@ -19,6 +21,7 @@ class ArtikelController extends Controller
         $this->artikelModel = new ArtikelModel();
         $this->kategori = new KategoriModel();
         $this->user = new UserModel();
+        $this->komentar = new KomentarModel();
     }
 
     public function index()
@@ -157,6 +160,10 @@ class ArtikelController extends Controller
         $data['artikel'] = $this->artikelModel->find($id);
         $data['user'] =  $this->user->find($data['artikel']['id_user']);
         $data['kategori'] =  $this->kategori->find($data['artikel']['id_kategori']);
+        $data['comments'] = $this->komentar
+            ->where('id_artikel', $id)
+            ->where('enabled', 1)
+            ->findAll();
 
         if (isset($data['artikel']['tgl_upload'])) {
             $data['artikel']['tgl_upload'] = Time::parse($data['artikel']['tgl_upload']);
