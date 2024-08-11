@@ -17,8 +17,14 @@
 
                         <!-- Form Group (nama_surat) -->
                         <div class="mb-3">
-                            <label class="small mb-1" for="inputNamaSurat">Nama Surat</label>
-                            <input class="form-control" id="inputNamaSurat" name="nama_surat" type="text" placeholder="Nama Surat" value="<?= old('nama_surat'); ?>" required>
+                            <label class="small mb-1" for="inputNomorSurat">Nama Surat</label>
+                            <input class="form-control" id="inputNomorSurat" name="nomor_surat" type="text" placeholder="Nomor Surat" value="<?= old('nomor_surat'); ?>" required>
+                        </div>
+
+                        <!-- Form Group (nik) -->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputNIK">NIK</label>
+                            <input class="form-control" id="inputNIK" name="nik" type="text" placeholder="NIK" value="<?= old('nik'); ?>" required>
                         </div>
 
                         <!-- Form Group (nama) -->
@@ -27,11 +33,7 @@
                             <input class="form-control" id="inputNama" name="nama" type="text" placeholder="Nama" value="<?= old('nama'); ?>" required>
                         </div>
 
-                        <!-- Form Group (nik) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputNIK">NIK</label>
-                            <input class="form-control" id="inputNIK" name="nik" type="text" placeholder="NIK" value="<?= old('nik'); ?>" required>
-                        </div>
+
 
                         <!-- Form Group (keperluan) -->
                         <div class="mb-3">
