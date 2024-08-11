@@ -124,6 +124,18 @@
                     <span>Admin Web</span></a>
             </li>
 
+            <?php if (auth()->user()->inGroup('superadmin')) : ?>
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/config/edit/1">
+                        <i class="fas fa-cogs fa-sm fa-fw"></i>
+
+                        <span>Configurasi Web</span></a>
+                </li>
+
+            <?php endif; ?>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
