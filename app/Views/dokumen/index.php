@@ -19,6 +19,7 @@
                             <th>Aksi</th>
                             <th>Nama</th>
                             <th>File</th>
+                            <th>url</th>
                             <th>Tanggal Upload</th>
                         </tr>
                     </thead>
@@ -28,6 +29,7 @@
                             <th>Aksi</th>
                             <th>Nama</th>
                             <th>File</th>
+                            <th>url</th>
                             <th>Tanggal Upload</th>
                         </tr>
                     </tfoot>
@@ -49,6 +51,7 @@
 
                                 <td><?= esc($dok['nama']); ?></td>
                                 <td><a href="<?= base_url($dok['satuan']); ?>" target="_blank"><?= esc($dok['nama']); ?></a></td>
+                                <td><?= base_url($dok['satuan']); ?></td>
                                 <td><?= date('Y-m-d H:i:s', strtotime($dok['tgl_upload'])); ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -87,7 +90,7 @@
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Gambar Gallery Baru`,
+                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
                         // Redirect to the new user path

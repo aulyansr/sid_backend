@@ -44,11 +44,7 @@
                                 <input class="form-control" id="tgl_upload" name="tgl_upload" type="date" value="<?= esc(old('tgl_upload', date('Y-m-d', strtotime($dokumen['tgl_upload'])))); ?>">
                             </div>
 
-                            <!-- Form Group (id_pend) -->
-                            <div class="col-md-12 mb-3">
-                                <label class="small mb-1" for="inputIdPend">ID Pend</label>
-                                <input class="form-control" id="inputIdPend" name="id_pend" type="number" placeholder="ID Pend" value="<?= esc(old('id_pend', $dokumen['id_pend'])); ?>" required>
-                            </div>
+
                         </div>
 
                         <!-- Submit button -->

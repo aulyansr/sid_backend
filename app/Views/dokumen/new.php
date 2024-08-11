@@ -43,11 +43,7 @@
                                 <input class="form-control" id="tgl_upload" name="tgl_upload" type="date" value="<?= date('Y-m-d'); ?>">
                             </div>
 
-                            <!-- Form Group (id_pend) -->
-                            <div class="col-md-12 mb-3">
-                                <label class="small mb-1" for="inputIdPend">ID Pend</label>
-                                <input class="form-control" id="inputIdPend" name="id_pend" type="number" placeholder="ID Pend" value="<?= old('id_pend'); ?>" required>
-                            </div>
+
                         </div>
 
                         <!-- Submit button -->
