@@ -5,10 +5,12 @@ namespace App\Controllers;
 use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
 use App\Models\GambarGalleryModel;
+use App\Models\KomentarModel;
 
 class Page extends BaseController
 {
     protected $artikelModel;
+    protected $komentarModel;
     protected $kategori;
     protected $gallery;
 
@@ -17,6 +19,7 @@ class Page extends BaseController
         $this->artikelModel = new ArtikelModel();
         $this->kategori = new KategoriModel();
         $this->gallery = new GambarGalleryModel();
+        $this->komentarModel = new KomentarModel();
     }
 
     public function index()
@@ -25,6 +28,11 @@ class Page extends BaseController
         $data['headline'] = $this->artikelModel->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('tipe', 0)->findAll(1);
         $data['categories'] = $this->kategori->findAll();
+        $data['comments'] = $this->komentarModel
+
+            ->where('enabled', 1)
+            ->limit(5)
+            ->findAll();
         return view('pages/index', $data);
     }
 

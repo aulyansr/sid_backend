@@ -137,87 +137,31 @@ use CodeIgniter\I18n\Time;
                 <div class="card-body">
                     <h6>Komentar Terkini</h6>
                     <hr />
-                    <div class="d-flex mb-4">
-                        <div class="avatar avatar-lg">
-                            <img class="avatar-img" src="assets/img/illustrations/profiles/profile-1.png" />
-                        </div>
-                        <div class="ms-3">
-                            <a class="text-dark" href="detail.html">
-                                <h6 class="mb-1">
-                                    Maaf, apakah sudah dicek di kalurahan?
-                                </h6>
-                            </a>
-                            <div class="small text-gray-500">
-                                by
-                                <a class="text-gray-500" href="#!">Budi Gunawan</a>
+                    <?php if (!empty($comments) && is_array($comments)) : ?>
+                        <?php foreach ($comments as $comment) : ?>
+                            <div class="d-flex mb-4">
+                                <div class="avatar avatar-lg">
+                                    <img class="avatar-img" src="https://placehold.co/600x600?text=<?= esc($comment['owner'][0]); ?>" />
+                                </div>
+                                <div class="ms-3">
+                                    <a class="text-dark" href="<?= route_to('detail_article_path', $comment['id_artikel']); ?>">
+                                        <h6 class="mb-1">
+                                            <?= esc($comment['komentar']); ?>
+                                        </h6>
+                                    </a>
+                                    <div class="small text-gray-500">
+                                        by
+                                        <a class="text-gray-500" href="#!"><?= esc($comment['owner'][0]); ?></a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-4">
-                        <div class="avatar avatar-lg">
-                            <img class="avatar-img" src="assets/img/illustrations/profiles/profile-2.png" />
-                        </div>
-                        <div class="ms-3">
-                            <a class="text-dark" href="detail.html">
-                                <h6 class="mb-1">
-                                    Kok saya tidak ada di daftar penerima ya?
-                                </h6>
-                            </a>
-                            <div class="small text-gray-500">
-                                by
-                                <a class="text-gray-500" href="#!">Dono Kasino</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-4">
-                        <div class="avatar avatar-lg">
-                            <img class="avatar-img" src="assets/img/illustrations/profiles/profile-3.png" />
-                        </div>
-                        <div class="ms-3">
-                            <a class="text-dark" href="detail.html">
-                                <h6 class="mb-1">
-                                    Sebenernya informasi ini kurang akurat, saya hanya meluruskan
-                                    saja
-                                </h6>
-                            </a>
-                            <div class="small text-gray-500">
-                                by
-                                <a class="text-gray-500" href="#!">Budiman Sudjatmiko</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-4">
-                        <div class="avatar avatar-lg">
-                            <img class="avatar-img" src="assets/img/illustrations/profiles/profile-4.png" />
-                        </div>
-                        <div class="ms-3">
-                            <a class="text-dark" href="detail.html">
-                                <h6 class="mb-1">
-                                    Kok saya tidak ada di daftar penerima ya?
-                                </h6>
-                            </a>
-                            <div class="small text-gray-500">
-                                by
-                                <a class="text-gray-500" href="#!">Kolby Brock</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="avatar avatar-lg">
-                            <img class="avatar-img" src="assets/img/illustrations/profiles/profile-5.png" />
-                        </div>
-                        <div class="ms-3">
-                            <a class="text-dark" href="detail.html">
-                                <h6 class="mb-1">
-                                    Kok saya tidak ada di daftar penerima ya?
-                                </h6>
-                            </a>
-                            <div class="small text-gray-500">
-                                by
-                                <a class="text-gray-500" href="#!">William Cole</a>
-                            </div>
-                        </div>
-                    </div>
+
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <p>Belum ada komentar.</p>
+                    <?php endif; ?>
+
+
                 </div>
             </div>
 
