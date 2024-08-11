@@ -10,16 +10,8 @@ service('auth')->routes($routes);
 $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
-$routes->get(
-    'artikel',
-    'Page::articles',
-    ['as' => 'articles_path']
-);
-$routes->get(
-    'artikel/(:segment)',
-    'ArtikelController::show/$1',
-    ['as' => 'detail_article_path']
-);
+$routes->get('artikel/(:num)', 'ArtikelController::show/$1');
+
 $routes->get(
     'kategori/(:segment)',
     'KategoriController::show/$1',
@@ -112,6 +104,16 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('dokumen/edit/(:segment)', 'DokumenController::edit/$1');
     $routes->post('dokumen/update/(:segment)', 'DokumenController::update/$1');
     $routes->get('dokumen/delete/(:segment)', 'DokumenController::delete/$1');
+
+    $routes->get('surat', 'SuratController::index');
+    $routes->get('surat/create/(:any)', 'SuratController::create/$1');
+    $routes->post('surat/store', 'SuratController::store');
+    $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2');
+    $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1');
+
+
+    $routes->resource('TwebSuratFormat');
+
 
     // $routes->get('Article', 'Article::index');
 });

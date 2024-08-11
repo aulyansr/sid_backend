@@ -83,7 +83,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="cetak-surat.html">
+                <a class="nav-link" href="/admin/surat">
                     <i class="fas fa-fw fa-print"></i>
                     <span>Cetak Surat</span></a>
             </li>
