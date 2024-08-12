@@ -3,10 +3,14 @@
 <?php
 $kategoriModel = new \App\Models\KategoriModel();
 $desa = new \App\Models\ConfigModel();
-// Assuming $kategoriModel is your model instance
+$menu = new \App\Models\MenuModel();
+
 $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
 $desa = $desa->find(1);
-// Fetch all categories
+$menus = $menu->where('tipe', 1)->findAll();
+
+
+
 ?>
 
 <head>
@@ -31,37 +35,21 @@ $desa = $desa->find(1);
                 <nav class="d-none d-md-block bg-color-1">
                     <div class="container">
                         <ul class="nav justify-content-end nav-header-sub">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="detail.html" role="button" aria-expanded="false">Profil Desa</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="detail.html">Sejarah Desa</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Potensi Desa</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="detail.html" role="button" aria-expanded="false">Pemerintahan Desa</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="detail.html">Visi Dan Misi</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Pemerintah Desa</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="detail.html" role="button" aria-expanded="false">Data Desa</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="detail.html">Data Administratif</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Pendidikan</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Pekerjaan</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Agama</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Jenis Kelamin</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Kelompok Umur</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Warga Negara</a></li>
-                                    <li><a class="dropdown-item" href="detail.html">Data Analisis</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="detail.html" class="nav-link link-light small">Lembaga
-                                    Masyarakat</a>
-                            </li>
-                            <li class="nav-item"><a href="detail.html" class="nav-link link-light small">Kontak</a></li>
+                            <?php foreach ($menus as $item) : ?>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="detail.html" role="button" aria-expanded="false"><?= $item['nama']; ?></a>
+                                    <ul class="dropdown-menu">
+                                        <?php
+                                        $submenus = $menu->where('parrent', $item['id'])->findAll();
+                                        ?>
+                                        <?php foreach ($submenus as $submenu) : ?>
+                                            <li><a class="dropdown-item" href="<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
+                                        <?php endforeach; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endforeach; ?>
+
                         </ul>
                     </div>
                 </nav>

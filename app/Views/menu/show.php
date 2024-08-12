@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Admin Web</h1>
+    <h1 class="h3 mb-2 text-gray-800"><?= $menu['nama']; ?></h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header border-bottom">
@@ -32,14 +32,12 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($menus as $index => $menu) : ?>
+                        <?php foreach ($children as $index => $menu) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="uibutton-group">
-                                        <a href="<?= site_url('admin/menu/' . esc($menu['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat
-                                        </a>
+
                                         <a href="/admin/menu/edit/<?= esc($menu['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
@@ -92,8 +90,7 @@
 
 <script>
     // Define the JavaScript variable with the URL from PHP
-    var newmenud = '/admin/menu/new/';
-
+    var newmenud = '/admin/menu/add/<?= $menu['id'] ?>';
 
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({

@@ -73,6 +73,9 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('menu', 'MenuController::index');
     $routes->get('menu/new', 'MenuController::new');
     $routes->post('menu/store', 'MenuController::store');
+    $routes->get('menu/(:num)', 'MenuController::show/$1');
+    $routes->get('menu/add/(:any)', 'MenuController::add_children/$1');
+    $routes->post('menu/store_children', 'MenuController::store_children');
     $routes->get('menu/edit/(:segment)', 'MenuController::edit/$1');
     $routes->post('menu/update/(:segment)', 'MenuController::update/$1');
     $routes->get('menu/delete/(:segment)', 'MenuController::delete/$1');

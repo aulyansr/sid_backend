@@ -24,7 +24,8 @@ class Page extends BaseController
 
     public function index()
     {
-        $data['artikels'] = $this->artikelModel->limit(5)->getArtikels();
+        $data['artikels'] = $this->artikelModel->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
+
         $data['headline'] = $this->artikelModel->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('tipe', 0)->findAll(1);
         $data['categories'] = $this->kategori->findAll();

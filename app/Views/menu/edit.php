@@ -9,12 +9,8 @@
             <div class="card mb-4">
                 <div class="card-header">Detail Menu</div>
                 <div class="card-body">
-                    <form action="<?= site_url('/admin/menu/update'); ?>" method="post" enctype="multipart/form-data">
+                    <form action="<?= site_url('/admin/menu/update/' . esc($menu['id'])); ?>" method="post" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
-
-                        <!-- Hidden field for ID -->
-                        <input type="hidden" name="id" value="<?= esc($menu['id']); ?>">
-
                         <!-- Form Row -->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (nama) -->
