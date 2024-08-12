@@ -99,6 +99,7 @@ class SuratController extends BaseController
         $templateProcessor->setValue('email', $desa['email_desa']);
         $templateProcessor->setValue('web', base_url());
         $templateProcessor->setValue('nomorsurat', $surat['nomor_surat']);
+        $templateProcessor->setValue('nomor_surat', $surat['nomor_surat']);
         $templateProcessor->setValue('nama', $surat['nama']);
         $templateProcessor->setValue('nik', $surat['nik']);
         $templateProcessor->setValue('keperluan', $surat['keperluan']);

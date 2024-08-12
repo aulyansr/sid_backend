@@ -17,7 +17,7 @@
 
                         <!-- Form Group (nama_surat) -->
                         <div class="mb-3">
-                            <label class="small mb-1" for="inputNomorSurat">Nama Surat</label>
+                            <label class="small mb-1" for="inputNomorSurat">Nomor Surat</label>
                             <input class="form-control" id="inputNomorSurat" name="nomor_surat" type="text" placeholder="Nomor Surat" value="<?= old('nomor_surat'); ?>" required>
                         </div>
 
