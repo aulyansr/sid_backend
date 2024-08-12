@@ -9,37 +9,34 @@
             <div class="card mb-4">
                 <div class="card-header">Detail Menu</div>
                 <div class="card-body">
-                    <form action="<?= site_url('/admin/menu/update'); ?>" method="post" enctype="multipart/form-data">
+                    <form action="<?= site_url('/admin/menu/store'); ?>" method="post" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
-
-                        <!-- Hidden field for ID -->
-                        <input type="hidden" name="id" value="<?= esc($menu['id']); ?>">
 
                         <!-- Form Row -->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (nama) -->
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="inputNama">Nama</label>
-                                <input class="form-control" id="inputNama" name="nama" type="text" placeholder="Nama Menu" value="<?= old('nama', esc($menu['nama'])); ?>" required>
+                                <input class="form-control" id="inputNama" name="nama" type="text" placeholder="Nama Menu" value="<?= old('nama'); ?>" required>
                             </div>
                             <!-- Form Group (link) -->
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="inputLink">Link</label>
-                                <input class="form-control" id="inputLink" name="link" type="text" placeholder="Link Menu" value="<?= old('link', esc($menu['link'])); ?>" required>
+                                <input class="form-control" id="inputLink" name="link" type="text" placeholder="Link Menu" value="<?= old('link'); ?>" required>
                             </div>
 
-                            <!-- Form Group (enabled) -->
+
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="inputEnabled">Enabled</label>
                                 <select class="form-control" id="inputEnabled" name="enabled" required>
-                                    <option value="1" <?= old('enabled', $menu['enabled']) == '1' ? 'selected' : ''; ?>>Enabled</option>
-                                    <option value="0" <?= old('enabled', $menu['enabled']) == '0' ? 'selected' : ''; ?>>Disabled</option>
+                                    <option value="1" <?= old('enabled') == '1' ? 'selected' : ''; ?>>Enabled</option>
+                                    <option value="0" <?= old('enabled') == '0' ? 'selected' : ''; ?>>Disabled</option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Submit button -->
-                        <button class="btn btn-primary" type="submit">Update Menu</button>
+                        <button class="btn btn-primary" type="submit">Add Menu</button>
                     </form>
                 </div>
             </div>
