@@ -65,14 +65,14 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login ">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Penduduk</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables-statistik.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>Statistik</span></a>
             </li>
@@ -90,14 +90,14 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="analisis.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-file-medical-alt"></i>
                     <span>Analisis</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="program-bantuan.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>Program Bantuan</span></a>
             </li>
