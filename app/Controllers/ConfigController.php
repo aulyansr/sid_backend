@@ -34,10 +34,14 @@ class ConfigController extends BaseController
 
     public function update($id)
     {
-
-
+        // Retrieve the ID from the request
         $id = $this->request->getPost('id');
 
+        if (empty($id)) {
+            return redirect()->back()->withInput()->with('errors', ['error' => 'Invalid ID']);
+        }
+
+        $logopath = null;
         $image = $this->request->getFile('logo');
         if ($image && $image->isValid()) {
             $validation = \Config\Services::validation();
@@ -59,7 +63,7 @@ class ConfigController extends BaseController
             $logopath = 'uploads/' . $newName;
         }
 
-
+        // Prepare data for update
         $data = [
             'nama_desa' => $this->request->getPost('nama_desa'),
             'kode_desa' => $this->request->getPost('kode_desa'),
@@ -85,13 +89,12 @@ class ConfigController extends BaseController
             'gapi_key' => $this->request->getPost('gapi_key'),
             'alamat_kantor' => $this->request->getPost('alamat_kantor'),
             'g_analytic' => $this->request->getPost('g_analytic'),
-            'logo' => $logopath
         ];
 
-        if (empty($id)) {
-            return redirect()->back()->withInput()->with('errors', ['error' => 'Invalid ID']);
+        // If a new logo was uploaded, add the logo path to the data array
+        if ($logopath !== null) {
+            $data['logo'] = $logopath;
         }
-
 
         // Update the record in the database
         if ($this->configModel->update($id, $data)) {
@@ -100,6 +103,7 @@ class ConfigController extends BaseController
             return redirect()->back()->withInput()->with('errors', ['error' => 'Update failed']);
         }
     }
+
 
     // If not a POST request, redirect to edit page
 
