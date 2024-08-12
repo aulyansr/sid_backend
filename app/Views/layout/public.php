@@ -36,20 +36,22 @@ $menus = $menu->where('tipe', 1)->findAll();
                     <div class="container">
                         <ul class="nav justify-content-end nav-header-sub">
                             <?php foreach ($menus as $item) : ?>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="detail.html" role="button" aria-expanded="false"><?= $item['nama']; ?></a>
-                                    <ul class="dropdown-menu">
-                                        <?php
-                                        $submenus = $menu->where('parrent', $item['id'])->findAll();
-                                        ?>
-                                        <?php foreach ($submenus as $submenu) : ?>
-                                            <li><a class="dropdown-item" href="<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
-                                        <?php endforeach; ?>
-
-                                    </ul>
-                                </li>
+                                <?php if ($item['link_tipe'] == 1) : ?>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><?= $item['nama']; ?></a>
+                                        <ul class="dropdown-menu">
+                                            <?php
+                                            $submenus = $menu->where('parrent', $item['id'])->findAll();
+                                            ?>
+                                            <?php foreach ($submenus as $submenu) : ?>
+                                                <li><a class="dropdown-item" href="<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </li>
+                                <?php else : ?>
+                                    <li class="nav-item"><a href="<?= $item['link']; ?>" class="nav-link link-light small"><?= $item['nama']; ?></a></li>
+                                <?php endif; ?>
                             <?php endforeach; ?>
-
                         </ul>
                     </div>
                 </nav>

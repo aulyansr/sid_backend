@@ -32,25 +32,25 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($children as $index => $menu) : ?>
+                        <?php foreach ($children as $index => $item) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="uibutton-group">
 
-                                        <a href="/admin/menu/edit/<?= esc($menu['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                        <a href="/admin/menu/edit/<?= esc($item['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/menu/delete/<?= esc($menu['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
+                                        <a href="/admin/menu/delete/<?= esc($item['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
 
                                     </div>
                                 </td>
 
-                                <td><?= esc($menu['nama']); ?></td>
+                                <td><?= esc($item['nama']); ?></td>
                                 <td>
-                                    <?php if ($menu['enabled']) : ?>
+                                    <?php if ($item['enabled']) : ?>
                                         <span class="badge badge-success">Active</span>
                                     <?php else : ?>
                                         <span class="badge badge-danger">Not Active</span>
