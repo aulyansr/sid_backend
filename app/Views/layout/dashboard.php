@@ -24,6 +24,16 @@
 
 </head>
 
+<?php
+
+$desa = new \App\Models\ConfigModel();
+$desa = $desa->find(1);
+
+
+
+
+?>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -36,10 +46,10 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
                 <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
-                    <img src="/assets/img/gkk.png" height="50px" alt="Logo Gunungkidul">
+                    <img src="<?= base_url(esc($desa['logo'])); ?>" height="50px" alt="Logo Gunungkidul">
                 </div>
                 <div class="mx-3 text-sm align-left">
-                    <small>SID Kalurahan Tawarsari</small>
+                    <small>SID Kalurahan <?= $desa['nama_desa']; ?></small>
                     <br />
                     <small></small>
                 </div>
@@ -60,26 +70,50 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Data Populasi
+                Data
             </div>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login ">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Penduduk</span></a>
+                    <span>Data Penduduk
+                    </span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login">
                     <i class="fas fa-fw fa-chart-bar"></i>
-                    <span>Statistik</span></a>
+                    <span>Statistik & Analisis
+                    </span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login">
+                    <i class="fas fa-fw fa-hands-helping"></i>
+                    <span>Program Bantuan</span></a>
             </li>
 
             <div class="sidebar-heading">
-                Administrasi
+                ARTIKEL & BERITA
             </div>
+
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/artikel">
+                    <i class="fas fa-fw fa-user-lock"></i>
+                    <span>
+                        Kelola Artikel
+                    </span>
+                </a>
+            </li>
+
+            <div class="sidebar-heading">
+                PERSURATAN
+            </div>
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
@@ -88,23 +122,17 @@
                     <span>Cetak Surat</span></a>
             </li>
 
-            <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-file-medical-alt"></i>
-                    <span>Analisis</span></a>
+                <a class="nav-link" href="/admin/surat">
+                    <i class="fas fa-fw fa-print"></i>
+                    <span>Riwayat Surat</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-hands-helping"></i>
-                    <span>Program Bantuan</span></a>
-            </li>
 
             <?php if (auth()->user()->inGroup('superadmin')) : ?>
                 <div class="sidebar-heading">
-                    Manajemen Pengguna
+                    Setting
                 </div>
 
 
@@ -112,29 +140,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= route_to('users_path') ?>">
                         <i class="fas fa-fw fa-id-card"></i>
-                        <span>Pengguna</span></a>
+                        <span>Manajemen Pengguna</span></a>
                 </li>
-
-            <?php endif; ?>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/artikel">
-                    <i class="fas fa-fw fa-user-lock"></i>
-                    <span>Admin Web</span></a>
-            </li>
-
-            <?php if (auth()->user()->inGroup('superadmin')) : ?>
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/config/edit/1">
                         <i class="fas fa-cogs fa-sm fa-fw"></i>
 
-                        <span>Configurasi Web</span></a>
+                        <span>Konfigurasi  Web</span></a>
                 </li>
 
+
             <?php endif; ?>
+
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
