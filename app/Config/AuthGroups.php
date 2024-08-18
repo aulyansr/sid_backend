@@ -69,14 +69,38 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'beta.access'         => 'Can access beta-level features',
+        // CRUD operations for Users
+        'users.access' => 'Akses User',
+        'users.create' => 'Dapat membuat User',
+        'users.read'   => 'Dapat melihat User',
+        'users.update' => 'Dapat memperbarui User',
+        'users.delete' => 'Dapat menghapus User',
+        'users.permission' => 'Dapat mengatur izin User',
+
+        // CRUD operations for Articles
+        'articles.access' => 'Akses Artikel',
+        'articles.create' => 'Dapat membuat Artikel',
+        'articles.read'   => 'Dapat melihat Artikel',
+        'articles.update' => 'Dapat memperbarui Artikel',
+        'articles.delete' => 'Dapat menghapus Artikel',
+
+        // CRUD operations for Gallery
+        'galleries.access' => 'Akses Galeri',
+        'galleries.create' => 'Dapat membuat Galeri',
+        'galleries.read'   => 'Dapat melihat Galeri',
+        'galleries.update' => 'Dapat memperbarui Galeri',
+        'galleries.delete' => 'Dapat menghapus Galeri',
+
+        // CRUD operations for Menus
+        'menus.access' => 'Akses Menu',
+        'menus.create' => 'Dapat membuat Menu',
+        'menus.read'   => 'Dapat melihat Menu',
+        'menus.update' => 'Dapat memperbarui Menu',
+        'menus.delete' => 'Dapat menghapus Menu',
+
+        'comments.moderation ' => 'Moderasi Komentar',
     ];
+
 
     /**
      * --------------------------------------------------------------------
@@ -88,16 +112,13 @@ class AuthGroups extends ShieldAuthGroups
      */
     public array $matrix = [
         'superadmin' => [
-            'Dashboard.*',
+            'articles.*',
+            'galleries.*',
+            'menus.*',
+            'config.*',
             'users.*',
         ],
-        'admin' => [
-            'users.create',
-            'users.edit',
-            'users.delete'
-        ],
-        'op_desa' => [],
-        'user' => [],
+
 
     ];
 }

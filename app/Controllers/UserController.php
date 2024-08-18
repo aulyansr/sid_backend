@@ -69,11 +69,34 @@ class UserController extends BaseController
         ];
 
         try {
+            // Create and save the user
             $user = new User($data);
-            $users->save($user);
-            $users = $users->findById($users->getInsertID());
-            $users->addGroup($this->request->getVar('group'));
-            return redirect()->to('/admin/users')->with('message', 'User created successfully.');
+            if ($users->save($user)) {
+                $savedUser = $users->findById($users->getInsertID());
+
+                // Add the user to the specified group
+                $savedUser->addGroup($this->request->getVar('group'));
+
+                // Assign "Articles" and "Galleries" permissions
+                $config = config('AuthGroups');
+                $permissionsConfig = $config->permissions;
+
+                foreach ($permissionsConfig as $permissionKey => $description) {
+                    if (
+                        strpos($permissionKey, 'articles.') === 0 ||
+                        strpos($permissionKey, 'galleries.') === 0 ||
+                        strpos($permissionKey, 'comments.') === 0 ||
+                        strpos($permissionKey, 'menus.') === 0
+                    ) {
+                        $savedUser->addPermission($permissionKey);
+                    }
+                }
+
+
+                return redirect()->to('/admin/users')->with('message', 'User created successfully.');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Failed to save the user.');
+            }
         } catch (ShieldException $e) {
             return redirect()->back()->withInput()->with('error', "Error during user creation: " . $e->getMessage());
         }
@@ -145,6 +168,29 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             session()->setFlashdata('error', 'Error deleting user: ' . $e->getMessage());
         }
+        return redirect()->to('/admin/users');
+    }
+
+    public function permission($id)
+    {
+
+        $config = config('AuthGroups');
+        $data['user'] = $this->userModel->find($id);
+        $data['permissions'] = $config->permissions;
+
+
+        return view('users/permission', $data);
+    }
+
+    public function add_permission($id)
+    {
+
+        $user = $this->userModel->find($id);
+        $permission = $this->request->getPost('permissions') ?? [];
+        $user->syncPermissions(...$permission);
+
+
+        // Redirect back with a success message
         return redirect()->to('/admin/users');
     }
 }

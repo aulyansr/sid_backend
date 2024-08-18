@@ -47,21 +47,43 @@ $routes->post('/komentar/store', 'KomentarController::store');
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
     $routes->get('dashboard', 'Dashboard::index');
-    $routes->group('', ['filter' => 'group:superadmin'], function ($routes) {
-        $routes->get('users', 'UserController::index', ['as' => 'users_path']);
-        $routes->get('users/new', 'UserController::new', ['as' => 'new_users_path']);
-        $routes->post('users/store', 'UserController::store');
-        $routes->get('users/edit/(:segment)', 'UserController::edit/$1', ['as' => 'edit_user_path']);
-        $routes->post('users/update', 'UserController::update');
-        $routes->get('users/delete/(:segment)', 'UserController::delete/$1', ['as' => 'delete_user_path']);
-    });
 
-    $routes->get('config', 'ConfigController::index', ['as' => 'config_path']);
-    $routes->get('config/new', 'ConfigController::new', ['as' => 'new_config_path']);
-    $routes->post('config/store', 'ConfigController::store');
-    $routes->get('config/edit/(:segment)', 'ConfigController::edit/$1', ['as' => 'edit_config_path']);
-    $routes->post('config/update/(:segment)', 'ConfigController::update/$1');
-    $routes->get('config/delete/(:segment)', 'ConfigController::delete/$1', ['as' => 'delete_config_path']);
+    $routes->get('users', 'UserController::index', ['as' => 'users_path', 'filter' => 'permission:users.access']);
+    $routes->get('users/new', 'UserController::new', ['as' => 'new_users_path', 'filter' => 'permission:users.create']);
+    $routes->post('users/store', 'UserController::store', ['filter' => 'permission:users.create']);
+    $routes->get('users/edit/(:segment)', 'UserController::edit/$1', ['as' => 'edit_user_path', 'filter' => 'permission:users.update']);
+    $routes->post('users/update', 'UserController::update', ['filter' => 'permission:users.update']);
+    $routes->get('users/delete/(:segment)', 'UserController::delete/$1', ['as' => 'delete_user_path', 'filter' => 'permission:users.delete']);
+    $routes->get('users/permissions/(:segment)', 'UserController::permission/$1', ['as' => 'user_permission_view', 'filter' => 'permission:users.permission']);
+    $routes->post('users/add-permission/(:segment)', 'UserController::add_permission/$1', ['as' => 'user_permission_add', 'filter' => 'permission:users.permission']);
+
+    $routes->get('config', 'ConfigController::index', [
+        'as' => 'config_path',
+        'filter' => 'permission:config.access'
+    ]);
+
+    $routes->get('config/new', 'ConfigController::new', [
+        'as' => 'new_config_path',
+        'filter' => 'permission:config.create'
+    ]);
+
+    $routes->post('config/store', 'ConfigController::store', [
+        'filter' => 'permission:config.create'
+    ]);
+
+    $routes->get('config/edit/(:segment)', 'ConfigController::edit/$1', [
+        'as' => 'edit_config_path',
+        'filter' => 'permission:config.update'
+    ]);
+
+    $routes->post('config/update/(:segment)', 'ConfigController::update/$1', [
+        'filter' => 'permission:config.update'
+    ]);
+
+    $routes->get('config/delete/(:segment)', 'ConfigController::delete/$1', [
+        'as' => 'delete_config_path',
+        'filter' => 'permission:config.delete'
+    ]);;
 
     $routes->get('media_sosial', 'MediaSosialController::index');
     $routes->get('media_sosial/new', 'MediaSosialController::new');
@@ -70,15 +92,18 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('media_sosial/update/(:segment)', 'MediaSosialController::update/$1');
     $routes->get('media_sosial/delete/(:segment)', 'MediaSosialController::delete/$1');
 
-    $routes->get('menu', 'MenuController::index');
-    $routes->get('menu/new', 'MenuController::new');
-    $routes->post('menu/store', 'MenuController::store');
-    $routes->get('menu/(:num)', 'MenuController::show/$1');
-    $routes->get('menu/add/(:any)', 'MenuController::add_children/$1');
-    $routes->post('menu/store_children', 'MenuController::store_children');
-    $routes->get('menu/edit/(:segment)', 'MenuController::edit/$1');
-    $routes->post('menu/update/(:segment)', 'MenuController::update/$1');
-    $routes->get('menu/delete/(:segment)', 'MenuController::delete/$1');
+    // Routes for Menu
+    $routes->group('', ['filter' => 'permission:menu.access'], function ($routes) {
+        $routes->get('menu', 'MenuController::index');
+        $routes->get('menu/new', 'MenuController::new', ['filter' => 'permission:menu.create']);
+        $routes->post('menu/store', 'MenuController::store', ['filter' => 'permission:menu.create']);
+        $routes->get('menu/(:num)', 'MenuController::show/$1', ['filter' => 'permission:menu.read']);
+        $routes->get('menu/add/(:any)', 'MenuController::add_children/$1', ['filter' => 'permission:menu.create']);
+        $routes->post('menu/store_children', 'MenuController::store_children', ['filter' => 'permission:menu.create']);
+        $routes->get('menu/edit/(:segment)', 'MenuController::edit/$1', ['filter' => 'permission:menu.update']);
+        $routes->post('menu/update/(:segment)', 'MenuController::update/$1', ['filter' => 'permission:menu.update']);
+        $routes->get('menu/delete/(:segment)', 'MenuController::delete/$1', ['filter' => 'permission:menu.delete']);
+    });
 
     $routes->get('setting_modul', 'SettingModulController::index');
     $routes->get('setting_modul/new', 'SettingModulController::new');
@@ -93,23 +118,28 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('kategori/edit/(:segment)', 'KategoriController::edit/$1');
     $routes->post('kategori/update/(:segment)', 'KategoriController::update/$1');
     $routes->get('kategori/delete/(:segment)', 'KategoriController::delete/$1');
+    // Routes for Articles
+    $routes->group('', ['filter' => 'permission:articles.access'], function ($routes) {
+        $routes->get('artikel', 'ArtikelController::index');
+        $routes->get('artikel/new', 'ArtikelController::new', ['filter' => 'permission:articles.create']);
+        $routes->post('artikel/store', 'ArtikelController::store', ['filter' => 'permission:articles.create']);
+        $routes->get('artikel/edit/(:segment)', 'ArtikelController::edit/$1', ['filter' => 'permission:articles.update']);
+        $routes->post('artikel/update/(:segment)', 'ArtikelController::update/$1', ['filter' => 'permission:articles.update']);
+        $routes->get('artikel/delete/(:segment)', 'ArtikelController::delete/$1', ['filter' => 'permission:articles.delete']);
+    });
 
-    $routes->get('artikel', 'ArtikelController::index');
-    $routes->get('artikel/new', 'ArtikelController::new');
-    $routes->post('artikel/store', 'ArtikelController::store');
+    // Routes for Gallery
+    $routes->group('', ['filter' => 'permission:galleries.access'], function ($routes) {
+        $routes->get('gambar-gallery', 'GambarGalleryController::index');
+        $routes->get('gambar-gallery/(:num)', 'GambarGalleryController::view/$1', ['filter' => 'permission:galleries.read']);
+        $routes->get('gambar-gallery/new', 'GambarGalleryController::new', ['filter' => 'permission:galleries.create']);
+        $routes->get('gambar-gallery/add-image', 'GambarGalleryController::add_image', ['filter' => 'permission:galleries.create']);
+        $routes->post('gambar-gallery/store', 'GambarGalleryController::store', ['filter' => 'permission:galleries.create']);
+        $routes->get('gambar-gallery/edit/(:num)', 'GambarGalleryController::edit/$1', ['filter' => 'permission:galleries.update']);
+        $routes->post('gambar-gallery/update/(:num)', 'GambarGalleryController::update/$1', ['filter' => 'permission:galleries.update']);
+        $routes->get('gambar-gallery/delete/(:num)', 'GambarGalleryController::delete/$1', ['filter' => 'permission:galleries.delete']);
+    });
 
-    $routes->get('artikel/edit/(:segment)', 'ArtikelController::edit/$1');
-    $routes->post('artikel/update/(:segment)', 'ArtikelController::update/$1');
-    $routes->get('artikel/delete/(:segment)', 'ArtikelController::delete/$1');
-
-    $routes->get('gambar-gallery', 'GambarGalleryController::index');
-    $routes->get('gambar-gallery/(:num)', 'GambarGalleryController::view/$1');
-    $routes->get('gambar-gallery/new', 'GambarGalleryController::new');
-    $routes->get('gambar-gallery/add-image/', 'GambarGalleryController::add_image');
-    $routes->post('gambar-gallery/store', 'GambarGalleryController::store');
-    $routes->get('gambar-gallery/edit/(:num)', 'GambarGalleryController::edit/$1');
-    $routes->post('gambar-gallery/update/(:num)', 'GambarGalleryController::update/$1');
-    $routes->get('gambar-gallery/delete/(:num)', 'GambarGalleryController::delete/$1');
 
     $routes->get('dokumen', 'DokumenController::index');
     $routes->get('dokumen/new', 'DokumenController::new');
@@ -127,7 +157,9 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('komentar', 'KomentarController::index');
     $routes->get('komentar/create', 'KomentarController::create');
     $routes->post('komentar/store', 'KomentarController::store');
-    $routes->get('komentar/disable/(:num)', 'KomentarController::disable/$1');
+    $routes->get('komentar/disable/(:num)', 'KomentarController::disable/$1', [
+        'filter' => 'permission:comments.moderation'
+    ]);
     $routes->get('komentar/delete/(:num)', 'KomentarController::delete/$1');
 
 

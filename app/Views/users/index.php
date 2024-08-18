@@ -45,8 +45,8 @@
                                         <a href="/admin/users/delete/<?= esc($user->id); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-                                        <a href="/admin/users/view/<?= esc($user->id); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-lock"></i>
+                                        <a href="/admin/users/permissions/<?= esc($user->id); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                            <i class="fa fa-lock"></i> Perizinan
                                         </a>
                                     </div>
                                 </td>
