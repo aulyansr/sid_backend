@@ -18,6 +18,8 @@
     <!-- dropify -->
     <link href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Custom styles for this template-->
     <link href="/assets/css/admin/sb-admin-2.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/gkk.png" type="image/x-icon">
@@ -75,7 +77,7 @@ $desa = $desa->find(1);
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login ">
+                <a class="nav-link" href="/admin/penduduk">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Penduduk
                     </span></a>
@@ -149,6 +151,13 @@ $desa = $desa->find(1);
                         <i class="fas fa-cogs fa-sm fa-fw"></i>
 
                         <span>Konfigurasi  Web</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/pengurus">
+                        <i class="fas fa-user-shield"></i>
+
+                        <span>Konfigurasi  Pemerintahan</span></a>
                 </li>
 
 
@@ -449,6 +458,8 @@ $desa = $desa->find(1);
     <script src="/assets/js/admin/vendors/chart.js/Chart.min.js"></script>
     <!-- dropify -->
     <script src=" https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
     <?php $this->renderSection('script'); ?>

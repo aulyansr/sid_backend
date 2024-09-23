@@ -46,6 +46,12 @@ $routes->post('/komentar/store', 'KomentarController::store');
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
+    $routes->get('ajax/pamong/search', 'AjaxController::searchPamong');
+    $routes->get('ajax/penduduk/search', 'AjaxController::searchPenduduk');
+    $routes->get('ajax/getRW/(:num)', 'AjaxController::getRW/$1');
+    $routes->get('ajax/getRT/(:num)', 'AjaxController::getRT/$1');
+
+
     $routes->get('dashboard', 'Dashboard::index');
 
     $routes->get('users', 'UserController::index', ['as' => 'users_path', 'filter' => 'permission:users.access']);
@@ -93,16 +99,16 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('media_sosial/delete/(:segment)', 'MediaSosialController::delete/$1');
 
     // Routes for Menu
-    $routes->group('', ['filter' => 'permission:menu.access'], function ($routes) {
+    $routes->group('', ['filter' => 'permission:menus.access'], function ($routes) {
         $routes->get('menu', 'MenuController::index');
-        $routes->get('menu/new', 'MenuController::new', ['filter' => 'permission:menu.create']);
-        $routes->post('menu/store', 'MenuController::store', ['filter' => 'permission:menu.create']);
-        $routes->get('menu/(:num)', 'MenuController::show/$1', ['filter' => 'permission:menu.read']);
-        $routes->get('menu/add/(:any)', 'MenuController::add_children/$1', ['filter' => 'permission:menu.create']);
-        $routes->post('menu/store_children', 'MenuController::store_children', ['filter' => 'permission:menu.create']);
-        $routes->get('menu/edit/(:segment)', 'MenuController::edit/$1', ['filter' => 'permission:menu.update']);
-        $routes->post('menu/update/(:segment)', 'MenuController::update/$1', ['filter' => 'permission:menu.update']);
-        $routes->get('menu/delete/(:segment)', 'MenuController::delete/$1', ['filter' => 'permission:menu.delete']);
+        $routes->get('menu/new', 'MenuController::new', ['filter' => 'permission:menus.create']);
+        $routes->post('menu/store', 'MenuController::store', ['filter' => 'permission:menus.create']);
+        $routes->get('menu/(:num)', 'MenuController::show/$1', ['filter' => 'permission:menus.read']);
+        $routes->get('menu/add/(:any)', 'MenuController::add_children/$1', ['filter' => 'permission:menus.create']);
+        $routes->post('menu/store_children', 'MenuController::store_children', ['filter' => 'permission:menus.create']);
+        $routes->get('menu/edit/(:segment)', 'MenuController::edit/$1', ['filter' => 'permission:menus.update']);
+        $routes->post('menu/update/(:segment)', 'MenuController::update/$1', ['filter' => 'permission:menus.update']);
+        $routes->get('menu/delete/(:segment)', 'MenuController::delete/$1', ['filter' => 'permission:menus.delete']);
     });
 
     $routes->get('setting_modul', 'SettingModulController::index');
@@ -165,6 +171,16 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
 
     $routes->resource('TwebSuratFormat');
+    $routes->resource('pengurus', ['controller' => 'DesaPamong', 'placeholder' => '(:num)']);
+    $routes->resource('wilayah', ['controller' => 'ClusterDesa', 'placeholder' => '(:num)']);
+    $routes->get('wilayah/add-rw/(:any)', 'ClusterDesa::new_rw/$1');
+    $routes->get('wilayah/rw/(:any)', 'ClusterDesa::index_rw/$1');
+    $routes->get('wilayah/add-rt/(:any)', 'ClusterDesa::new_rt/$1');
+    $routes->resource('penduduk', ['controller' => 'Penduduk', 'placeholder' => '(:num)']);
+
+
+
+
 
 
     // $routes->get('Article', 'Article::index');

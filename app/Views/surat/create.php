@@ -24,13 +24,9 @@
                         <!-- Form Group (nik) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputNIK">NIK</label>
-                            <input class="form-control" id="inputNIK" name="nik" type="text" placeholder="NIK" value="<?= old('nik'); ?>" required>
-                        </div>
-
-                        <!-- Form Group (nama) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputNama">Nama</label>
-                            <input class="form-control" id="inputNama" name="nama" type="text" placeholder="Nama" value="<?= old('nama'); ?>" required>
+                            <select class="form-control" id="nik" name="nik" required>
+                                <option value="">Pilih Penduduk</option>
+                            </select>
                         </div>
 
 
@@ -49,4 +45,29 @@
         </div>
     </div>
 </div>
+<?= $this->endSection(); ?>
+<?= $this->section('script'); ?>
+<script>
+    $(document).ready(function() {
+        $('#nik').select2({
+            ajax: {
+                url: '<?= base_url('admin/ajax/penduduk/search'); ?>',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.nik, // ID from penduduk
+                                text: item.nik + ' - ' + item.nama // Display NIK and nama
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1 // Minimum characters to trigger search
+        });
+    });
+</script>
 <?= $this->endSection(); ?>

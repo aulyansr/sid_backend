@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\SuratModel;
 use App\Models\ConfigModel;
+use App\Models\TwebPenduduk;
 use CodeIgniter\HTTP\ResponseInterface;
 use PhpOffice\PhpWord\PhpWord;
 use Dompdf\Dompdf;
@@ -14,12 +15,14 @@ class SuratController extends BaseController
 {
     protected $suratModel;
     protected $configModel;
+    protected $pendudukModel;
 
     public function __construct()
     {
         helper('date');
         $this->suratModel = new SuratModel();
         $this->configModel = new ConfigModel();
+        $this->pendudukModel = new TwebPenduduk();
     }
 
     public function index()
@@ -39,7 +42,7 @@ class SuratController extends BaseController
         // Get data from request
         $data = [
             'nomor_surat' => $this->request->getPost('nomor_surat'),
-            'nama' => $this->request->getPost('nama'),
+            'nama' => $this->request->getPost('nik'),
             'nik' => $this->request->getPost('nik'),
             'jenis_surat' => $this->request->getPost('jenis_surat'),
             'keperluan' => $this->request->getPost('keperluan'),
@@ -84,6 +87,7 @@ class SuratController extends BaseController
         } else {
             $templatePath = 'assets/template/template_keterangan.docx';
         }
+        $penduduk = $this->pendudukModel->getAllAttributes()->where('nik', $surat['nik'])->first();
 
         $phpWord = \PhpOffice\PhpWord\IOFactory::load($templatePath);
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
@@ -100,8 +104,15 @@ class SuratController extends BaseController
         $templateProcessor->setValue('web', base_url());
         $templateProcessor->setValue('nomorsurat', $surat['nomor_surat']);
         $templateProcessor->setValue('nomor_surat', $surat['nomor_surat']);
-        $templateProcessor->setValue('nama', $surat['nama']);
-        $templateProcessor->setValue('nik', $surat['nik']);
+        $templateProcessor->setValue('nama', $penduduk['nama']);
+        $templateProcessor->setValue('nik', $penduduk['nik']);
+        $templateProcessor->setValue('tempat_lahir', $penduduk['tempatlahir']);
+        $templateProcessor->setValue('sex', $penduduk['sex_nama']);
+        $templateProcessor->setValue('pekerjaan', $penduduk['pekerjaan_nama']);
+        $templateProcessor->setValue('status_kawin', $penduduk['kawin_nama']);
+        $templateProcessor->setValue('pendidikan', $penduduk['pendidikan_nama']);
+        $templateProcessor->setValue('agama', $penduduk['agama_nama']);
+        $templateProcessor->setValue('alamat_sekarang', $penduduk['alamat_sekarang']);
         $templateProcessor->setValue('keperluan', $surat['keperluan']);
         $templateProcessor->setValue('tanggal', formatDateIndonesian(date('Y-m-d')));
         $templateProcessor->setValue('nama_kades', $desa['nama_kepala_desa']);
