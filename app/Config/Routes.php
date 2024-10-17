@@ -177,6 +177,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('wilayah/rw/(:any)', 'ClusterDesa::index_rw/$1');
     $routes->get('wilayah/add-rt/(:any)', 'ClusterDesa::new_rt/$1');
     $routes->resource('penduduk', ['controller' => 'Penduduk', 'placeholder' => '(:num)']);
+    $routes->resource('keluarga', ['controller' => 'Keluarga', 'placeholder' => '(:num)']);
 
 
 

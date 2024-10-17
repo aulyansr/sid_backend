@@ -66,6 +66,9 @@ class Penduduk extends BaseController
     public function create()
     {
         $postData = $this->request->getPost();
+        $postData['dokumen_pasport'] = !empty($postData['dokumen_pasport']) ? $postData['dokumen_pasport'] : null;
+        $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
+
 
         // Validate the data using the model's validation rules
         if (!$this->pendudukModel->save($postData)) {
@@ -108,8 +111,18 @@ class Penduduk extends BaseController
 
     public function update($id)
     {
-        $this->pendudukModel->update($id, $this->request->getPost());
-        return redirect()->to('/admin/penduduk');
+        // Get the posted data
+        $postData = $this->request->getPost();
+
+        // Handle nullable fields
+        $postData['dokumen_pasport'] = !empty($postData['dokumen_pasport']) ? $postData['dokumen_pasport'] : null;
+        $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
+
+        // Update the record in the database
+        $this->pendudukModel->update($id, $postData);
+
+        // Redirect to the penduduk list
+        return redirect()->to('/admin/penduduk')->with('success', 'Data has been updated successfully.');
     }
 
     public function delete($id)
