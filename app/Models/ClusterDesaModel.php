@@ -29,16 +29,30 @@ class ClusterDesaModel extends Model
 
     public function getDusun()
     {
-        return $this->where('parent', null)->findAll(); // Adjust according to your database structure
+        return $this->where('parent', null)->findAll(); // Get all dusun without a parent
     }
 
     public function getRW($dusunId)
     {
-        return $this->where('parent', $dusunId)->findAll(); // Adjust according to your database structure
+        return $this->where('parent', $dusunId)->findAll(); // Get all RW under a given dusun
     }
 
     public function getRT($rwId)
     {
-        return $this->where('parent', $rwId)->findAll(); // Adjust according to your database structure
+        return $this->where('parent', $rwId)->findAll(); // Get all RT under a given RW
+    }
+
+    public function parentRW($rtId)
+    {
+        $rt = $this->find($rtId);
+        $rw = $this->find($rt['parent']);
+        return $rw; // Return the parent RW of a given RT
+    }
+
+    public function parentDusun($rwId)
+    {
+        $rw = $this->find($rwId);
+        $dusun = $this->find($rw['parent']);
+        return $dusun; // Return the parent Dusun of a given RW
     }
 }

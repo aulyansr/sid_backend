@@ -276,7 +276,7 @@
                                 <!-- Form Group (RT) -->
                                 <div class="col-md-12 mb-3">
                                     <label class="small mb-1" for="inputRT">RT</label>
-                                    <select class="form-control" id="inputRT" name="cluster_id" required disabled>
+                                    <select class="form-control" id="inputRT" name="id_cluster" required disabled>
                                         <option value="">Pilih RT</option>
                                     </select>
                                 </div>

@@ -5,9 +5,11 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\TwebPenduduk;
 use App\Models\ClusterDesaModel;
+use App\Models\SuratModel;
 
 class Penduduk extends BaseController
 {
+    protected $suratModel;
     protected $pendudukModel;
     protected $wilayahModel;
     protected $db;
@@ -16,6 +18,7 @@ class Penduduk extends BaseController
     {
         // Initialize the model
         $this->pendudukModel = new TwebPenduduk();
+        $this->suratModel = new SuratModel();
         $this->wilayahModel = new ClusterDesaModel();
         // Initialize the database connection
         $this->db = \Config\Database::connect();
@@ -83,6 +86,40 @@ class Penduduk extends BaseController
 
         // If validation passes, redirect to the penduduk list
         return redirect()->to('/admin/penduduk')->with('success', 'Data has been saved successfully.');
+    }
+
+    public function show($id)
+    {
+        // Fetch the specific penduduk attributes using the getAllAttributes method
+        $penduduk = $this->pendudukModel->getAllAttributes()->find($id);
+
+        // Check if penduduk was found
+        if (!$penduduk) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Penduduk not found');
+        }
+
+        // Fetch the wilayah associated with the penduduk
+        $wilayah = $this->wilayahModel->where('id', $penduduk['id_cluster'])->first();
+
+        // Check if wilayah was found
+        if ($wilayah) {
+            $rw = $this->wilayahModel->where('id', $wilayah['parent'])->first();
+            $dusun = $this->wilayahModel->where('id', $rw['parent'])->first();
+        } else {
+            $rw = null;   // Handle case where RW is not found
+            $dusun = null; // Handle case where Dusun is not found
+        }
+
+        $surat_keluar  = $this->suratModel->where('nik', $penduduk['nik'])->findAll();
+
+        // Pass the penduduk and wilayah data to the view
+        return view('penduduk/show', [
+            'penduduk' => $penduduk,
+            'wilayah' => $wilayah,
+            'rw' => $rw,
+            'dusun' => $dusun,
+            'surat_keluar' => $surat_keluar
+        ]);
     }
 
 

@@ -37,7 +37,7 @@
                                 <td>
                                     <div class="btn-group">
                                         <a href="<?= site_url('admin/wilayah/rw/' . esc($rw['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat RW
+                                            <i class="fa fa-eye"></i> Lihat RT
                                         </a>
 
                                         <a href="<?= site_url('/admin/wilayah/' . esc($rw['id'])); ?>/edit" class="btn btn-sm btn-warning" title="Ubah Data">

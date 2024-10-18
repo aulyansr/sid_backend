@@ -47,6 +47,7 @@ $routes->post('/komentar/store', 'KomentarController::store');
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
     $routes->get('ajax/pamong/search', 'AjaxController::searchPamong');
+    $routes->get('ajax/kk/search', 'AjaxController::search_kk');
     $routes->get('ajax/penduduk/search', 'AjaxController::searchPenduduk');
     $routes->get('ajax/getRW/(:num)', 'AjaxController::getRW/$1');
     $routes->get('ajax/getRT/(:num)', 'AjaxController::getRT/$1');
@@ -178,6 +179,13 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('wilayah/add-rt/(:any)', 'ClusterDesa::new_rt/$1');
     $routes->resource('penduduk', ['controller' => 'Penduduk', 'placeholder' => '(:num)']);
     $routes->resource('keluarga', ['controller' => 'Keluarga', 'placeholder' => '(:num)']);
+    $routes->resource('rumah-tangga', ['controller' => 'Rtm', 'placeholder' => '(:num)']);
+    $routes->post('rumah-tangga/create_rtm_kk', 'Rtm::create_rtm_kk');
+    $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)']);
+    $routes->resource('master-kelompok', ['controller' => 'KelompokMaster', 'placeholder' => '(:num)']);
+    $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)']);
+
+
 
 
 

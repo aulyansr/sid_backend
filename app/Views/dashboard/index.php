@@ -19,7 +19,7 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Data Kependudukan</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">9.000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_penduduk; ?></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -135,7 +135,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-primary text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Update Data Kependudukan</a>
+                        <a class="text-white-50" href="/admin/penduduk">Update Data Kependudukan</a>
                         <div class="text-white-50 small">Data Kependudukan</div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-success text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Cetak Surat</a>
+                        <a class="text-white-50" href="/admin/surat">Cetak Surat</a>
                         <div class="text-white-50 small">Persuratan</div>
                     </div>
                 </div>
@@ -175,7 +175,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-info text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Update Profil</a>
+                        <a class="text-white-50" href="admin/users/edit/<?= isset(auth()->user()->id) ? esc(auth()->user()->id) : '-' ?>">Update Profil</a>
                         <div class="text-white-50 small">Profil</div>
                     </div>
                 </div>
