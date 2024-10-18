@@ -172,18 +172,18 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
 
     $routes->resource('TwebSuratFormat');
-    $routes->resource('pengurus', ['controller' => 'DesaPamong', 'placeholder' => '(:num)']);
-    $routes->resource('wilayah', ['controller' => 'ClusterDesa', 'placeholder' => '(:num)']);
+    $routes->resource('pengurus', ['controller' => 'DesaPamong', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('wilayah', ['controller' => 'ClusterDesa', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->get('wilayah/add-rw/(:any)', 'ClusterDesa::new_rw/$1');
     $routes->get('wilayah/rw/(:any)', 'ClusterDesa::index_rw/$1');
     $routes->get('wilayah/add-rt/(:any)', 'ClusterDesa::new_rt/$1');
-    $routes->resource('penduduk', ['controller' => 'Penduduk', 'placeholder' => '(:num)']);
-    $routes->resource('keluarga', ['controller' => 'Keluarga', 'placeholder' => '(:num)']);
-    $routes->resource('rumah-tangga', ['controller' => 'Rtm', 'placeholder' => '(:num)']);
+    $routes->resource('penduduk', ['controller' => 'Penduduk', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('keluarga', ['controller' => 'Keluarga', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('rumah-tangga', ['controller' => 'Rtm', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->post('rumah-tangga/create_rtm_kk', 'Rtm::create_rtm_kk');
-    $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)']);
-    $routes->resource('master-kelompok', ['controller' => 'KelompokMaster', 'placeholder' => '(:num)']);
-    $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)']);
+    $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('master-kelompok', ['controller' => 'KelompokMaster', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
 
 
 

@@ -99,6 +99,7 @@ class AuthGroups extends ShieldAuthGroups
         'menus.delete' => 'Dapat menghapus Menu',
 
         'comments.moderation ' => 'Moderasi Komentar',
+        'kelurahan.access'  => 'Akses Data kelurahan'
     ];
 
 

@@ -70,18 +70,24 @@ $desa = $desa->find(1);
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Data
             </div>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/penduduk">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Data Penduduk
-                    </span></a>
-            </li>
+
+            <?php if (auth()->user()->can('kelurahan.access')) : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/penduduk">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Data Penduduk
+                        </span></a>
+                </li>
+            <?php endif; ?>
+
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
@@ -97,38 +103,43 @@ $desa = $desa->find(1);
                     <span>Program Bantuan</span></a>
             </li>
 
-            <div class="sidebar-heading">
-                ARTIKEL & BERITA
-            </div>
+            <?php if (auth()->user()->can('articles.access')) : ?>
+
+                <div class="sidebar-heading">
+                    ARTIKEL & BERITA
+                </div>
 
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/artikel">
-                    <i class="fas fa-fw fa-user-lock"></i>
-                    <span>
-                        Kelola Artikel
-                    </span>
-                </a>
-            </li>
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/artikel">
+                        <i class="fas fa-fw fa-user-lock"></i>
+                        <span>
+                            Kelola Artikel
+                        </span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
-            <div class="sidebar-heading">
-                PERSURATAN
-            </div>
+            <?php if (auth()->user()->can('kelurahan.access')) : ?>
+                <div class="sidebar-heading">
+                    PERSURATAN
+                </div>
 
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/surat">
-                    <i class="fas fa-fw fa-print"></i>
-                    <span>Cetak Surat</span></a>
-            </li>
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/surat">
+                        <i class="fas fa-fw fa-print"></i>
+                        <span>Cetak Surat</span></a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/surat">
-                    <i class="fas fa-fw fa-print"></i>
-                    <span>Riwayat Surat</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/surat">
+                        <i class="fas fa-fw fa-print"></i>
+                        <span>Riwayat Surat</span></a>
+                </li>
+            <?php endif; ?>
 
             <!-- Nav Item - Tables -->
 
@@ -408,7 +419,7 @@ $desa = $desa->find(1);
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; 2023. Sistem Informasi Desa (SID) Kabupaten Gunungkidul</span>
+                        <span>Copyright &copy; 2024. Sistem Informasi Desa (SID) Kabupaten Gunungkidul</span>
                     </div>
                 </div>
             </footer>
