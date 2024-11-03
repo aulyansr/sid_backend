@@ -184,6 +184,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->resource('master-kelompok', ['controller' => 'KelompokMaster', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('analisis_master', ['controller' => 'AnalisisMaster', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
 
 
 
