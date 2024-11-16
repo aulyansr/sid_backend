@@ -3,12 +3,9 @@
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Kategori / Variabel </h1>
+    <h1 class="h3 mb-2 text-gray-800">Analisis Master</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header border-bottom">
-            <?= $this->include('partials/analisis_tabs', ['activeTab' => $activeTab]); ?>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped compact" id="dataTable" width="100%" cellspacing="0">
@@ -16,37 +13,43 @@
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Kategori / Variabel </th>
-
+                            <th>Nama</th>
+                            <th>Subjek Tipe</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Kategori / Variabel </th>
+                            <th>Nama</th>
+                            <th>Subjek Tipe</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($categories as $index => $category) : ?>
+                        <?php foreach ($analisisCategories as $index => $analisis) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="<?= site_url('/admin/category/edit/' . esc($category['id'])); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                        <a href="<?= site_url('/admin/analisis_master/' . esc($analisis['id'])); ?>/edit" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="<?= site_url('/admin/category/delete/' . esc($category['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?');">
+                                        <a href="<?= site_url('/admin/analisis_master/delete/' . esc($analisis['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus analisis ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-                                        <a href="<?= site_url('/category/' . esc($category['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                        <a href="<?= site_url('/analisis_master/' . esc($analisis['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
                                             <i class="fa fa-eye"></i> Lihat
                                         </a>
                                     </div>
                                 </td>
-                                <td><?= esc($category['judul']); ?></td>
-
-
+                                <td><?= esc($analisis['nama']); ?></td>
+                                <td><?= esc($subjects[$analisis['subjek_tipe']] ?? 'Unknown'); ?></td>
+                                <td><?= strip_tags($analisis['deskripsi'], '<b><i><u><a>'); ?></td>
+                                <td><?= esc($lockOptions[$analisis['lock']] ?? 'Unknown'); ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -78,10 +81,10 @@
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah category Baru`,
+                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Analisis Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/category/new';
+                        window.location.href = '/admin/analisis_master/new';
                     },
                 },
                 {

@@ -87,4 +87,61 @@ class AnalisisMasterModel extends Model
             self::LOCKED => 'Terkunci',
         ];
     }
+
+    public function getSubjectsWithStatus($subject_type, $id_master)
+    {
+        // Depending on the subject_type, you join with the relevant table (penduduk, keluarga, kelompok)
+
+        if ($subject_type == 1) {
+            // For subject_type 1, join with the 'tweb_penduduk' table
+            $subjects = $this->db->table('tweb_penduduk')
+                ->select('tweb_penduduk.*,
+                tweb_penduduk.nik AS parameter_subject,
+                tweb_penduduk.nama as subject_nama, 
+             CASE 
+                 WHEN analisis_respon_hasil.id_subjek IS NULL THEN \'belum_mengisi\' 
+                 ELSE \'mengisi\' 
+             END AS status, 
+             COALESCE(analisis_respon_hasil.tgl_update, NULL) AS tanggal_update')
+                ->join('analisis_respon_hasil', 'analisis_respon_hasil.id_subjek = tweb_penduduk.nik', 'left')
+                ->where('analisis_respon_hasil.id_master', $id_master)
+                ->orWhere('analisis_respon_hasil.id_subjek IS NULL')
+                ->get()->getResultArray();
+        } elseif ($subject_type == 2) {
+            // For subject_type 2, join with the 'tweb_keluarga' table
+            $subjects =
+                $this->db->table('tweb_keluarga')
+                ->select('tweb_keluarga.*, 
+                  tweb_keluarga.no_kk AS parameter_subject,
+                  tweb_penduduk.nama AS subject_nama, 
+                  CASE 
+                      WHEN analisis_respon_hasil.id_subjek IS NULL THEN \'belum_mengisi\' 
+                      ELSE \'mengisi\' 
+                  END AS status, 
+                  COALESCE(analisis_respon_hasil.tgl_update, NULL) AS tanggal_update')
+                ->join('analisis_respon_hasil', 'analisis_respon_hasil.id_subjek = tweb_keluarga.no_kk', 'left')
+                ->join('tweb_penduduk', 'tweb_penduduk.nik = tweb_keluarga.nik_kepala', 'left')
+                ->groupStart()
+                ->where('analisis_respon_hasil.id_master', $id_master)
+                ->orWhere('analisis_respon_hasil.id_subjek IS NULL')
+                ->groupEnd()
+                ->get()->getResultArray();
+        } elseif ($subject_type == 3) {
+            // For subject_type 3, join with the 'kelompok_master' table
+            $subjects =
+                $this->db->table('kelompok_master')
+                ->select('kelompok_master.*, 
+             CASE 
+                 WHEN analisis_respon_hasil.id_subjek IS NULL THEN \'belum_mengisi\' 
+                 ELSE \'mengisi\' 
+             END AS status, 
+             COALESCE(analisis_respon_hasil.tgl_update, NULL) AS tanggal_update')
+                ->join('analisis_respon_hasil', 'analisis_respon_hasil.id_subjek = kelompok_master.nik', 'left')
+                ->where('analisis_respon_hasil.id_master', $id_master)
+                ->orWhere('analisis_respon_hasil.id_subjek IS NULL')
+                ->get()->getResultArray();
+        }
+
+        return $subjects;
+    }
 }

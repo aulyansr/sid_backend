@@ -1,14 +1,15 @@
 <?= $this->extend('layout/dashboard'); ?>
 
 <?= $this->section('content'); ?>
+
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Kategori / Variabel </h1>
+    <h1 class="h3 w-300 mb-2 text-gray-800"><?= $analisis_master['nama']; ?></h1>
+    <h3 class="mb-2 fs-5 text-gray-800">Subject Analisis: <?= esc($subjects_types[$analisis_master['subjek_tipe']] ?? 'Penduduk'); ?></h3>
+    <h3 class="h3 mb-2 text-gray-800">Subject Periode: <?= esc($periode['nama']); ?></h3>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header border-bottom">
-            <?= $this->include('partials/analisis_tabs', ['activeTab' => $activeTab]); ?>
-        </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped compact" id="dataTable" width="100%" cellspacing="0">
@@ -16,37 +17,36 @@
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Kategori / Variabel </th>
-
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Status</th> <!-- Added Status column -->
+                            <th>Tanggal update</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No</th>
                             <th>Aksi</th>
-                            <th>Kategori / Variabel </th>
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Status</th> <!-- Added Status column -->
+                            <th>Tanggal update</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($categories as $index => $category) : ?>
+
+                        <?php foreach ($subjects as $index => $subject) : ?>
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="<?= site_url('/admin/category/edit/' . esc($category['id'])); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
-                                            <i class="fa fa-edit"></i> Ubah
-                                        </a>
-                                        <a href="<?= site_url('/admin/category/delete/' . esc($category['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?');">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </a>
-                                        <a href="<?= site_url('/category/' . esc($category['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat
-                                        </a>
-                                    </div>
+                                    <a href="/admin/analisis_master/<?= $analisis_master['id'] ?>/input/<?= esc($subject['parameter_subject']); ?>" class="btn btn-warning btn-sm">Input</a>
+                                    <!-- Example: Action button for each row (you can customize this) -->
+                                    <a href="admin/analisis_master/<?= esc($subject['parameter_subject']); ?>/reset/<?= esc($subject['parameter_subject']); ?>" class="btn btn-danger btn-sm">Reset</a>
                                 </td>
-                                <td><?= esc($category['judul']); ?></td>
-
-
+                                <td><?= esc($subject['parameter_subject']); ?></td>
+                                <td><?= esc($subject['subject_nama']); ?></td>
+                                <td><?= esc($subject['status']); ?></td>
+                                <td><?= esc($subject['tanggal_update']); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -55,6 +55,7 @@
         </div>
     </div>
 </div>
+
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
@@ -72,29 +73,29 @@
 <script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.print.min.js"></script>
 
-<!-- Page level custom scripts -->
 <script>
+    var newPendudukPath = '/admin/penduduk/new';
+
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah category Baru`,
+                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Penduduk Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/category/new';
+                        window.location.href = newPendudukPath;
                     },
                 },
                 {
                     text: `<i class="fa fa-print" aria-hidden="true"></i>&nbsp;Cetak`,
                     className: "btn-sm",
-                    extend: 'collection',
-                    buttons: ['csv', 'pdf', 'excel']
+                    extend: "print",
                 },
                 {
                     text: `<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Preferensi Kolom`,
                     className: "btn-sm",
-                    extend: 'colvis'
-                }
+                    extend: "colvis",
+                },
             ],
         });
 

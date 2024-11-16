@@ -91,7 +91,7 @@ $desa = $desa->find(1);
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login">
+                <a class="nav-link" href="/admin/analisis_master">
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>Statistik & Analisis
                     </span></a>

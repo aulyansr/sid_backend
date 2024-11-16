@@ -3,18 +3,22 @@
 namespace App\Controllers;
 
 use App\Models\AnalisisMasterModel;
+use App\Models\AnalisisPeriodeModel;
 
 class AnalisisMaster extends BaseController
 {
+    protected $analisisPeriodeModel;
     protected $analisisMasterModel;
 
     public function __construct()
     {
         $this->analisisMasterModel = new AnalisisMasterModel();
+        $this->analisisPeriodeModel = new AnalisisPeriodeModel();
     }
 
     public function index()
     {
+
         $data['analisis'] = $this->analisisMasterModel->findAll();
         $data['subjects'] = $this->analisisMasterModel->getSubjects();
         $data['lockOptions'] = $this->analisisMasterModel->getLockOptions();
@@ -82,5 +86,50 @@ class AnalisisMaster extends BaseController
     {
         $this->analisisMasterModel->delete($id);
         return redirect()->to('/analisis_master');
+    }
+
+    public function show($id)
+    {
+        $data['categories'] = $this->analisisMasterModel->findAll();
+        return view('analisis_master/index', $data);
+    }
+
+    public function showSubjects($id_master)
+    {
+        $data['activeTab'] = "input";
+
+        $data['analisis_master'] = $this->analisisMasterModel->find($id_master);
+
+        $subject_type = $data['analisis_master']['subjek_tipe'];
+
+        $data['subjects'] = $this->analisisMasterModel->getSubjectsWithStatus($subject_type, $id_master);
+
+        $data['periode'] = $this->analisisPeriodeModel
+            ->where('id_master', $id_master)
+            ->orderBy('tahun_pelaksanaan', 'desc')
+            ->first();
+
+        // Pass the data to the view
+        return view('analisis_master/subjects', $data);
+    }
+
+    public function inputSubjects($id_master)
+    {
+        $data['activeTab'] = "input";
+
+        $data['analisis_master'] = $this->analisisMasterModel->find($id_master);
+
+        $subject_type = $data['analisis_master']['subjek_tipe'];
+
+        $data['subjects'] = $this->analisisMasterModel->getSubjectsWithStatus($subject_type, $id_master);
+        $data['subjects_types'] = $this->analisisMasterModel->getSubjects();
+
+        $data['periode'] = $this->analisisPeriodeModel
+            ->where('id_master', $id_master)
+            ->orderBy('tahun_pelaksanaan', 'desc')
+            ->first();
+
+        // Pass the data to the view
+        return view('analisis_master/subjects', $data);
     }
 }

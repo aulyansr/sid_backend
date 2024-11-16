@@ -184,10 +184,30 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->resource('master-kelompok', ['controller' => 'KelompokMaster', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->resource('kelompok', ['controller' => 'Kelompok', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+
     $routes->resource('analisis_master', ['controller' => 'AnalisisMaster', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->get('analisis_master/(:num)/subjects', 'AnalisisMaster::showSubjects/$1');
+    $routes->get('analisis_master/(:num)/input/(:any)', 'AnalisisRespon::new/$1/$2');
 
 
+    $routes->resource('analisisKategoriIndikator', ['controller' => 'analisisKategoriIndikator', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->get('analisis_master/(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$1');
+    $routes->get('analisis_master/(:num)/kategori-indikators/new', 'AnalisisKategoriIndikator::new/$1');
+    $routes->post('analisis-kategori', 'AnalisisKategoriIndikator::create/$1');
 
+    $routes->get('analisis_master/(:num)/analisis-indikators', 'AnalisisIndikator::index/$1');
+    $routes->get('analisis_master/(:num)/analisis-indikators/new', 'AnalisisIndikator::new/$1');
+    $routes->resource('analisis-indikators', ['controller' => 'AnalisisIndikator', 'placeholder' => '(:num)']);
+
+    $routes->resource('analisis-parameter', ['controller' => 'AnalisisParameter', 'placeholder' => '(:num)']);
+
+    $routes->get('analisis_master/(:num)/analisis-klasifikasi', 'AnalisisKlasifikasi::index/$1');
+    $routes->get('analisis_master/(:num)/analisis-klasifikasi/new', 'AnalisisKlasifikasi::new/$1');
+    $routes->resource('analisis-klasifikasi', ['controller' => 'AnalisisKlasifikasi', 'placeholder' => '(:num)']);
+
+    $routes->get('analisis_master/(:num)/analisis-periode', 'AnalisisPeriode::index/$1');
+    $routes->get('analisis_master/(:num)/analisis-periode/new', 'AnalisisPeriode::new/$1');
+    $routes->resource('analisis-periode', ['controller' => 'AnalisisPeriode', 'placeholder' => '(:num)']);
 
 
 

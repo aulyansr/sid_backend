@@ -41,7 +41,7 @@
                                         <a href="<?= site_url('/admin/analisis_master/delete/' . esc($analisis['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus analisis ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-                                        <a href="<?= site_url('/analisis_master/' . esc($analisis['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                        <a href="<?= site_url('/admin//analisis_master/' . esc($analisis['id'] . '/kategori-indikators')); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
                                             <i class="fa fa-eye"></i> Lihat
                                         </a>
                                     </div>
