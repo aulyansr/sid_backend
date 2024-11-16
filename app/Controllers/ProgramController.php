@@ -3,15 +3,18 @@
 namespace App\Controllers;
 
 use App\Models\ProgramModel;
+use App\Models\ProgramPesertaModel;
 
 class ProgramController extends BaseController
 {
     protected $programModel;
+    protected $programPesertaModel;
     protected $db;
 
     public function __construct()
     {
         $this->programModel = new ProgramModel();
+        $this->programPesertaModel = new ProgramPesertaModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -44,6 +47,11 @@ class ProgramController extends BaseController
     public function show($id)
     {
         $data['programModel'] = $this->programModel->find($id);
+        $data['participants'] = $this->programPesertaModel
+            ->getPenduduks()
+            ->where('program_peserta.program_id', $id)
+            ->findAll();
+        $data['targets'] = $this->programModel->getTargets();
         return view('program/show', $data);
     }
 
@@ -68,7 +76,19 @@ class ProgramController extends BaseController
 
     public function delete($id)
     {
-        $this->programModel->delete($id);
-        return redirect()->to('/program')->with('message', 'Program deleted successfully.');
+        $this->programPesertaModel = new ProgramPesertaModel();
+        return redirect()->to('/admin/program')->with('message', 'Program deleted successfully.');
+    }
+
+    public function add_peserta($id)
+    {
+        $data = $this->request->getPost();
+
+        if ($this->programPesertaModel->save($data)) {
+
+            return redirect()->to('/admin/program')->with('message', 'Program created successfully.');
+        } else {
+            return redirect()->back()->withInput()->with('errors', $this->programModel->errors());
+        }
     }
 }

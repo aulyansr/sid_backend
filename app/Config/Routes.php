@@ -211,7 +211,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
     $routes->resource('program', ['controller' => 'ProgramController', 'placeholder' => '(:num)']);
 
-
+    $routes->post('program/add-peserta', 'ProgramController::add_peserta/$1');
 
 
 
