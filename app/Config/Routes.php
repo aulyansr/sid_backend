@@ -209,6 +209,8 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('analisis_master/(:num)/analisis-periode/new', 'AnalisisPeriode::new/$1');
     $routes->resource('analisis-periode', ['controller' => 'AnalisisPeriode', 'placeholder' => '(:num)']);
 
+    $routes->resource('program', ['controller' => 'ProgramController', 'placeholder' => '(:num)']);
+
 
 
 

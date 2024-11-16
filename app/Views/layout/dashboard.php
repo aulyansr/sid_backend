@@ -98,7 +98,7 @@ $desa = $desa->find(1);
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login">
+                <a class="nav-link" href="/admin/programs">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>Program Bantuan</span></a>
             </li>
