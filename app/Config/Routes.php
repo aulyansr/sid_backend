@@ -216,15 +216,15 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     // $routes->get('Article', 'Article::index');
 
     // pelayanan dukcapil
-    $routes->get('/admin/verifikasi-data-pemohon', 'PelayananDukcapil::verifikasi_data');
-    $routes->get('/admin/verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
-    $routes->post('/admin/verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
-    $routes->get('/admin/verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
-    $routes->post('/admin/verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
-    $routes->post('/admin/simpan-permohonan', 'PelayananDukcapil::simpan_permohonan');
-    $routes->get('/admin/progres-pelayanan', 'PelayananDukcapil::progres_pelayanan');
-    $routes->get('/admin/siap-ambil', 'PelayananDukcapil::siap_ambil');
-    $routes->get('/admin/rekap-layanan', 'PelayananDukcapil::rekap_layanan');
+    $routes->get('verifikasi-data-pemohon', 'PelayananDukcapil::verifikasi_data');
+    $routes->get('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
+    $routes->post('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
+    $routes->get('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
+    $routes->post('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
+    $routes->post('simpan-permohonan', 'PelayananDukcapil::simpan_permohonan');
+    $routes->get('progres-pelayanan', 'PelayananDukcapil::progres_pelayanan');
+    $routes->get('siap-ambil', 'PelayananDukcapil::siap_ambil');
+    $routes->get('rekap-layanan', 'PelayananDukcapil::rekap_layanan');
 
     $routes->get('layanandukcapil/new', 'PelayananDukcapil::new');
     $routes->post('layanandukcapil/store', 'PelayananDukcapil::store');
