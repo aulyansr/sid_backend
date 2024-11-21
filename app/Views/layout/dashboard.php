@@ -165,6 +165,13 @@ $desa = $desa->find(1);
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/desa">
+                        <i class="fas fa-cogs fa-sm fa-fw"></i>
+
+                        <span>Konfigurasi  Desa</span></a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="/admin/pengurus">
                         <i class="fas fa-user-shield"></i>
 
