@@ -41,7 +41,7 @@ class AnalisisIndikator extends BaseController
         $data['question_type'] = $this->analisisIndikatorModel->getQuestionType();
         $data['act_anlisis'] = $this->analisisIndikatorModel->getActAnalisisOptions();
         $data['required'] = $this->analisisIndikatorModel->getRequiredOptions();
-        $data['indikator_categories'] = $this->analisisKategori->findAll();
+        $data['indikator_categories'] = $this->analisisKategori->where('id_master', $id_master)->findAll();
         return view('analisis_indikator/new', $data);
     }
 

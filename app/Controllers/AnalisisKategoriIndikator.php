@@ -54,8 +54,8 @@ class AnalisisKategoriIndikator extends BaseController
 
     public function edit($id)
     {
-
-        return view('analisis_master/edit', $data);
+        $data['analisisKategori'] = $this->analisisKategori->find($id);
+        return view('analisis_kategori/edit', $data);
     }
 
     public function update($id)
@@ -63,7 +63,7 @@ class AnalisisKategoriIndikator extends BaseController
         $data = $this->request->getPost();
 
         // Attempt to update the record
-        if ($this->analisisMasterModel->update($id, $data)) {
+        if ($this->analisisKategori->update($id, $data)) {
             // Update was successful, redirect to index
             return redirect()->to('/admin/analisis_master')->with('success', 'Analisis Master updated successfully.');
         } else {

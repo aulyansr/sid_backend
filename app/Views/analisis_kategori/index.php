@@ -40,10 +40,10 @@
                                         <td align="center"><?= $index + 1; ?></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="<?= site_url('/admin/kategori_indikators/' . esc($analisis['id']) . '/edit'); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
+                                                <a href="<?= site_url('/admin/kategori-indikators/' . esc($analisis['id']) . '/edit'); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                                     <i class="fa fa-edit"></i> Ubah
                                                 </a>
-                                                <a href="<?= site_url('/admin/kategori_indikators/delete/' . esc($analisis['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus analisis ini?');">
+                                                <a href="<?= site_url('/admin/kategori-indikators/delete/' . esc($analisis['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus analisis ini?');">
                                                     <i class="fa fa-trash"></i> Hapus
                                                 </a>
 
@@ -87,7 +87,7 @@
                     text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Analisis Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/analisis_master/<?= esc($analisis['id']); ?>/kategori_indikators/new';
+                        window.location.href = '/admin/analisis_master/<?= esc($analisis['id']); ?>/kategori-indikators/new';
                     },
                 },
                 {

@@ -187,13 +187,15 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
     $routes->resource('analisis_master', ['controller' => 'AnalisisMaster', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->get('analisis_master/(:num)/subjects', 'AnalisisMaster::showSubjects/$1');
+    $routes->get('analisis_master/(:num)/reports', 'AnalisisMaster::reports/$1');
     $routes->get('analisis_master/(:num)/input/(:any)', 'AnalisisRespon::new/$1/$2');
 
 
-    $routes->resource('analisisKategoriIndikator', ['controller' => 'analisisKategoriIndikator', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
+    $routes->resource('kategori-indikators', ['controller' => 'analisisKategoriIndikator', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
     $routes->get('analisis_master/(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$1');
     $routes->get('analisis_master/(:num)/kategori-indikators/new', 'AnalisisKategoriIndikator::new/$1');
     $routes->post('analisis-kategori', 'AnalisisKategoriIndikator::create/$1');
+    $routes->resource('analisis-kategori', ['controller' => 'AnalisisKategoriIndikator', 'placeholder' => '(:num)']);
 
     $routes->get('analisis_master/(:num)/analisis-indikators', 'AnalisisIndikator::index/$1');
     $routes->get('analisis_master/(:num)/analisis-indikators/new', 'AnalisisIndikator::new/$1');
@@ -205,13 +207,23 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('analisis_master/(:num)/analisis-klasifikasi/new', 'AnalisisKlasifikasi::new/$1');
     $routes->resource('analisis-klasifikasi', ['controller' => 'AnalisisKlasifikasi', 'placeholder' => '(:num)']);
 
+    $routes->resource('analisis-respon', ['controller' => 'AnalisisRespon', 'placeholder' => '(:num)']);
+
     $routes->get('analisis_master/(:num)/analisis-periode', 'AnalisisPeriode::index/$1');
     $routes->get('analisis_master/(:num)/analisis-periode/new', 'AnalisisPeriode::new/$1');
     $routes->resource('analisis-periode', ['controller' => 'AnalisisPeriode', 'placeholder' => '(:num)']);
 
+
     $routes->resource('program', ['controller' => 'ProgramController', 'placeholder' => '(:num)']);
 
     $routes->post('program/add-peserta', 'ProgramController::add_peserta/$1');
+
+    $routes->get('desa', 'Desa::index');
+    $routes->get('desa/create', 'Desa::create');
+    $routes->post('desa/store', 'Desa::store');
+    $routes->get('desa/edit/(:num)', 'Desa::edit/$1');
+    $routes->post('desa/update/(:num)', 'Desa::update/$1');
+    $routes->get('desa/delete/(:num)', 'Desa::delete/$1');
 
 
 

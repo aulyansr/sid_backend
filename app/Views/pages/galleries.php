@@ -40,8 +40,8 @@
                         <div class="items">
                             <small> <?php
                                     $fotoModel = new \App\Models\GambarGalleryModel();
-                                    $fotos = $fotoModel->where('parrent', $gallery['id'])->findAll(); // Fetch all articles for this category
-                                    $total = count($fotos);
+                                    $fotos     = $fotoModel->where('parrent', $gallery['id'])->findAll();  // Fetch all articles for this category
+                                    $total     = count($fotos);
                                     ?>
                                 <?= $total; ?> Foto</small>
                         </div>

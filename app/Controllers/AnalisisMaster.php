@@ -113,7 +113,27 @@ class AnalisisMaster extends BaseController
         return view('analisis_master/subjects', $data);
     }
 
-    public function inputSubjects($id_master)
+    public function inputSubjects($id_master, $id_subject)
+    {
+
+        $data['analisis_master'] = $this->analisisMasterModel->find($id_master);
+        $data['subject'] = $id_subject;
+
+        $subject_type = $data['analisis_master']['subjek_tipe'];
+
+        $data['subjects'] = $this->analisisMasterModel->getSubjectsWithStatus($subject_type, $id_master);
+        $data['subjects_types'] = $this->analisisMasterModel->getSubjects();
+
+        $data['periode'] = $this->analisisPeriodeModel
+            ->where('id_master', $id_master)
+            ->orderBy('tahun_pelaksanaan', 'desc')
+            ->first();
+
+        // Pass the data to the view
+        return view('analisis_master/subjects', $data);
+    }
+
+    public function reports($id_master)
     {
         $data['activeTab'] = "input";
 
@@ -121,8 +141,9 @@ class AnalisisMaster extends BaseController
 
         $subject_type = $data['analisis_master']['subjek_tipe'];
 
-        $data['subjects'] = $this->analisisMasterModel->getSubjectsWithStatus($subject_type, $id_master);
-        $data['subjects_types'] = $this->analisisMasterModel->getSubjects();
+        $data['subjects'] = $this->analisisMasterModel->getReportAttributes() // Get the query builder
+            ->where('id', $id_master) // Apply the where condition after
+            ->get()->getResult();
 
         $data['periode'] = $this->analisisPeriodeModel
             ->where('id_master', $id_master)

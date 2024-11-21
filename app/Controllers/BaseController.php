@@ -60,8 +60,7 @@ abstract class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
 
         // Initialize the ConfigModel
-        $this->desaModel = new ConfigModel();
-        $this->data['desa'] = $this->desaModel->find(1); // Ambil data desa
+        // Ambil data desa
     }
 
     /**

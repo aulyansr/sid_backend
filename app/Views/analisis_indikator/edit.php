@@ -1,12 +1,11 @@
-<?= $this->extend('layout/dashboard'); ?>
+<? = $this->extend('layout/dashboard'); ?>
 
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($analisisIndikator) ? 'Edit Analisis Indikatator' : 'Tambah Analisis Indikatator'; ?></h1>
     <form action="<?= isset($analisisIndikator) ? site_url('/admin/analisis-indikators') : site_url('/admin/analisis-indikators/'); ?>" method="post">
         <?= csrf_field(); ?>
-        <input type="hidden" name="id_master" value="<?= esc($id_master); ?>">
-        <input type="hidden" name="is_statistik" value="<?= old('is_statistik', isset($analisisIndikator) ? $analisisIndikator->is_statistik : '1'); ?>">
+        <input type="hidden" name="is_is_statistik" value="<?= old('is_statistik', isset($analisisIndikator) ? $analisisIndikator['is_statistik'] : '1'); ?>">
         <div class="row justify-content-center">
             <div class="col-xxl-6">
                 <!-- Account details card -->
@@ -15,7 +14,7 @@
                     <div class="card-body">
 
                         <div class="mb-3">
-                            <label class="small mb-1" for="inputGroup">User Group</label>
+                            <label class="small mb-1" for="inputGroup">Tipe Pertanyaan</label>
                             <br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <?php foreach ($question_type as $value => $label) : ?>
@@ -30,7 +29,7 @@
                         <div class="mb-3">
                             <div class="form-group">
                                 <label class="small mb-1" for="inputNomor">Kode Pertanyaan</label>
-                                <input class="form-control" id="inputNomor" name="nomor" type="number" placeholder="Kode Pertanyaan" value="<?= old('nomor', isset($analisisIndikator) ? $analisisIndikator->nomor : ''); ?>" required>
+                                <input class="form-control" id="inputNomor" name="nomor" type="text" placeholder="Kode Pertanyaan" value="<?= old('nomor', isset($analisisIndikator) ? $analisisIndikator->nomor : ''); ?>" required>
                             </div>
                         </div>
 
@@ -110,4 +109,4 @@
 
 <?= $this->section('script'); ?>
 
-<?= $this->endSection(); ?>
+<? = $this->endSection(); ?>
