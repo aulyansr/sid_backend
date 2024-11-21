@@ -228,4 +228,23 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
 
     // $routes->get('Article', 'Article::index');
+
+    // pelayanan dukcapil
+    $routes->get('verifikasi-data-pemohon', 'PelayananDukcapil::verifikasi_data');
+    $routes->get('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
+    $routes->post('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
+    $routes->get('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
+    $routes->post('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
+    $routes->post('simpan-permohonan', 'PelayananDukcapil::simpan_permohonan');
+    $routes->get('progres-pelayanan', 'PelayananDukcapil::progres_pelayanan');
+    $routes->get('siap-ambil', 'PelayananDukcapil::siap_ambil');
+    $routes->get('rekap-layanan', 'PelayananDukcapil::rekap_layanan');
+
+    $routes->get('layanandukcapil/new', 'PelayananDukcapil::new');
+    $routes->post('layanandukcapil/store', 'PelayananDukcapil::store');
+    $routes->post('layanandukcapil/upload', 'PelayananDukcapil::upload');
+    $routes->post('layanandukcapil/push', 'PelayananDukcapil::push');
+    $routes->get('layanandukcapil/edit/(:segment)', 'PelayananDukcapil::edit/$1');
+    $routes->post('layanandukcapil/update/(:segment)', 'PelayananDukcapil::update/$1');
+    $routes->get('layanandukcapil/delete/(:segment)', 'PelayananDukcapil::delete/$1');
 });
