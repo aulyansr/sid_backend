@@ -4,16 +4,19 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\DesaModel;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ShieldException;
 
 class UserController extends BaseController
 {
     protected $userModel;
+    protected $desaModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->desaModel = new DesaModel();
     }
 
     public function index()
@@ -25,7 +28,9 @@ class UserController extends BaseController
     public function new()
     {
         $config = config('AuthGroups');
-        $data = ['groups' => $config->groups];
+        $data['groups'] = $config->groups;
+        $data['desaList'] = $this->desaModel->findAll();
+
         return view('users/new', $data);
     }
 
@@ -66,6 +71,7 @@ class UserController extends BaseController
             'nama'     => $this->request->getVar('nama'),
             'password' => $this->request->getVar('password'),
             'foto'     => $fotoPath,
+            'desa_id' => $this->request->getVar('desa_id'),
         ];
 
         try {
@@ -104,9 +110,10 @@ class UserController extends BaseController
 
     public function edit($id)
     {
-        $config = config('AuthGroups');
-        $data['user'] = $this->userModel->find($id);
+        $config         = config('AuthGroups');
+        $data['user']   = $this->userModel->find($id);
         $data['groups'] = $config->groups;
+        $data['desa'] = $this->desaModel->findAll();
 
         return view('users/edit', $data);
     }

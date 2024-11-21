@@ -58,6 +58,18 @@
                                 <input class="form-control" id="inputPasswordConfirmation" name="password_confirmation" type="password" placeholder="Confirm Password">
                             </div>
 
+                            <div class="col-md-12 mb-3">
+                                <label class="small mb-1" for="inputdesa">Pilih Desa</label>
+                                <select class="form-control select2" id="inputdesa" name="desa_id">
+                                    <option value="">Pilih</option>
+                                    <?php foreach ($desaList as $desa) : ?>
+                                        <option value="<?= esc($desa['id']); ?>" <?= (old('desa_id', isset($user) ? esc($user['desa_id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                            <?= esc($desa['nama_desa']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
                         </div>
 
                         <!-- Form Group (user group) -->

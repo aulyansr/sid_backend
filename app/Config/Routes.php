@@ -44,6 +44,16 @@ $routes->get(
 $routes->get('/search-articles', 'Page::search', ['as' => 'search_articles_path']);
 $routes->post('/komentar/store', 'KomentarController::store');
 
+$routes->group('(:segment)', function ($routes) {
+    // Dynamic route for dashboard
+    $routes->get('dashboard', 'Dashboard::index/$1', ['as' => 'dashboard']);
+
+    // Dynamic route for penduduk
+    $routes->get('penduduk', 'Penduduk::index/$1');
+
+    $routes->get('artikel', 'MenuController::index');
+});
+
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
     $routes->get('ajax/pamong/search', 'AjaxController::searchPamong');
@@ -51,7 +61,6 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('ajax/penduduk/search', 'AjaxController::searchPenduduk');
     $routes->get('ajax/getRW/(:num)', 'AjaxController::getRW/$1');
     $routes->get('ajax/getRT/(:num)', 'AjaxController::getRT/$1');
-
 
     $routes->get('dashboard', 'Dashboard::index');
 

@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use App\Models\TwebPenduduk;
 use App\Models\ClusterDesaModel;
 use App\Models\SuratModel;
+use App\Models\DesaModel;
+
 
 class Penduduk extends BaseController
 {
@@ -24,13 +26,34 @@ class Penduduk extends BaseController
         $this->db = \Config\Database::connect();
     }
 
-    public function index()
+    public function index(string $permalink = null)
     {
-        $data['activeTab'] = 'penduduk';
-        $data['penduduks'] = $this->pendudukModel->getAllAttributes()->findAll();
+        $desaModel   = new DesaModel();
+        $currentUser = auth()->user();
 
+        // Check user group and fetch penduduk data accordingly
+        if ($currentUser->inGroup('superadmin')) {
+            // Fetch all records if the user is superadmin
+            $data['penduduks'] = $this->pendudukModel->getAllAttributes()->findAll();
+        } else {
+            // Fetch records filtered by user's desa_id
+            $data['penduduks'] = $this->pendudukModel
+                ->where('desa_id', $currentUser->desa_id)
+                ->getAllAttributes()
+                ->findAll();
+        }
+
+        // Fetch desa data based on permalink, if provided
+        $desa = $desaModel->where('permalink', $permalink)->first();
+        $data['desa'] = $desa;
+
+        // Pass the active tab information for view
+        $data['activeTab'] = 'penduduk';
+
+        // Return the view with the fetched data
         return view('penduduk/index', $data);
     }
+
 
     public function new()
     {
@@ -68,9 +91,12 @@ class Penduduk extends BaseController
 
     public function create()
     {
-        $postData = $this->request->getPost();
+        $postData                    = $this->request->getPost();
         $postData['dokumen_pasport'] = !empty($postData['dokumen_pasport']) ? $postData['dokumen_pasport'] : null;
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
+
+        $currentUser = auth()->user();
+        $postData['desa_id'] = $currentUser->desa_id;
 
 
         // Validate the data using the model's validation rules

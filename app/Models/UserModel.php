@@ -15,8 +15,14 @@ class UserModel extends ShieldUserModel
         // Ensure full_name is included in allowedFields
         $this->allowedFields = [
             ...$this->allowedFields,
-            'username', 'password', 'email',
-            'nama', 'phone', 'foto', 'session'
+            'username',
+            'password',
+            'email',
+            'nama',
+            'phone',
+            'foto',
+            'session',
+            'desa_id'
         ];
     }
 }

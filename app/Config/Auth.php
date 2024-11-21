@@ -436,10 +436,29 @@ class Auth extends ShieldAuth
     public function loginRedirect(): string
     {
         $session = session();
-        $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
 
+        // Check if the user has a desa_id
+        if (auth()->loggedIn()) {
+            $user = auth()->user();
+
+            // If the user has a valid desa_id, redirect to /{permalink}/dashboard
+            if ($user->desa_id !== null) {
+                // Retrieve the 'permalink' from the desa table using the user's desa_id
+                $desaModel = new \App\Models\DesaModel();
+                $desa = $desaModel->find($user->desa_id);
+
+                // If a matching desa is found, use its permalink for redirection
+                if ($desa) {
+                    return "/{$desa['permalink']}/dashboard";
+                }
+            }
+        }
+
+        // Default redirect if no valid desa_id is found
+        $url = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
         return $this->getUrl($url);
     }
+
 
     /**
      * Returns the URL that a user should be redirected

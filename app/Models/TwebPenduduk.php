@@ -49,7 +49,8 @@ class TwebPenduduk extends Model
         'akta_perkawinan',
         'tanggalperkawinan',
         'akta_perceraian',
-        'tanggalperceraian'
+        'tanggalperceraian',
+        'desa_id',
     ];
 
     // Define validation rules if needed

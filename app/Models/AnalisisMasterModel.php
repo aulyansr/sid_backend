@@ -144,7 +144,7 @@ class AnalisisMasterModel extends Model
 
         return $subjects;
     }
-    public function getReportAttributes($id_master)
+    public function getReportAttributes()
     {
         return $this->db->table('tweb_penduduk')
             ->select(
@@ -154,10 +154,8 @@ class AnalisisMasterModel extends Model
             ->join('analisis_partisipasi', 'analisis_partisipasi.id_subjek = tweb_penduduk.nik', 'left')
             ->join('tweb_penduduk_sex', 'tweb_penduduk.sex = tweb_penduduk_sex.id', 'left')
             ->join('analisis_klasifikasi', 'analisis_klasifikasi.id = analisis_partisipasi.id_klassifikasi', 'left')
-            ->join('analisis_master', 'analisis_master.id = analisis_partisipasi.id_master', 'left')  // Add this join for analisis_master
-            ->where('analisis_master.id', $id_master)                                                 // Reference analisis_master
-            ->get()
-            ->getResultArray();  // Return the result as an array
+            ->join('analisis_master', 'analisis_master.id = analisis_partisipasi.id_master', 'left');  // Add this join for analisis_master
+        // Return the result as an array
     }
 
     public function categories()
