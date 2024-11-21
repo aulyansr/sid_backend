@@ -38,7 +38,7 @@ class ProgramController extends BaseController
         $data = $this->request->getPost();
 
         if ($this->programModel->save($data)) {
-            return redirect()->to('/program')->with('message', 'Program created successfully.');
+            return redirect()->to('/admin/program')->with('message', 'Program created successfully.');
         } else {
             return redirect()->back()->withInput()->with('errors', $this->programModel->errors());
         }
