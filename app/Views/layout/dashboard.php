@@ -79,11 +79,12 @@ $desa = $desa->find(1);
             <!-- Nav Item - Tables -->
 
             <?php if (auth()->user()->can('kelurahan.access')) : ?>
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/penduduk">
+                    <a class="nav-link" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/penduduk' : '/admin/penduduk'; ?>">
                         <i class="fas fa-fw fa-users"></i>
-                        <span>Data Penduduk
-                        </span></a>
+                        <span>Data Penduduk</span>
+                    </a>
                 </li>
             <?php endif; ?>
 
