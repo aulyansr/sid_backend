@@ -50,8 +50,7 @@ $routes->group('(:segment)', function ($routes) {
 
     // Dynamic route for penduduk
     $routes->get('penduduk', 'Penduduk::index/$1');
-
-    $routes->get('artikel', 'MenuController::index');
+    $routes->get('analisis_master/(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$1');
 });
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {

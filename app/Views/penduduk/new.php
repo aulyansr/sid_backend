@@ -50,13 +50,13 @@
                                 </div>
 
 
-                                <div class="col-md-12 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="small mb-1" for="tempatlahir">Tempat Lahir</label>
                                     <input class="form-control" id="tempatlahir" name="tempatlahir" type="text" placeholder="Tempat Lahir" value="<?= old('tempatlahir', isset($penduduk) ? esc($penduduk['tempatlahir']) : ''); ?>" required>
                                 </div>
 
                                 <!-- Form Group (Tanggal Lahir) -->
-                                <div class="col-md-12 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="small mb-1" for="inputTglLahir">Tanggal Lahir</label>
                                     <input class="form-control" id="inputTglLahir" name="tanggallahir" type="date" value="<?= old('tanggallahir', isset($penduduk) ? esc($penduduk['tanggallahir']) : ''); ?>" required>
                                 </div>
@@ -164,17 +164,18 @@
                                     <input class="form-control" id="inputNikAyah" name="ayah_nik" type="text" placeholder="NIK Ayah" value="<?= old('nik_ayah', isset($penduduk) ? esc($penduduk['nik_ayah']) : ''); ?>">
                                 </div>
 
+                                <!-- Form Group (Nama Ayah) -->
+                                <div class="col-md-12 mb-3">
+                                    <label class="small mb-1" for="inputNamaAyah">Nama Ayah</label>
+                                    <input class="form-control" id="inputNamaAyah" name="nama_ayah" type="text" placeholder="Nama Ayah" value="<?= old('nama_ayah', isset($penduduk) ? esc($penduduk['nama_ayah']) : ''); ?>">
+                                </div>
+
                                 <!-- Form Group (NIK Ibu) -->
                                 <div class="col-md-12 mb-3">
                                     <label class="small mb-1" for="inputNikIbu">NIK Ibu</label>
                                     <input class="form-control" id="inputNikIbu" name="ibu_nik" type="text" placeholder="NIK Ibu" value="<?= old('nik_ibu', isset($penduduk) ? esc($penduduk['nik_ibu']) : ''); ?>">
                                 </div>
 
-                                <!-- Form Group (Nama Ayah) -->
-                                <div class="col-md-12 mb-3">
-                                    <label class="small mb-1" for="inputNamaAyah">Nama Ayah</label>
-                                    <input class="form-control" id="inputNamaAyah" name="nama_ayah" type="text" placeholder="Nama Ayah" value="<?= old('nama_ayah', isset($penduduk) ? esc($penduduk['nama_ayah']) : ''); ?>">
-                                </div>
 
                                 <!-- Form Group (Nama Ibu) -->
                                 <div class="col-md-12 mb-3">

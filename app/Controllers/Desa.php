@@ -32,7 +32,7 @@ class Desa extends BaseController
 
 
         $data = $this->request->getPost();
-
+        $slug = Slugify::table('desa')->make($title);
 
 
         if ($this->desaModel->save($data)) {
@@ -53,8 +53,6 @@ class Desa extends BaseController
     // Update the desa data
     public function update($id)
     {
-
-
 
         $this->desaModel->update($id, [
             'nama_desa' => $this->request->getPost('nama_desa'),

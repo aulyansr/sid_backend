@@ -18,11 +18,11 @@ class Penduduk extends BaseController
 
     public function __construct()
     {
-        // Initialize the model
+
         $this->pendudukModel = new TwebPenduduk();
         $this->suratModel = new SuratModel();
         $this->wilayahModel = new ClusterDesaModel();
-        // Initialize the database connection
+
         $this->db = \Config\Database::connect();
     }
 
@@ -31,33 +31,45 @@ class Penduduk extends BaseController
         $desaModel   = new DesaModel();
         $currentUser = auth()->user();
 
-        // Check user group and fetch penduduk data accordingly
-        if ($currentUser->inGroup('superadmin')) {
-            // Fetch all records if the user is superadmin
-            $data['penduduks'] = $this->pendudukModel->getAllAttributes()->findAll();
-        } else {
-            // Fetch records filtered by user's desa_id
-            $data['penduduks'] = $this->pendudukModel
-                ->where('desa_id', $currentUser->desa_id)
-                ->getAllAttributes()
-                ->findAll();
-        }
-
-        // Fetch desa data based on permalink, if provided
-        $desa = $desaModel->where('permalink', $permalink)->first();
+        $desa         = $desaModel->where('permalink', $permalink)->first();
         $data['desa'] = $desa;
 
-        // Pass the active tab information for view
+
+        $search = $this->request->getGet('search');
+
+
+        if ($currentUser->inGroup('superadmin')) {
+            $query = $this->pendudukModel->getAllAttributes();
+        } else {
+            $query = $this->pendudukModel
+                ->where('desa_id', $currentUser->desa_id)
+                ->getAllAttributes();
+        }
+
+
+        if (!empty($search)) {
+            $query->groupStart()
+                ->like("CAST(tweb_penduduk.nik AS TEXT)", $search)
+                ->orLike('tweb_penduduk.nama', $search)
+                ->groupEnd();
+        }
+
+        $data['penduduks'] = $query->findAll();
+
+
+        $data['search']    = $search;
         $data['activeTab'] = 'penduduk';
 
-        // Return the view with the fetched data
+
         return view('penduduk/index', $data);
     }
 
 
+
+
     public function new()
     {
-        // Fetch data from the database
+
         $sexList = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
         $pendidikanList = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
         $agamaList = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
@@ -71,7 +83,7 @@ class Penduduk extends BaseController
         $dusunList =  $this->wilayahModel->getDusun();
 
 
-        // Prepare data for the view
+
         $data = [
             'sexList' => $sexList,
             'pendidikanList' => $pendidikanList,
@@ -99,46 +111,46 @@ class Penduduk extends BaseController
         $postData['desa_id'] = $currentUser->desa_id;
 
 
-        // Validate the data using the model's validation rules
+
         if (!$this->pendudukModel->save($postData)) {
-            // If validation fails, get the validation errors
+
             $errors = $this->pendudukModel->errors();
 
-            // Redirect back to the form with input data and errors
+
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $errors);
         }
 
-        // If validation passes, redirect to the penduduk list
+
         return redirect()->to('/admin/penduduk')->with('success', 'Data has been saved successfully.');
     }
 
     public function show($id)
     {
-        // Fetch the specific penduduk attributes using the getAllAttributes method
+
         $penduduk = $this->pendudukModel->getAllAttributes()->find($id);
 
-        // Check if penduduk was found
+
         if (!$penduduk) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Penduduk not found');
         }
 
-        // Fetch the wilayah associated with the penduduk
+
         $wilayah = $this->wilayahModel->where('id', $penduduk['id_cluster'])->first();
 
-        // Check if wilayah was found
+
         if ($wilayah) {
             $rw = $this->wilayahModel->where('id', $wilayah['parent'])->first();
             $dusun = $this->wilayahModel->where('id', $rw['parent'])->first();
         } else {
-            $rw = null;   // Handle case where RW is not found
-            $dusun = null; // Handle case where Dusun is not found
+            $rw = null;
+            $dusun = null;
         }
 
         $surat_keluar  = $this->suratModel->where('nik', $penduduk['nik'])->findAll();
 
-        // Pass the penduduk and wilayah data to the view
+
         return view('penduduk/show', [
             'penduduk' => $penduduk,
             'wilayah' => $wilayah,
@@ -151,10 +163,10 @@ class Penduduk extends BaseController
 
     public function edit($id)
     {
-        // Fetch the specific penduduk record
+
         $data['penduduk'] = $this->pendudukModel->find($id);
 
-        // Fetch data from the database
+
         $data['sexList'] = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
         $data['pendidikanList'] = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
         $data['agamaList'] = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
@@ -167,24 +179,24 @@ class Penduduk extends BaseController
         $data['cacatList'] = $this->db->table('tweb_cacat')->get()->getResultArray();
         $data['dusunList'] = $this->wilayahModel->getDusun();
 
-        // Prepare and return data for the view
+
         return view('penduduk/edit', $data);
     }
 
 
     public function update($id)
     {
-        // Get the posted data
+
         $postData = $this->request->getPost();
 
-        // Handle nullable fields
+
         $postData['dokumen_pasport'] = !empty($postData['dokumen_pasport']) ? $postData['dokumen_pasport'] : null;
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
 
-        // Update the record in the database
+
         $this->pendudukModel->update($id, $postData);
 
-        // Redirect to the penduduk list
+
         return redirect()->to('/admin/penduduk')->with('success', 'Data has been updated successfully.');
     }
 

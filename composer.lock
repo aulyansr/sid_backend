@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6aab9c0e1bafa399cde46ddaedca3af",
+    "content-hash": "736406acc6b028ed829af9f68f1cb6b2",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -769,6 +769,56 @@
                 "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.6.0"
             },
             "time": "2024-07-01T07:33:21+00:00"
+        },
+        {
+            "name": "sawastacks/ci4-slugify",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sawastacks/ci4-slugify.git",
+                "reference": "279209a1d296b81a2792176c4129dbe86ecb321e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sawastacks/ci4-slugify/zipball/279209a1d296b81a2792176c4129dbe86ecb321e",
+                "reference": "279209a1d296b81a2792176c4129dbe86ecb321e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SawaStacks\\CodeIgniter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sawa Stacks (sawastacks)",
+                    "homepage": "https://github.com/sawastacks"
+                }
+            ],
+            "description": "Simple Slugify Library for Codeigniter",
+            "homepage": "https://github.com/sawastacks/ci4-slugify",
+            "keywords": [
+                "ci4 slugify",
+                "codeigniter",
+                "codeigniter slug",
+                "codeigniter4",
+                "slug",
+                "sluggable",
+                "slugify"
+            ],
+            "support": {
+                "issues": "https://github.com/sawastacks/ci4-slugify/issues",
+                "source": "https://github.com/sawastacks/ci4-slugify/tree/v2.1.0"
+            },
+            "time": "2024-08-26T17:36:30+00:00"
         },
         {
             "name": "tatter/relations",

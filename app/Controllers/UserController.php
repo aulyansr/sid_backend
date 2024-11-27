@@ -41,7 +41,7 @@ class UserController extends BaseController
         $validation = \Config\Services::validation();
         $validation->setRules([
             'nama' => 'required',
-            'username' => 'required|alpha_numeric|min_length[3]|is_unique[users.username]',
+            'username' => 'required|min_length[3]|is_unique[users.username]',
             'password' => 'required|min_length[8]',
             'password_confirmation' => 'required|matches[password]',
             'group' => 'required',
