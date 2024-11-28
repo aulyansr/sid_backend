@@ -10,48 +10,48 @@ service('auth')->routes($routes);
 $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
-$routes->get(
-    'artikel',
-    'Page::articles',
-    ['as' => 'articles_path']
-);
-$routes->get(
-    'artikel/(:segment)',
-    'ArtikelController::show/$1',
-    ['as' => 'detail_article_path']
-);
 
-$routes->get(
-    'kategori/(:segment)',
-    'KategoriController::show/$1',
-    ['as' => 'detail_category_path']
-);
-$routes->get(
-    'kategori',
-    'Page::categories',
-    ['as' => 'categories_path']
-);
-$routes->get(
-    'gallery/(:segment)',
-    'GambarGalleryController::show/$1',
-    ['as' => 'detail_gallery_path']
-);
-$routes->get(
-    'gallery/',
-    'Page::galleries',
-    ['as' => 'galleries_path']
-);
-$routes->get('/search-articles', 'Page::search', ['as' => 'search_articles_path']);
-$routes->post('/komentar/store', 'KomentarController::store');
+$routes->get('artikel', 'Page::articles', ['as' => 'articles_path']);
+$routes->get('artikel/(:num)', 'ArtikelController::show/$1', ['as' => 'detail_article_path']);
+
+
+$routes->get('kategori', 'Page::categories', ['as' => 'categories_path']);
+$routes->get('kategori/(:segment)', 'KategoriController::show/$1', ['as' => 'detail_category_path']);
+
+
+$routes->get('gallery', 'Page::galleries', ['as' => 'galleries_path']);
+$routes->get('gallery/(:segment)', 'GambarGalleryController::show/$1', ['as' => 'detail_gallery_path']);
+
+
+$routes->get('search-articles', 'Page::search', ['as' => 'search_articles_path']);
+$routes->post('komentar/store', 'KomentarController::store');
+
+$routes->get('statistik/pendidikan-dalam-kk', 'Page::statistik_pendidikan_kk');
+$routes->get('statistik/pendidikan-ditempuh', 'Page::statistik_pendidikan_ditempuh');
+$routes->get('statistik/pekerjaan', 'Page::statistik_pekerjaan');
+$routes->get('statistik/agama', 'Page::statistik_agama');
+$routes->get('statistik/kelompok-umur', 'Page::statistik_kelompok_umur');
+$routes->get('statistik/jenis-kelamin', 'Page::statistik_jenis_kelamin');
 
 $routes->group('(:segment)', function ($routes) {
-    // Dynamic route for dashboard
+
     $routes->get('dashboard', 'Dashboard::index/$1', ['as' => 'dashboard']);
 
-    // Dynamic route for penduduk
+
+    $routes->get('analisis_master', 'AnalisisMaster::index', ['filter' => 'permission:kelurahan.access']);
+
+
     $routes->get('penduduk', 'Penduduk::index/$1');
-    $routes->get('analisis_master/(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$1');
+
+
+    $routes->group('analisis_master', function ($routes) {
+        $routes->get('(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$2');
+    });
+
+
+    $routes->get('program', 'ProgramController::index');
 });
+
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
@@ -107,7 +107,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('media_sosial/update/(:segment)', 'MediaSosialController::update/$1');
     $routes->get('media_sosial/delete/(:segment)', 'MediaSosialController::delete/$1');
 
-    // Routes for Menu
+
     $routes->group('', ['filter' => 'permission:menus.access'], function ($routes) {
         $routes->get('menu', 'MenuController::index');
         $routes->get('menu/new', 'MenuController::new', ['filter' => 'permission:menus.create']);
@@ -133,7 +133,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('kategori/edit/(:segment)', 'KategoriController::edit/$1');
     $routes->post('kategori/update/(:segment)', 'KategoriController::update/$1');
     $routes->get('kategori/delete/(:segment)', 'KategoriController::delete/$1');
-    // Routes for Articles
+
     $routes->group('', ['filter' => 'permission:articles.access'], function ($routes) {
         $routes->get('artikel', 'ArtikelController::index');
         $routes->get('artikel/new', 'ArtikelController::new', ['filter' => 'permission:articles.create']);
@@ -143,7 +143,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
         $routes->get('artikel/delete/(:segment)', 'ArtikelController::delete/$1', ['filter' => 'permission:articles.delete']);
     });
 
-    // Routes for Gallery
+
     $routes->group('', ['filter' => 'permission:galleries.access'], function ($routes) {
         $routes->get('gambar-gallery', 'GambarGalleryController::index');
         $routes->get('gambar-gallery/(:num)', 'GambarGalleryController::view/$1', ['filter' => 'permission:galleries.read']);
@@ -197,6 +197,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('analisis_master/(:num)/subjects', 'AnalisisMaster::showSubjects/$1');
     $routes->get('analisis_master/(:num)/reports', 'AnalisisMaster::reports/$1');
     $routes->get('analisis_master/(:num)/input/(:any)', 'AnalisisRespon::new/$1/$2');
+    $routes->get('analisis-respon/(:num)/reset/subject/(:num)', 'AnalisisRespon::reset/$1/$2');
 
 
     $routes->resource('kategori-indikators', ['controller' => 'analisisKategoriIndikator', 'placeholder' => '(:num)', 'filter' => 'permission:kelurahan.access']);
@@ -204,6 +205,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('analisis_master/(:num)/kategori-indikators/new', 'AnalisisKategoriIndikator::new/$1');
     $routes->post('analisis-kategori', 'AnalisisKategoriIndikator::create/$1');
     $routes->resource('analisis-kategori', ['controller' => 'AnalisisKategoriIndikator', 'placeholder' => '(:num)']);
+    $routes->get('kategori-indikators/delete/(:num)', 'AnalisisKategoriIndikator::delete/$1');
 
     $routes->get('analisis_master/(:num)/analisis-indikators', 'AnalisisIndikator::index/$1');
     $routes->get('analisis_master/(:num)/analisis-indikators/new', 'AnalisisIndikator::new/$1');
@@ -235,9 +237,9 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
 
 
-    // $routes->get('Article', 'Article::index');
 
-    // pelayanan dukcapil
+
+
     $routes->get('verifikasi-data-pemohon', 'PelayananDukcapil::verifikasi_data');
     $routes->get('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
     $routes->post('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');

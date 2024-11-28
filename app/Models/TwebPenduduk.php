@@ -84,4 +84,219 @@ class TwebPenduduk extends Model
             ->join('tweb_penduduk_status', 'tweb_penduduk.status = tweb_penduduk_status.id', 'left')
             ->join('tweb_cacat', 'tweb_penduduk.cacat_id = tweb_cacat.id', 'left');
     }
+
+    public function getPendidikanSummary()
+    {
+        $query = $this->select('tweb_penduduk_pendidikan.nama AS kelompok, 
+                                COUNT(tweb_penduduk.id) AS jumlah, 
+                                SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) AS laki_laki, 
+                                SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) AS perempuan')
+            ->join('tweb_penduduk_pendidikan', 'tweb_penduduk.pendidikan_id = tweb_penduduk_pendidikan.id', 'left')
+            ->groupBy('tweb_penduduk_pendidikan.nama')
+            ->orderBy('jumlah', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        $total = array_reduce($query, fn($carry, $item) => $carry + $item['jumlah'], 0);
+
+        foreach ($query as &$row) {
+            $row['persen'] = round(($row['jumlah'] / $total) * 100, 2);
+            $row['laki_laki_persen'] = round(($row['laki_laki'] / $total) * 100, 2);
+            $row['perempuan_persen'] = round(($row['perempuan'] / $total) * 100, 2);
+        }
+
+        $query[] = [
+            'kelompok' => 'TOTAL',
+            'jumlah' => $total,
+            'persen' => 100,
+            'laki_laki' => array_sum(array_column($query, 'laki_laki')),
+            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'perempuan' => array_sum(array_column($query, 'perempuan')),
+            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+        ];
+
+        return $query;
+    }
+
+    public function getPendidikanTempuh()
+    {
+        $query = $this->select('tweb_penduduk_pendidikan.nama AS kelompok, 
+                                COUNT(tweb_penduduk.id) AS jumlah, 
+                                SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) AS laki_laki, 
+                                SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) AS perempuan')
+            ->join('tweb_penduduk_pendidikan', 'tweb_penduduk.pendidikan_id = tweb_penduduk_pendidikan.id', 'left')
+            ->groupBy('tweb_penduduk_pendidikan.nama')
+            ->orderBy('jumlah', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        $total = array_reduce($query, fn($carry, $item) => $carry + $item['jumlah'], 0);
+
+        foreach ($query as &$row) {
+            $row['persen'] = round(($row['jumlah'] / $total) * 100, 2);
+            $row['laki_laki_persen'] = round(($row['laki_laki'] / $total) * 100, 2);
+            $row['perempuan_persen'] = round(($row['perempuan'] / $total) * 100, 2);
+        }
+
+        $query[] = [
+            'kelompok' => 'TOTAL',
+            'jumlah' => $total,
+            'persen' => 100,
+            'laki_laki' => array_sum(array_column($query, 'laki_laki')),
+            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'perempuan' => array_sum(array_column($query, 'perempuan')),
+            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+        ];
+
+        return $query;
+    }
+
+    public function getPekerjaan()
+    {
+        $query = $this->select('tweb_penduduk_pekerjaan.nama AS kelompok, 
+                                COUNT(tweb_penduduk.id) AS jumlah, 
+                                SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) AS laki_laki, 
+                                SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) AS perempuan')
+            ->join('tweb_penduduk_pekerjaan', 'tweb_penduduk.pendidikan_id = tweb_penduduk_pekerjaan.id', 'left')
+            ->groupBy('tweb_penduduk_pekerjaan.nama')
+            ->orderBy('jumlah', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        $total = array_reduce($query, fn($carry, $item) => $carry + $item['jumlah'], 0);
+
+        foreach ($query as &$row) {
+            $row['persen'] = round(($row['jumlah'] / $total) * 100, 2);
+            $row['laki_laki_persen'] = round(($row['laki_laki'] / $total) * 100, 2);
+            $row['perempuan_persen'] = round(($row['perempuan'] / $total) * 100, 2);
+        }
+
+        $query[] = [
+            'kelompok' => 'TOTAL',
+            'jumlah' => $total,
+            'persen' => 100,
+            'laki_laki' => array_sum(array_column($query, 'laki_laki')),
+            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'perempuan' => array_sum(array_column($query, 'perempuan')),
+            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+        ];
+
+        return $query;
+    }
+
+    public function getKelompokUmur()
+    {
+        // Menghitung umur berdasarkan tanggal lahir
+        $query = $this->select('
+            CASE
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 0 AND 5 THEN \'0-5\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 6 AND 11 THEN \'6-11\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 12 AND 17 THEN \'12-17\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 18 AND 23 THEN \'18-23\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 24 AND 29 THEN \'24-29\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 30 AND 35 THEN \'30-35\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 36 AND 41 THEN \'36-41\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 42 AND 47 THEN \'42-47\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 48 AND 53 THEN \'48-53\'
+                WHEN EXTRACT(YEAR FROM AGE(tweb_penduduk.tanggallahir)) BETWEEN 54 AND 59 THEN \'54-59\'
+                ELSE \'60+\'
+            END AS kelompok_umur,
+            COUNT(tweb_penduduk.id) AS jumlah,
+            SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) AS laki_laki,
+            SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) AS perempuan
+        ')
+            ->groupBy('kelompok_umur')
+            ->orderBy('kelompok_umur')
+            ->get()
+            ->getResultArray();
+
+        // Total jumlah penduduk
+        $total = array_reduce($query, fn($carry, $item) => $carry + $item['jumlah'], 0);
+
+        // Hitung persentase
+        foreach ($query as &$row) {
+            $row['persen'] = round(($row['jumlah'] / $total) * 100, 2);
+            $row['laki_laki_persen'] = round(($row['laki_laki'] / $total) * 100, 2);
+            $row['perempuan_persen'] = round(($row['perempuan'] / $total) * 100, 2);
+        }
+
+        // Menambahkan total kelompok umur
+        $query[] = [
+            'kelompok_umur' => 'TOTAL',
+            'jumlah' => $total,
+            'persen' => 100,
+            'laki_laki' => array_sum(array_column($query, 'laki_laki')),
+            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'perempuan' => array_sum(array_column($query, 'perempuan')),
+            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+        ];
+
+        return $query;
+    }
+
+    public function getJenkel()
+    {
+        $query = $this->select('tweb_penduduk_sex.nama AS kelompok, 
+                                COUNT(tweb_penduduk.id) AS jumlah, 
+                                SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) AS laki_laki, 
+                                SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) AS perempuan')
+            ->join('tweb_penduduk_sex', 'tweb_penduduk.pendidikan_id = tweb_penduduk_sex.id', 'left')
+            ->groupBy('tweb_penduduk_sex.nama')
+            ->orderBy('jumlah', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        $total = array_reduce($query, fn($carry, $item) => $carry + $item['jumlah'], 0);
+
+        foreach ($query as &$row) {
+            $row['persen'] = round(($row['jumlah'] / $total) * 100, 2);
+            $row['laki_laki_persen'] = round(($row['laki_laki'] / $total) * 100, 2);
+            $row['perempuan_persen'] = round(($row['perempuan'] / $total) * 100, 2);
+        }
+
+        $query[] = [
+            'kelompok' => 'TOTAL',
+            'jumlah' => $total,
+            'persen' => 100,
+            'laki_laki' => array_sum(array_column($query, 'laki_laki')),
+            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'perempuan' => array_sum(array_column($query, 'perempuan')),
+            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+        ];
+
+        return $query;
+    }
+
+    public function getAgama()
+    {
+        $query = $this->select('tweb_penduduk_agama.nama AS kelompok, 
+                                COUNT(tweb_penduduk.id) AS jumlah, 
+                                SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) AS laki_laki, 
+                                SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) AS perempuan')
+            ->join('tweb_penduduk_agama', 'tweb_penduduk.pendidikan_id = tweb_penduduk_agama.id', 'left')
+            ->groupBy('tweb_penduduk_agama.nama')
+            ->orderBy('jumlah', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        $total = array_reduce($query, fn($carry, $item) => $carry + $item['jumlah'], 0);
+
+        foreach ($query as &$row) {
+            $row['persen'] = round(($row['jumlah'] / $total) * 100, 2);
+            $row['laki_laki_persen'] = round(($row['laki_laki'] / $total) * 100, 2);
+            $row['perempuan_persen'] = round(($row['perempuan'] / $total) * 100, 2);
+        }
+
+        $query[] = [
+            'kelompok' => 'TOTAL',
+            'jumlah' => $total,
+            'persen' => 100,
+            'laki_laki' => array_sum(array_column($query, 'laki_laki')),
+            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'perempuan' => array_sum(array_column($query, 'perempuan')),
+            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+        ];
+
+        return $query;
+    }
 }

@@ -37,7 +37,7 @@
                                         <td align="center"><?= $index + 1; ?></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="<?= site_url('/admin/program/' . esc($program['id']) . '/edit'); ?>" class="btn btn-sm btn-info" title="Ubah Data">
+                                                <a href="<?= site_url('/admin/program/' . esc($program['id'])); ?>" class="btn btn-sm btn-info" title="Ubah Data">
                                                     <i class="fa fa fa-eye"></i> Lihat
                                                 </a>
                                                 <a href="<?= site_url('/admin/program/' . esc($program['id']) . '/edit'); ?>" class="btn btn-sm btn-warning" title="Ubah Data">

@@ -20,8 +20,16 @@ class ProgramController extends BaseController
 
     public function index()
     {
-        // Ambil semua data program
-        $data['programs'] = $this->programModel->findAll();
+        $currentUser = auth()->user();
+
+        if ($currentUser->inGroup('superadmin')) {
+            $data['programs'] = $this->programModel->findAll();
+        } else {
+            $data['programs'] = $this->programModel
+                ->where('desa_id', $currentUser->desa_id)
+                ->findAll();
+        }
+
         $data['targets'] = $this->programModel->getTargets();
         return view('program/index', $data);
     }
@@ -36,6 +44,9 @@ class ProgramController extends BaseController
     public function create()
     {
         $data = $this->request->getPost();
+        $currentUser         = auth()->user();
+        $data['desa_id'] = $currentUser->desa_id;
+
 
         if ($this->programModel->save($data)) {
             return redirect()->to('/admin/program')->with('message', 'Program created successfully.');

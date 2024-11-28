@@ -19,8 +19,9 @@ class AnalisisKategoriIndikator extends BaseController
 
     public function index($id_master)
     {
-        $data['activeTab'] = "settings";
+        $data['activeTab']     = "settings";
         $data['activeSideTab'] = "kategori";
+
         $data['analisisCategories'] = $this->analisisKategori
             ->where('id_master', $id_master)
             ->findAll();
@@ -39,13 +40,13 @@ class AnalisisKategoriIndikator extends BaseController
 
     public function create()
     {
-        // Get the POST data
+
         $data = $this->request->getPost();
 
-        // Save the data
+
         if ($this->analisisKategori->save($data)) {
 
-            return redirect()->to('/admin/analisis_master')->with('message', 'Analisis added successfully.');
+            return redirect()->to('/admin/analisis_master/' .  $data['id_master'] . '/kategori-indikators')->with('message', 'Analisis added successfully.');
         } else {
             dd("as");
             return redirect()->back()->withInput()->with('errors', $this->analisisKategori->errors());
@@ -62,22 +63,26 @@ class AnalisisKategoriIndikator extends BaseController
     public function update($id)
     {
         $data = $this->request->getPost();
+        $analisisKategori = $this->analisisKategori->find($id);
 
-        // Attempt to update the record
+
         if ($this->analisisKategori->update($id, $data)) {
-            // Update was successful, redirect to index
-            return redirect()->to('/admin/analisis_master')->with('success', 'Analisis Master updated successfully.');
+
+            return redirect()->to('/admin/analisis_master/' .  $analisisKategori['id_master'] . '/kategori-indikators')->with('message', 'Analisis added successfully.');
         } else {
-            // Update failed, redirect back to the edit page with error messages
+
             return redirect()->back()->withInput()->with('errors', $this->analisisMasterModel->errors());
         }
     }
 
     public function delete($id)
     {
-        $this->analisisMasterModel->delete($id);
-        return redirect()->to('/analisis_master');
+        $analisisKategori = $this->analisisKategori->find($id);
+        $analisis_master_id = $analisisKategori['id_master'];
+        $this->analisisKategori->delete($id);
+        return redirect()->to('admin/analisis_master/' . $analisis_master_id . '/kategori-indikators');
     }
+
 
     public function show($id)
     {

@@ -24,7 +24,7 @@ class KelompokMaster extends BaseController
     // Display form to create a new Kelompok Master
     public function new()
     {
-        return view('kelompok_master/create');
+        return view('kelompok_master/new');
     }
 
     // Save new Kelompok Master

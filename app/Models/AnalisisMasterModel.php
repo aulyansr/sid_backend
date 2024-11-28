@@ -25,6 +25,7 @@ class AnalisisMasterModel extends Model
         'id_kelompok',
         'pembagi',
         'fitur_pembobotan',
+        'desa_id',
     ];
 
     protected $validationRules = [

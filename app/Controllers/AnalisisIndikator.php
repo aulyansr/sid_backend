@@ -57,8 +57,7 @@ class AnalisisIndikator extends BaseController
 
         // Save the data
         if ($this->analisisIndikatorModel->save($data)) {
-
-            return redirect()->to('/admin/analisis_master')->with('message', 'Analisis added successfully.');
+            return redirect()->to('/admin/analisis_master/' .  $data['id_master'] . '/analisis-indikators')->with('message', 'Analisis added successfully.');
         } else {
             return redirect()->back()->withInput()->with('errors', $this->analisisMasterModel->errors());
         }
@@ -77,6 +76,7 @@ class AnalisisIndikator extends BaseController
 
     public function update($id)
     {
+        $indikator = $this->analisisIndikatorModel->find($id);
         $this->analisisIndikatorModel->update($id, [
             'id_master' => $this->request->getPost('id_master'),
             'nomor' => $this->request->getPost('nomor'),
@@ -89,7 +89,7 @@ class AnalisisIndikator extends BaseController
             'is_statistik' => $this->request->getPost('is_statistik'),
             'is_required' => $this->request->getPost('is_required'),
         ]);
-        return redirect()->to('/analisis_indikator');
+        return redirect()->to('/admin/analisis_master/' . $indikator['id_master'] . '/analisis-indikators');
     }
 
 

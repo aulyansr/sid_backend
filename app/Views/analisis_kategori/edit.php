@@ -2,6 +2,7 @@
 
 <?= $this->section('content'); ?>
 <div class="container-fluid">
+
     <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($analisisKategori) ? 'Edit Analisis Kategori' : 'Tambah Analisis Kategori'; ?></h1>
     <form action="<?= isset($analisisKategori) ? site_url('/admin/analisis-kategori/' . $analisisKategori['id']) : site_url('/admin/analisis-kategori/'); ?>" method="post">
         <?= csrf_field(); ?>

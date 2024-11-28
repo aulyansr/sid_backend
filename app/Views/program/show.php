@@ -57,7 +57,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="btn btn-primary mt-4" type="submit">Update Keluarga</button>
+                                        <button class="btn btn-primary" type="submit">Update</button>
                                     </div>
                                 </div>
                             </form>
@@ -84,9 +84,8 @@
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
-
+                        </table>
                     </div>
-
                 </div>
             </div>
         </div>

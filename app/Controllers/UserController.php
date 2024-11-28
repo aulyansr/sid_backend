@@ -40,12 +40,12 @@ class UserController extends BaseController
 
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama' => 'required',
-            'username' => 'required|min_length[3]|is_unique[users.username]',
-            'password' => 'required|min_length[8]',
+            'nama'                  => 'required',
+            'username'              => 'required|min_length[3]|is_unique[users.username]',
+            'password'              => 'required|min_length[8]',
             'password_confirmation' => 'required|matches[password]',
-            'group' => 'required',
-            'foto' => [
+            'group'                 => 'required',
+            'foto'                  => [
                 'label' => 'Foto',
                 'rules' => 'uploaded[foto]'
                     . '|is_image[foto]'
@@ -113,7 +113,7 @@ class UserController extends BaseController
         $config         = config('AuthGroups');
         $data['user']   = $this->userModel->find($id);
         $data['groups'] = $config->groups;
-        $data['desa'] = $this->desaModel->findAll();
+        $data['desaList'] = $this->desaModel->findAll();
 
         return view('users/edit', $data);
     }
@@ -150,6 +150,7 @@ class UserController extends BaseController
             'email'    => $this->request->getPost('email'),
             'nama'     => $this->request->getPost('nama'),
             'password' => $this->request->getPost('password'),
+            'desa_id' => $this->request->getVar('desa_id'),
         ];
 
         if (isset($fotoPath)) {

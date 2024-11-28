@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\DesaModel;
+use SawaStacks\CodeIgniter\Slugify;
 
 class Desa extends BaseController
 {
@@ -32,7 +33,7 @@ class Desa extends BaseController
 
 
         $data = $this->request->getPost();
-        $slug = Slugify::table('desa')->make($title);
+
 
 
         if ($this->desaModel->save($data)) {

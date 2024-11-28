@@ -8,7 +8,7 @@ class ProgramModel extends Model
 {
     protected $table      = 'program';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nama', 'ndesc', 'sasaran', 'sdate', 'edate', 'userID', 'rdate', 'status', 'pelaksana', 'id_sumber_dana'];
+    protected $allowedFields = ['nama', 'ndesc', 'sasaran', 'sdate', 'edate', 'userID', 'rdate', 'status', 'pelaksana', 'id_sumber_dana', 'desa_id'];
 
     const PENDUDUK = 1;
     const SUBJECT_KELUARGA = 2;

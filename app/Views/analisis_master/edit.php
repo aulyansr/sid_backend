@@ -39,12 +39,13 @@
                                 </textarea>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="small mb-1" for="inputchild">Analisis Terhubung</label>
-                                <select class="form-control" id="inputchild" name="id_child">
+                            <div    class = "col-md-6 mb-3">
+                            <label  class = "small mb-1" for  = "inputchild">Analisis Terhubung</label>
+                            <select class = "form-control" id = "inputchild" name = "id_child">
+                            <option value="0" <?= old('id_child') == '0' ? 'selected' : '0'; ?>>Tidak terhubung</option>
                                     <?php   foreach ($children as $child)                                                     : ?>
                                     <option value="<?= esc($child['id']); ?>"
-                                        <?= old('id_child') == $child['id'] ? 'selected': ''; ?>>
+                                        <?= $analisis['id_child'] == $child['id'] ? 'selected': ''; ?>>
                                         <?= esc($child['nama']); ?>
                                     </option>
                                     <?php endforeach; ?>

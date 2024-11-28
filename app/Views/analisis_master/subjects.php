@@ -3,12 +3,16 @@
 <?= $this->section('content'); ?>
 
 <div class="container-fluid">
-    <!-- Page Heading -->
+
     <h1 class="h3 w-300 mb-2 text-gray-800"><?= $analisis_master['nama']; ?></h1>
     <h3 class="mb-2 fs-5 text-gray-800">Subject Analisis: <?= esc($subjects_types[$analisis_master['subjek_tipe']] ?? 'Penduduk'); ?></h3>
     <h3 class="h3 mb-2 text-gray-800">Subject Periode: <?= esc($periode['nama']); ?></h3>
-    <!-- DataTales Example -->
+
     <div class="card shadow mb-4">
+
+        <div class="card-header border-bottom">
+            <?= $this->include('partials/analisis_tabs', ['activeSideTab' => 'reports']); ?>
+        </div>
 
         <div class="card-body">
             <div class="table-responsive">
@@ -19,7 +23,7 @@
                             <th>Aksi</th>
                             <th>NIK</th>
                             <th>Nama</th>
-                            <th>Status</th> <!-- Added Status column -->
+                            <th>Status</th>
                             <th>Tanggal update</th>
                         </tr>
                     </thead>
@@ -29,7 +33,7 @@
                             <th>Aksi</th>
                             <th>NIK</th>
                             <th>Nama</th>
-                            <th>Status</th> <!-- Added Status column -->
+                            <th>Status</th>
                             <th>Tanggal update</th>
                         </tr>
                     </tfoot>
@@ -39,9 +43,10 @@
                             <tr>
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
-                                    <a href="/admin/analisis_master/<?= $analisis_master['id'] ?>/input/<?= esc($subject['parameter_subject']); ?>" class="btn btn-warning btn-sm">Input</a>
-                                    <!-- Example: Action button for each row (you can customize this) -->
-                                    <a href="admin/analisis_master/<?= esc($subject['parameter_subject']); ?>/reset/<?= esc($subject['parameter_subject']); ?>" class="btn btn-danger btn-sm">Reset</a>
+                                    <?php if ($subject['status'] != 'mengisi') : ?>
+                                        <a href="/admin/analisis_master/<?= $analisis_master['id'] ?>/input/<?= esc($subject['parameter_subject']); ?>" class="btn btn-warning btn-sm">Input</a>
+                                    <?php endif; ?>
+                                    <a href="/admin/analisis-respon/<?= $analisis_master['id'] ?>/reset/subject/<?= esc($subject['parameter_subject']); ?>" class="btn btn-danger btn-sm">Reset</a>
                                 </td>
                                 <td><?= esc($subject['parameter_subject']); ?></td>
                                 <td><?= esc($subject['subject_nama']); ?></td>
@@ -59,11 +64,11 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
-<!-- Page level plugins -->
+
 <script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/jquery.dataTables.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js"></script>
 
-<!-- Data table plugins -->
+
 <script src="/assets/js/admin/vendors/datatables/extensions/JSZip-3.10.1/jszip.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/extensions/pdfmake-0.2.7/pdfmake.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/extensions/pdfmake-0.2.7/vfs_fonts.js"></script>

@@ -3,7 +3,15 @@
 namespace App\Controllers;
 
 use App\Models\AnalisisMasterModel;
+use App\Models\AnalisisParameterModel;
+use App\Models\AnalisisIndikatorModel;
+use App\Models\AnalisisKategoriIndikatorModel;
+use App\Models\AnalisisResponModel;
+use App\Models\AnalisisResponHasilModel;
 use App\Models\AnalisisPeriodeModel;
+use App\Models\AnalisisPartisipasiModel;
+use App\Models\AnalisisKlasifikasiModel;
+use App\Models\DesaModel;
 
 class AnalisisMaster extends BaseController
 {
@@ -16,10 +24,20 @@ class AnalisisMaster extends BaseController
         $this->analisisPeriodeModel = new AnalisisPeriodeModel();
     }
 
-    public function index()
+    public function index(string $permalink = null)
     {
+        $desaModel   = new DesaModel();
+        $currentUser = auth()->user();
 
-        $data['analisis'] = $this->analisisMasterModel->findAll();
+        if ($currentUser->inGroup('superadmin')) {
+            $data['analisis'] = $this->analisisMasterModel->findAll();
+        } else {
+            $data['analisis'] = $this->analisisMasterModel
+                ->where('desa_id', $currentUser->desa_id)
+                ->findAll();
+        }
+
+
         $data['subjects'] = $this->analisisMasterModel->getSubjects();
         $data['lockOptions'] = $this->analisisMasterModel->getLockOptions();
 
@@ -40,14 +58,15 @@ class AnalisisMaster extends BaseController
 
     public function create()
     {
-        // Get the POST data
-        $data = $this->request->getPost();
+
+        $data                = $this->request->getPost();
+        $currentUser         = auth()->user();
+        $data['desa_id'] = $currentUser->desa_id;
 
         if (empty($data['kode_analisis'])) {
             $data['kode_analisis'] = '0000';
         }
 
-        // Save the data
         if ($this->analisisMasterModel->save($data)) {
 
             return redirect()->to('/admin/analisis_master')->with('message', 'Analisis added successfully.');
@@ -72,12 +91,9 @@ class AnalisisMaster extends BaseController
     {
         $data = $this->request->getPost();
 
-        // Attempt to update the record
         if ($this->analisisMasterModel->update($id, $data)) {
-            // Update was successful, redirect to index
             return redirect()->to('/admin/analisis_master')->with('success', 'Analisis Master updated successfully.');
         } else {
-            // Update failed, redirect back to the edit page with error messages
             return redirect()->back()->withInput()->with('errors', $this->analisisMasterModel->errors());
         }
     }
@@ -99,6 +115,10 @@ class AnalisisMaster extends BaseController
         $data['activeTab'] = "input";
 
         $data['analisis_master'] = $this->analisisMasterModel->find($id_master);
+        $klasifikasi             = new AnalisisKlasifikasiModel();
+        if (!$klasifikasi->where('id_master', $id_master)->first()) {
+            return redirect()->back()->withInput()->with('errors', 'Klasifikasi belum ada');
+        }
 
         $subject_type = $data['analisis_master']['subjek_tipe'];
 
@@ -109,7 +129,10 @@ class AnalisisMaster extends BaseController
             ->orderBy('tahun_pelaksanaan', 'desc')
             ->first();
 
-        // Pass the data to the view
+        if (!$data['periode']) {
+            return redirect()->back()->withInput()->with('errors', 'Periode belum ada');
+        }
+
         return view('analisis_master/subjects', $data);
     }
 
@@ -129,28 +152,33 @@ class AnalisisMaster extends BaseController
             ->orderBy('tahun_pelaksanaan', 'desc')
             ->first();
 
-        // Pass the data to the view
         return view('analisis_master/subjects', $data);
     }
 
     public function reports($id_master)
     {
-        $data['activeTab'] = "input";
+        $data['activeTab'] = "report";
 
         $data['analisis_master'] = $this->analisisMasterModel->find($id_master);
 
         $subject_type = $data['analisis_master']['subjek_tipe'];
 
-        $data['subjects'] = $this->analisisMasterModel->getReportAttributes() // Get the query builder
-            ->where('id', $id_master) // Apply the where condition after
-            ->get()->getResult();
+        $data['subjects'] = $this->analisisMasterModel->getReportAttributes()->where('analisis_master.id', $id_master)->get()->getResult();
+
+        $klasifikasi             = new AnalisisKlasifikasiModel();
+        if (!$klasifikasi->where('id_master', $id_master)->first()) {
+            return redirect()->back()->withInput()->with('errors', 'Klasifikasi belum ada');
+        }
 
         $data['periode'] = $this->analisisPeriodeModel
             ->where('id_master', $id_master)
             ->orderBy('tahun_pelaksanaan', 'desc')
             ->first();
 
-        // Pass the data to the view
-        return view('analisis_master/subjects', $data);
+        if (!$data['periode']) {
+            return redirect()->back()->withInput()->with('errors', 'Periode belum ada');
+        }
+
+        return view('analisis_master/report', $data);
     }
 }

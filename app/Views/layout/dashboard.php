@@ -20,6 +20,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <link href="/assets/css/admin/sb-admin-2.min.css" rel="stylesheet">
+
     <!-- Custom styles for this template-->
     <link href="/assets/css/admin/sb-admin-2.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/gkk.png" type="image/x-icon">
@@ -90,7 +92,7 @@ $desa = $desa->find(1);
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="/admin/analisis_master">
+                <a class="nav-link" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/analisis_master' : '/admin/analisis_master'; ?>">
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>Statistik & Analisis
                     </span>
@@ -98,7 +100,7 @@ $desa = $desa->find(1);
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/admin/program">
+                <a class="nav-link" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/program' : '/admin/program'; ?>">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>Program Bantuan</span></a>
             </li>
@@ -478,6 +480,8 @@ $desa = $desa->find(1);
     <script src=" https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 
     <?php $this->renderSection('script'); ?>

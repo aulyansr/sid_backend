@@ -24,6 +24,7 @@ $menus = $menu->where('tipe', 1)->findAll();
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 
@@ -197,12 +198,12 @@ $menus = $menu->where('tipe', 1)->findAll();
                                         Data Desa
                                     </div>
                                     <ul class="list-unstyled mb-0">
-                                        <li class="mb-2"><a href="kategori.html">Data Wilayah Administratif</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Data Pendidikan</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Data Pekerjaan</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Data Kelompok Umur</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Data Warga Negara</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Data Analisis</a></li>
+
+                                        <li class="mb-2"><a href="/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
+                                        <li class="mb-2"><a href="/statistik/pekerjaan">Data Pekerjaan</a></li>
+                                        <li class="mb-2"><a href="/statistik/kelompok-umur">Data Kelompok Umur</a></li>
+                                        <li class="mb-2"><a href="/statistik/agama">Data Agama</a></li>
+                                        <li class="mb-2"><a href="/statistik/jenis-kelamin">Data Jenis Kelamin</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-lg-4 col-md-6 mb-5 mb-md-0">
@@ -244,6 +245,8 @@ $menus = $menu->where('tipe', 1)->findAll();
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="/assets/js/public/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <?php $this->renderSection('script'); ?>
 </body>
 
 </html>

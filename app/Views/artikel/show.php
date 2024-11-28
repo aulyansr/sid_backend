@@ -1,104 +1,121 @@
-<?= $this->extend('layout/dashboard'); ?>
+<?= $this->extend('layout/public'); ?>
 
-<?= $this->section('content'); ?>
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Kategori / Variabel </h1>
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header border-bottom">
-            <?= $this->include('partials/analisis_tabs', ['activeTab' => $activeTab]); ?>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped compact" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Aksi</th>
-                            <th>Kategori / Variabel </th>
+     <?= $this->section('content'); ?>
+<div class = "container px-5">
+<div class = "row gx-5 justify-content-center">
+<div class = "col-lg-10 col-xl-8">
+<a   class = "badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href = "<?= route_to('detail_category_path', $kategori['id']) ?>"><? = $kategori['kategori']; ?></a>
+<div class = "single-post">
+                <h1>
+                    <?= $artikel['judul']; ?>
+                </h1>
 
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>No</th>
-                            <th>Aksi</th>
-                            <th>Kategori / Variabel </th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <?php foreach ($categories as $index => $category) : ?>
-                            <tr>
-                                <td align="center"><?= $index + 1; ?></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="<?= site_url('/admin/category/edit/' . esc($category['id'])); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
-                                            <i class="fa fa-edit"></i> Ubah
-                                        </a>
-                                        <a href="<?= site_url('/admin/category/delete/' . esc($category['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?');">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </a>
-                                        <a href="<?= site_url('/category/' . esc($category['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat
-                                        </a>
-                                    </div>
-                                </td>
-                                <td><?= esc($category['judul']); ?></td>
+                <div class = "d-flex align-items-center justify-content-between mb-5">
+                <div class = "single-post-meta me-4">
+                <img class = "single-post-meta-img" src = "<?= base_url($user->foto ?? 'assets/img/illustrations/profiles/profile-3.png'); ?>" />
+                <div class = "single-post-meta-details">
+                <div class = "single-post-meta-details-name">
+
+                                <?= $user->full_name ?>
+                            </div>
+                            <div class = "single-post-meta-details-date">
+                                 <?= $artikel['tgl_upload']->humanize(); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "single-post-meta-links">
+                    <a   href  = "#!"><i class = "fab fa-twitter fa-fw"></i></a>
+                    <a   href  = "#!"><i class = "fab fa-facebook-f fa-fw"></i></a>
+                    <a   href  = "#!"><i class = "fas fa-bookmark fa-fw"></i></a>
+                    </div>
+                </div>
+
+                <img class = "img-fluid mb-2 rounded" src = "<?= base_url($artikel['gambar']); ?>" />
+
+                <div class = "single-post-text my-5">
+                     <?= $artikel['isi']; ?>
+
+                    <div class = "row">
+                        <?php if (!empty($artikel['gambar1'])): ?>
+                            <div class = "col-md-6">
+                            <img class = "img-fluid mb-4 rounded" src = "<?= base_url($artikel['gambar1']); ?>" />
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($artikel['gambar2'])): ?>
+                            <div class = "col-md-6">
+                            <img class = "img-fluid mb-4 rounded" src = "<?= base_url($artikel['gambar2']); ?>" />
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($artikel['gambar3'])): ?>
+                            <div class = "col-md-6">
+                            <img class = "img-fluid mb-4 rounded" src = "<?= base_url($artikel['gambar3']); ?>" />
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
 
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+
+                    <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])): ?>
+                          <p>Dokumen                                                          : </p>
+                        <a href = "<?= $artikel['link_dokumen']; ?>"><? = htmlspecialchars($artikel['dokumen']); ?></a>
+                    <?php endif; ?>
+
+                    <hr  class = "my-5" />
+                    <div class = "text-center">
+                    <a   class = "btn btn-transparent-dark" href = "<?= base_url(); ?>">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
             </div>
+            <h2>Komentar</h2>
+            <?php if (!empty($comments) && is_array($comments)): ?>
+            <?php foreach ($comments as $comment)              : ?>
+                    <div class = "card mb-3">
+                    <div class = "card-body">
+                    <div class = "row">
+                    <div class = "col-1">
+                    <img src   = "https://placehold.co/600x600?text=<?= esc($comment['owner'][0]); ?>" alt = "<?= esc($comment['owner']); ?>" class = "w-100" style = "border-radius: 50%;">
+                                </div>
+                                <div      class = "col-8">
+                                <h4       class = "mb-0"><?= esc($comment['owner']); ?></h4>
+                                          <p><?= esc($comment['komentar']); ?></p>
+                                <small><i class = "fa-regular fa-clock"></i> <?= esc($comment['tgl_upload']); ?></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Belum ada komentar.</p>
+            <?php endif; ?>
+
+            <hr class = "my-5" />
+            <h2>Tulis Komentar</h2>
+            <form  class = "form-floating" action = "/komentar/store" method = "post">
+                   <?= csrf_field(); ?>
+            <div   class = "form-floating mb-3">
+            <input type  = "text" class           = "form-control" id        = "floatingInputName" placeholder = "nama" name = "owner">
+            <label for   = "floatingInput">
+                Nama
+            </label>
+                </div>
+                <div   class = "form-floating mb-3">
+                <input type  = "email" class = "form-control" id = "floatingInput" placeholder = "name@example.com" name = "email">
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="komentar" style="height: 100px"></textarea>
+                    <label for="floatingTextarea">Komentar</label>
+                </div>
+                <input type="hidden" name="id_artikel" value="<?= esc($artikel['id']); ?>">
+                <button class="btn btn-primary" type="submit">Kirim</button>
+
+            </form>
         </div>
     </div>
 </div>
-<?= $this->endSection(); ?>
 
-<?= $this->section('script'); ?>
-<!-- Page level plugins -->
-<script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/jquery.dataTables.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js"></script>
-
-<!-- Data table plugins -->
-<script src="/assets/js/admin/vendors/datatables/extensions/JSZip-3.10.1/jszip.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/pdfmake-0.2.7/pdfmake.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/pdfmake-0.2.7/vfs_fonts.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.bootstrap4.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.html5.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.print.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script>
-    $(document).ready(function() {
-        const table = $("#dataTable").DataTable({
-            lengthChange: false,
-            buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah category Baru`,
-                    className: "btn-sm",
-                    action: function(e, dt, node, config) {
-                        window.location.href = '/admin/category/new';
-                    },
-                },
-                {
-                    text: `<i class="fa fa-print" aria-hidden="true"></i>&nbsp;Cetak`,
-                    className: "btn-sm",
-                    extend: 'collection',
-                    buttons: ['csv', 'pdf', 'excel']
-                },
-                {
-                    text: `<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Preferensi Kolom`,
-                    className: "btn-sm",
-                    extend: 'colvis'
-                }
-            ],
-        });
-
-        table.buttons().container().appendTo("#dataTable_wrapper .col-md-6:eq(0)");
-    });
-</script>
 <?= $this->endSection(); ?>
