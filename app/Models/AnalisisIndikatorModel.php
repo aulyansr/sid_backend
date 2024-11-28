@@ -22,6 +22,19 @@ class AnalisisIndikatorModel extends Model
         'is_required'
     ];
 
+    protected $validationRules = [
+        'id_master'    => 'required|integer',
+        'nomor'        => 'required|numeric',
+        'pertanyaan'   => 'required|string|max_length[255]',
+        'id_tipe'      => 'required|integer',
+        'bobot'        => 'required|numeric|greater_than_equal_to[0]|less_than_equal_to[100]',
+        'act_analisis' => 'permit_empty|string|max_length[255]',
+        'id_kategori'  => 'required|integer',
+        'is_publik'    => 'required',
+        'is_statistik' => 'required',
+        'is_required'  => 'required',
+    ];
+
     protected $useTimestamps = false;
 
     const multiple = 1;

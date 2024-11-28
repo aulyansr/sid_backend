@@ -12,7 +12,7 @@
 <div class="row">
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-xl-4 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-xl-4 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -48,7 +48,7 @@
     </div>
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-xl-4 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -77,7 +77,7 @@
     </div>
 
     <!-- Pending Requests Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-xl-4 col-md-6 mb-4 d-none">
         <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -135,7 +135,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-primary text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="/admin/penduduk">Update Data Kependudukan</a>
+                        <a class="text-white-50" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/penduduk' : '/admin/penduduk'; ?>">Update Data Kependudukan</a>
                         <div class="text-white-50 small">Data Kependudukan</div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-info text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Tambah Program Bantuan</a>
+                        <a class="text-white-50" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/program' : '/admin/program'; ?>">Tambah Program Bantuan</a>
                         <div class="text-white-50 small">Program Bantuan</div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-warning text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Buat Data Analisis</a>
+                        <a class="text-white-50" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/analisis_master' : '/admin/analisis_master'; ?>">Buat Data Analisis</a>
                         <div class="text-white-50 small">Data Analisis</div>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-warning text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Cetak Data Statistik</a>
+                        <a class="text-white-50" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/analisis_master' : '/admin/analisis_master'; ?>">Cetak Data Statistik</a>
                         <div class="text-white-50 small">Data Statistik</div>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-info text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Tambah Program Bantuan</a>
+                        <a class="text-white-50" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/program' : '/admin/program'; ?>">Tambah Program Bantuan</a>
                         <div class="text-white-50 small">Program Bantuan</div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-warning text-white shadow">
                     <div class="card-body">
-                        <a class="text-white-50" href="#!">Buat Data Analisis</a>
+                        <a class="text-white-50" href="<?php echo session()->get('desa_permalink') ? '/' . session()->get('desa_permalink') . '/analisis_master' : '/admin/analisis_master'; ?>">Buat Data Analisis</a>
                         <div class="text-white-50 small">Data Analisis</div>
                     </div>
                 </div>

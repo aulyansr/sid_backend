@@ -87,7 +87,7 @@
                     text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Analisis Baru`,
                     className: "btn-sm",
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/analisis_master/<?= esc($analisis['id_master']); ?>/kategori-indikators/new';
+                        window.location.href = '/admin/analisis_master/<?= esc($analisis_master['id']); ?>/kategori-indikators/new';
                     },
                 },
                 {

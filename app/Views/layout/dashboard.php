@@ -260,14 +260,14 @@ $desa = $desa->find(1);
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Notifikasi
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <!-- <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
                                             <i class="fas fa-exclamation text-white"></i>
@@ -300,12 +300,12 @@ $desa = $desa->find(1);
                                         Template surat baru telah dirilis
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Lihat semua</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Lihat semua</a> -->
                             </div>
                         </li>
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                        <li class="nav-item dropdown no-arrow mx-1 d-none">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->

@@ -59,9 +59,10 @@ class AnalisisMaster extends BaseController
     public function create()
     {
 
-        $data                = $this->request->getPost();
-        $currentUser         = auth()->user();
+        $data            = $this->request->getPost();
+        $currentUser     = auth()->user();
         $data['desa_id'] = $currentUser->desa_id;
+        $data['subjek_tipe'] = 1;
 
         if (empty($data['kode_analisis'])) {
             $data['kode_analisis'] = '0000';

@@ -29,12 +29,13 @@ class AnalisisMasterModel extends Model
     ];
 
     protected $validationRules = [
-        'nama'              => 'required|max_length[40]',
-        'subjek_tipe'      => 'required|integer',
-        'lock'              => 'required|integer',
-        'fitur_prelist'    => 'required|integer',
-        'kode_analisis'    => 'required|max_length[5]',
-        'pembagi'          => 'decimal|permit_empty',
+        'nama'          => 'required|max_length[40]',
+        'subjek_tipe'   => 'required|integer',
+        'lock'          => 'required|integer',
+        'fitur_prelist' => 'required|integer',
+        'kode_analisis' => 'required|max_length[5]',
+        'pembagi'       => 'decimal|permit_empty',
+        'fitur_pembobotan' => 'required',
     ];
 
     // Define constants for categories

@@ -108,7 +108,18 @@ class Penduduk extends BaseController
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
 
         $currentUser = auth()->user();
-        $postData['desa_id'] = $currentUser->desa_id;
+
+        // Check if desa_id is empty
+        if (empty($currentUser->desa_id)) {
+            // Fetch the first desa record from the database
+            $firstDesa = $this->db->table('desa')->orderBy('id', 'ASC')->get(1)->getRow();
+
+            // Assign the first desa_id to $postData if a record exists
+            $postData['desa_id'] = $firstDesa ? $firstDesa->id : null;
+        } else {
+            // Use the current user's desa_id
+            $postData['desa_id'] = $currentUser->desa_id;
+        }
 
 
 

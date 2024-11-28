@@ -62,7 +62,7 @@
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <?php foreach ($subjects as $value => $label) : ?>
                                         <label class="btn btn-sm btn-outline-primary">
-                                            <input type="radio" name="subjek_tipe" value="<?= esc($value); ?>" id="subject_tipe_<?= esc($value); ?>" <?= (old('subjek_tipe', isset($analisis) ? $analisis['subjek_tipe'] : '') == $value) ? 'checked' : ''; ?>> <?= esc($label); ?>
+                                            <input type="radio" name="subject_tipe" value="<?= esc($value); ?>" id="subject_tipe_<?= esc($value); ?>" <?= (old('subjek_tipe', isset($analisis) ? $analisis['subjek_tipe'] : '') == $value) ? 'checked' : ''; ?>> <?= esc($label); ?>
                                         </label>
                                     <?php endforeach; ?>
                                 </div>

@@ -26,7 +26,7 @@ class AnalisisKategoriIndikator extends BaseController
             ->where('id_master', $id_master)
             ->findAll();
         $data['analisis_master'] = $this->analisisMasterModel->find($id_master);
-        $data['analisis'] = $this->analisisMasterModel->find($id_master);
+        $data['analisis']        = $this->analisisMasterModel->find($id_master);
 
         return view('analisis_kategori/index', $data);
     }
