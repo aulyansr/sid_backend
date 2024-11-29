@@ -250,7 +250,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
     $routes->get('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
     $routes->post('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
-    $routes->post('simpan-permohonan', 'PelayananDukcapil::simpan_permohonan');
+    $routes->post('simpan-permohonan', 'PelayananDukcapil::store');
     $routes->get('progres-pelayanan', 'PelayananDukcapil::progres_pelayanan');
     $routes->get('siap-ambil', 'PelayananDukcapil::siap_ambil');
     $routes->get('rekap-layanan', 'PelayananDukcapil::rekap_layanan');
