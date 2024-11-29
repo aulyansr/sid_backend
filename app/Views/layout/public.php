@@ -7,10 +7,10 @@ $menu          = new \App\Models\MenuModel();
 $villagemodel = new \App\Models\DesaModel();
 
 $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
-$desa = $desa->find(1);
-$menus = $menu->where('tipe', 1)->findAll();
-$village = $villagemodel->where('permalink', session()->get('desa_permalink'))->first();
-$theme = $village->theme_color ?? '#00ba94';
+$desa       = $desa->find(1);
+$menus      = $menu->where('tipe', 1)->findAll();
+$village    = $villagemodel->where('permalink', session()->get('desa_permalink'))->first();
+$theme = $village['theme_color'] ?? '#00ba94';
 
 
 ?>
@@ -31,11 +31,12 @@ $theme = $village->theme_color ?? '#00ba94';
 
     <style>
         .bg-color-1 {
-            background-color: red !important;
+            background-color: <?= esc($theme); ?> !important;
         }
 
         .btn-teal {
-            background-color: red !important;
+            background-color: <?= esc($theme); ?> !important;
+            border-color: <?= esc($theme); ?> !important;
         }
     </style>
 </head>
