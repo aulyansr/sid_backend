@@ -7,6 +7,7 @@ use App\Models\KategoriModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use GuzzleHttp\Client;
+use CodeIgniter\Database\Exceptions\Exception;
 
 class PelayananDukcapil extends BaseController
 {
@@ -156,11 +157,203 @@ class PelayananDukcapil extends BaseController
         // Mengambil data lainnya dari session untuk disimpan atau diproses lebih lanjut
         // $name       = $this->session->get('name');
         // $address    = $this->session->get('address');
+        $dataSess = [
+            'NIK'                       => $this->session->get('NIK'),
+            'NAMA_PEMOHON'              => $this->session->get('NAMA_PEMOHON'),
+            'ALAMAT'                    => $this->session->get('ALAMAT'),
+            'NO_HP'                     => $this->session->get('NO_HP'),
+            'EMAIL_TERMOHON'            => $this->session->get('EMAIL_TERMOHON'),
+            'TGL_RENCANA_PENGAMBILAN'   => $this->session->get('TGL_RENCANA_PENGAMBILAN'),
+           // 'DETAILPERMOHONAN'          => $this->session->get('permohonan'), //step ke 2
+            'LOKASI_PENGAMBILAN'        => $this->session->get('LOKASI_PENGAMBILAN'), //step ke 3
+            'CATATAN'                   => $this->session->get('CATATAN'),
+        ];
+
+
+
+        // echo "<pre>";
+        // print_r($dataSess);
+        // echo "</pre>";
+
+         // Ambil data array `g`
+        $detailPermohonan = $this->session->get('permohonan');
+
+        // dd($detailPermohonan);
+
+        // Validasi bahwa detailPermohonan adalah array
+        if (!is_array($detailPermohonan) || empty($detailPermohonan)) {
+            return redirect()->back()->with('error', 'Data permohonan  tidak valid atau kosong.');
+        }
+
+        // Proses penyimpanan data untuk setiap elemen detailPermohonan
+        foreach ($detailPermohonan as $keyPermohonan) {
+            // Pastikan setiap elemen memiliki data yang dibutuhkan
+            if (isset($keyPermohonan['NAMA_TERMOHON'], $keyPermohonan['NIK_TERMOHON'], $keyPermohonan['JENIS_DOC'])) {
+                $row = [
+                    'NIK'                       => $dataSess['NIK'],
+                    'NAMA_PEMOHON'              => $dataSess['NAMA_PEMOHON'],
+                    'ALAMAT'                    => $dataSess['ALAMAT'],
+                    'NO_HP'                     => $dataSess['NO_HP'],
+                    'EMAIL_TERMOHON'            => $dataSess['EMAIL_TERMOHON'],
+                    'TGL_RENCANA_PENGAMBILAN'   => $dataSess['TGL_RENCANA_PENGAMBILAN'],
+                    'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'],
+                    'NIK_TERMOHON'              => $keyPermohonan['NIK_TERMOHON'],
+                    'JENIS_DOC'                 => $keyPermohonan['JENIS_DOC'],
+                    'LOKASI_PENGAMBILAN'        => $dataSess['LOKASI_PENGAMBILAN'],
+                    'CATATAN'                   => $dataSess['CATATAN'],
+                ];
+            }
+
+            echo "<pre>";
+            print_r($row).exit();
+            echo "</pre>";
+        }
+
+
+       
+        // dd($row);
+
         $data['kategoris'] = $this->kategori->findAll();
         $data['activeTab'] = 'progres-pelayanan';
 
         return view('pelayanandukcapil/layanan/v_progres_pelayanan', $data);
     }    
+
+
+    // berhasil
+    // jika debug true diaktifkan maka akan error
+    // multiple array pada proses detail permohonan blm jalan
+    public function store()
+    {
+        $client = new Client();
+
+        $data = [
+            'LOKASI_PENGAMBILAN' => $this->request->getPost('LOKASI_PENGAMBILAN'),
+            'LOKASI_PENGAMBILAN' => $this->request->getPost('LOKASI_PENGAMBILAN'),
+            'CATATAN'            => $this->request->getPost('CATATAN'),
+            // Tambahkan variabel lain sesuai kebutuhan
+        ];
+
+        $filterData = array_filter($data, function($value) {
+            return !is_null($value) && $value !== '';
+        });
+    
+        // Simpan data ke session
+        $this->session->set($filterData);
+
+        $file = $this->request->getFile('fileUpload2');
+
+        $dataSess = [
+            'NIK'                       => $this->session->get('NIK'), //PERMOHONAN_PELAYANAN_V2
+            'NAMA_PEMOHON'              => $this->session->get('NAMA_PEMOHON'), //PERMOHONAN_PELAYANAN_V2
+            'ALAMAT'                    => $this->session->get('ALAMAT'), //PERMOHONAN_PELAYANAN_V2
+            'NO_HP'                     => $this->session->get('NO_HP'), //PERMOHONAN_PELAYANAN_V2
+            'EMAIL_TERMOHON'            => $this->session->get('EMAIL_TERMOHON'), //PERMOHONAN_PELAYANAN_V2
+            'TGL_RENCANA_PENGAMBILAN'   => $this->session->get('TGL_RENCANA_PENGAMBILAN'), //PERMOHONAN_PELAYANAN_V2
+            // 'DETAILPERMOHONAN'          => $this->session->get('permohonan'), //step ke 2
+            'LOKASI_PENGAMBILAN'        => $this->session->get('LOKASI_PENGAMBILAN'), //step ke 3 //PERMOHONAN_PELAYANAN_DETAIL_V2
+            'CATATAN'                   => $this->session->get('CATATAN'),
+        ];
+
+        // dd($dataSess);
+
+        $detailPermohonan = $this->session->get('permohonan'); //PERMOHONAN_PELAYANAN_DETAIL_V2
+
+        // dd($detailPermohonan);
+
+         // Validasi bahwa detailPermohonan adalah array
+        if (!is_array($detailPermohonan) || empty($detailPermohonan)) {
+            return redirect()->back()->with('error', 'Data permohonan  tidak valid atau kosong.');
+        }
+
+         // Proses penyimpanan data untuk setiap elemen detailPermohonan
+         foreach ($detailPermohonan as $keyPermohonan) {
+            // Pastikan setiap elemen memiliki data yang dibutuhkan
+            if (isset($keyPermohonan['NAMA_TERMOHON'], $keyPermohonan['NIK_TERMOHON'], $keyPermohonan['JENIS_DOC'])) {
+                $dataRow = [
+                    // 'NIK'                       => $dataSess['NIK'],
+                    // 'NAMA_PEMOHON'              => $dataSess['NAMA_PEMOHON'],
+                    // 'ALAMAT'                    => $dataSess['ALAMAT'],
+                    // 'NO_HP'                     => $dataSess['NO_HP'],
+                    // 'EMAIL_TERMOHON'            => $dataSess['EMAIL_TERMOHON'],
+                    // 'TGL_RENCANA_PENGAMBILAN'   => $dataSess['TGL_RENCANA_PENGAMBILAN'],
+                    'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'],
+                    'NIK_TERMOHON'              => $keyPermohonan['NIK_TERMOHON'],
+                    'JENIS_DOC'                 => $keyPermohonan['JENIS_DOC'],
+                    // 'LOKASI_PENGAMBILAN'        => $dataSess['LOKASI_PENGAMBILAN'],
+                    // 'CATATAN'                   => $dataSess['CATATAN'],
+                ];
+            }
+
+          
+        }
+
+        // echo "<pre>";
+        // print_r($dataRow).exit();
+        // echo "</pre>";
+
+        // Periksa apakah file valid
+        if (!$file->isValid()) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'File not found or invalid.'
+            ]);
+        }
+
+        // Buat array `multipart` untuk Guzzle
+        $multipartData = [];
+
+        // print_r($multipartData).exit();
+
+        // Tambahkan setiap item data ke dalam array `multipart`
+        foreach ($dataRow as $name => $contents) {
+            $multipartData[] = [
+                'name'     => $name,
+                'contents' => $contents
+            ];
+        }
+
+        // Tambahkan file ke dalam array `multipart`
+        $multipartData[] = [
+            'name'     => 'FILE_URL',
+            'contents' => fopen($file->getTempName(), 'r'),
+            'filename' => $file->getName()
+        ];
+
+
+        // echo "<pre>";
+        // print_r($multipartData).exit();
+        // echo "</pre>";
+
+
+        try {
+            // Buat klien Guzzle
+            // $client = new Client();
+
+            // Kirim permintaan POST
+            $response = $client->post('https://dev-smart.gunungkidulkab.go.id/api/upload', [
+                'multipart' => $multipartData
+            ]);
+
+            // Tampilkan respons dari server
+            return $response->getBody()->getContents();
+        } catch (RequestException $e) {
+            // Tangkap error
+            if ($e->hasResponse()) {
+                return 'Error Response: ' . $e->getResponse()->getBody()->getContents();
+            }
+            return 'Request Error: ' . $e->getMessage();
+        }
+
+        // Kirim permintaan POST ke API server
+        // $response = $client->post('https://dev-smart.gunungkidulkab.go.id/api/upload', [
+        //     'multipart' => $multipartData,
+        //     'debug'     => true,
+        // ]);
+
+        // Mengembalikan respons dari API server
+        // return $this->response->setJSON(json_decode($response->getBody(), true));
+    }
     
     public function progres_pelayanan()
     {
@@ -305,58 +498,6 @@ class PelayananDukcapil extends BaseController
         return $this->response->setJSON(json_decode($response->getBody(), true));
     }
 
-    public function store()
-    {
-        $client = new Client();
-
-        // Data tambahan dari form
-        $data = [
-            'NIK'               => $this->request->getPost('NIK'),
-            'NAMA_TERMOHON'     => $this->request->getPost('NAMA_TERMOHON'),
-            'ALAMAT_PEMOHON'    => $this->request->getPost('ALAMAT_PEMOHON'),
-            'KET'               => $this->request->getPost('KET'),
-            'CONTACT_PEMOHON'   => $this->request->getPost('CONTACT_PEMOHON'),
-            'CATATAN'           => $this->request->getPost('CATATAN'),
-            'EMAIL'             => $this->request->getPost('EMAIL'),
-        ];
-
-        // Mengambil file dari input form
-        $file = $this->request->getFile('FILE_URL');
-
-        // Periksa apakah file valid
-        if (!$file->isValid()) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'File not found or invalid.'
-            ]);
-        }
-
-        // Buat array `multipart` untuk Guzzle
-        $multipartData = [];
-
-        // Tambahkan setiap item data ke dalam array `multipart`
-        foreach ($data as $name => $contents) {
-            $multipartData[] = [
-                'name'     => $name,
-                'contents' => $contents
-            ];
-        }
-
-        // Tambahkan file ke dalam array `multipart`
-        $multipartData[] = [
-            'name'     => 'FILE_URL',
-            'contents' => fopen($file->getTempName(), 'r'),
-            'filename' => $file->getName()
-        ];
-
-        // Kirim permintaan POST ke API server
-        $response = $client->post('https://dev-smart.gunungkidulkab.go.id/api/upload', [
-            'multipart' => $multipartData
-        ]);
-
-        // Mengembalikan respons dari API server
-        return $this->response->setJSON(json_decode($response->getBody(), true));
-    }
     
     public function storee()
     {
