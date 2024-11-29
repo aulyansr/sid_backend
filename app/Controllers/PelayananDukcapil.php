@@ -271,17 +271,17 @@ class PelayananDukcapil extends BaseController
             // Pastikan setiap elemen memiliki data yang dibutuhkan
             if (isset($keyPermohonan['NAMA_TERMOHON'], $keyPermohonan['NIK_TERMOHON'], $keyPermohonan['JENIS_DOC'])) {
                 $dataRow = [
-                    // 'NIK'                       => $dataSess['NIK'],
-                    // 'NAMA_PEMOHON'              => $dataSess['NAMA_PEMOHON'],
-                    // 'ALAMAT'                    => $dataSess['ALAMAT'],
-                    // 'NO_HP'                     => $dataSess['NO_HP'],
-                    // 'EMAIL_TERMOHON'            => $dataSess['EMAIL_TERMOHON'],
-                    // 'TGL_RENCANA_PENGAMBILAN'   => $dataSess['TGL_RENCANA_PENGAMBILAN'],
+                    'NIK'                       => $dataSess['NIK'],
+                    'NAMA_PEMOHON'              => $dataSess['NAMA_PEMOHON'],
+                    'ALAMAT'                    => $dataSess['ALAMAT'],
+                    'NO_HP'                     => $dataSess['NO_HP'],
+                    'EMAIL_TERMOHON'            => $dataSess['EMAIL_TERMOHON'],
+                    'TGL_RENCANA_PENGAMBILAN'   => $dataSess['TGL_RENCANA_PENGAMBILAN'],
                     'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'],
                     'NIK_TERMOHON'              => $keyPermohonan['NIK_TERMOHON'],
                     'JENIS_DOC'                 => $keyPermohonan['JENIS_DOC'],
-                    // 'LOKASI_PENGAMBILAN'        => $dataSess['LOKASI_PENGAMBILAN'],
-                    // 'CATATAN'                   => $dataSess['CATATAN'],
+                    'LOKASI_PENGAMBILAN'        => $dataSess['LOKASI_PENGAMBILAN'],
+                    'CATATAN'                   => $dataSess['CATATAN'],
                 ];
             }
 
