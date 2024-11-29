@@ -22,7 +22,11 @@
                         <!-- Form Group (Permalink) -->
                         <div class="col-md-6 mb-3">
                             <label class="small mb-1" for="inputPermalink">Permalink</label>
-                            <input class="form-control" id="inputPermalink" name="permalink" type="text" placeholder="Permalink" value="<?= old('permalink', isset($desa) ? esc($desa['permalink']) : ''); ?>" required>
+                            <input class="form-control" id="inputPermalink" name="permalinks" type="text" placeholder="Permalink" value="<?= old('permalink', isset($desa) ? esc($desa['permalink']) : ''); ?>" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="small mb-1" for="inputPermalink">Tema Warna</label>
+                            <input type="color" id="themeColor" name="theme_color" value="<?= old('theme_color', isset($desa) ? esc($desa['theme_color']) : '#00ba94'); ?>">
                         </div>
                     </div>
 

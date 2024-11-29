@@ -13,7 +13,7 @@ class DesaModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['nama_desa', 'permalink'];
+    protected $allowedFields = ['nama_desa', 'permalink', 'theme_color'];
 
     // Validation rules
     protected $validationRules = [

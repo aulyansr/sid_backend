@@ -38,9 +38,7 @@
                                         <a href="<?= site_url('/admin/desa/delete/' . esc($village['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus desa ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
-                                        <a href="<?= site_url('/desa/' . esc($village['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat
-                                        </a>
+
                                     </div>
                                 </td>
                                 <td><?= esc($village['nama_desa']); ?></td>

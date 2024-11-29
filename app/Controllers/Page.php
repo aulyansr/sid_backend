@@ -7,6 +7,7 @@ use App\Models\KategoriModel;
 use App\Models\GambarGalleryModel;
 use App\Models\KomentarModel;
 use App\Models\TwebPenduduk;
+use App\Models\DesaModel;
 
 class Page extends BaseController
 {
@@ -15,7 +16,7 @@ class Page extends BaseController
     protected $kategori;
     protected $gallery;
     protected $pendudukModel;
-
+    protected $desaModel;
     public function __construct()
     {
         $this->artikelModel  = new ArtikelModel();
@@ -23,10 +24,27 @@ class Page extends BaseController
         $this->gallery       = new GambarGalleryModel();
         $this->komentarModel = new KomentarModel();
         $this->pendudukModel = new TwebPenduduk();
+        $this->desaModel = new DesaModel();
     }
 
     public function index()
+
     {
+        $session = session();
+        $session->remove('desa_permalink');
+        $data['villages'] = $this->desaModel->findAll();
+
+        return view('pages/select_desa', $data);
+    }
+
+    public function desa($segment)
+    {
+
+
+        $session = session();
+        $session->remove('desa_permalink');
+        $session->set('desa_permalink', $segment);
+
         $data['artikels'] = $this->artikelModel->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
 
         $data['headline'] = $this->artikelModel->where('headline', 1)->getArtikels();
@@ -39,6 +57,8 @@ class Page extends BaseController
             ->findAll();
         return view('pages/index', $data);
     }
+
+
 
     public function articles()
     {

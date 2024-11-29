@@ -434,36 +434,36 @@ class Auth extends ShieldAuth
      * to after a successful login.
      */
     public function loginRedirect(): string
-{
-    $session = session();
+    {
+        $session = session();
 
-    // Check if the user is logged in
-    if (auth()->loggedIn()) {
-        $user = auth()->user();
+        // Check if the user is logged in
+        if (auth()->loggedIn()) {
+            $user = auth()->user();
 
-        // Check if the user has a valid desa_id
-        if ($user->desa_id !== null) {
-            // Retrieve the 'permalink' from the desa table using the user's desa_id
-            $desaModel = new \App\Models\DesaModel();
-            $desa = $desaModel->find($user->desa_id);
+            // Check if the user has a valid desa_id
+            if ($user->desa_id !== null) {
+                // Retrieve the 'permalink' from the desa table using the user's desa_id
+                $desaModel = new \App\Models\DesaModel();
+                $desa = $desaModel->find($user->desa_id);
 
-            // If a matching desa is found, use its permalink for redirection
-            if ($desa) {
-                $permalink = $desa['permalink'];
+                // If a matching desa is found, use its permalink for redirection
+                if ($desa) {
+                    $permalink = $desa['permalink'];
 
-                // Store the permalink in the session
-                $session->set('desa_permalink', $permalink);
+                    // Store the permalink in the session
+                    $session->set('desa_permalink_admin', $permalink);
 
-                // Redirect to /{permalink}/dashboard
-                return "/{$permalink}/dashboard";
+                    // Redirect to /{permalink}/dashboard
+                    return "/{$permalink}/admin/dashboard";
+                }
             }
         }
-    }
 
-    // Default redirect if no valid desa_id is found
-    $url = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
-    return $this->getUrl($url);
-}
+        // Default redirect if no valid desa_id is found
+        $url = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
+        return $this->getUrl($url);
+    }
 
 
 

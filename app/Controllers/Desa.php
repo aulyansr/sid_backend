@@ -54,14 +54,19 @@ class Desa extends BaseController
     // Update the desa data
     public function update($id)
     {
+        // Get the form data
+        $data = $this->request->getPost();
 
-        $this->desaModel->update($id, [
-            'nama_desa' => $this->request->getPost('nama_desa'),
-            'permalink' => $this->request->getPost('permalink'),
-        ]);
-
-        return redirect()->to('admin/desa');
+        // Attempt to update the record in the database
+        if ($this->desaModel->update($id, $data)) {
+            // If the update is successful, redirect with a success message
+            return redirect()->to('admin/desa')->with('success', 'Record updated successfully.');
+        } else {
+            // If the update fails, redirect with an error message
+            return redirect()->to('admin/desa')->with('error', $this->desaModel->errors());
+        }
     }
+
 
     // Delete the desa
     public function delete($id)

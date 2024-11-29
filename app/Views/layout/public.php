@@ -2,13 +2,15 @@
 <html lang="en">
 <?php
 $kategoriModel = new \App\Models\KategoriModel();
-$desa = new \App\Models\ConfigModel();
-$menu = new \App\Models\MenuModel();
+$desa          = new \App\Models\ConfigModel();
+$menu          = new \App\Models\MenuModel();
+$villagemodel = new \App\Models\DesaModel();
 
 $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
 $desa = $desa->find(1);
 $menus = $menu->where('tipe', 1)->findAll();
-
+$village = $villagemodel->where('permalink', session()->get('desa_permalink'))->first();
+$theme = $village->theme_color ?? '#00ba94';
 
 
 ?>
@@ -25,6 +27,17 @@ $menus = $menu->where('tipe', 1)->findAll();
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <style>
+        .bg-color-1 {
+            background-color: red !important;
+        }
+
+        .btn-teal {
+            background-color: red !important;
+        }
+    </style>
 </head>
 
 
@@ -80,7 +93,7 @@ $menus = $menu->where('tipe', 1)->findAll();
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto me-lg-5">
-                                <li class="nav-item"><a class="nav-link" href=" <?= base_url() ?> ">Beranda</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/<?= session()->get('desa_permalink') ?> ">Beranda</a></li>
 
                                 <?php foreach ($categories as $item) : ?>
 
@@ -98,8 +111,11 @@ $menus = $menu->where('tipe', 1)->findAll();
 
                                             ?>
 
-                                            <?php foreach ($articles as $index => $article) : ?>
-                                                <a class="dropdown-item py-3" href="<?= route_to('detail_article_path', $article['id']) ?>" target="_blank">
+
+
+                                            <?php foreach ($articles as $index => $article): ?>
+
+                                                <a class="dropdown-item py-3" href="/<?= session()->get('desa_permalink'); ?>/artikel/<?= $article['id']; ?>">
                                                     <div>
                                                         <div class="small text-gray-500"><?= date('d F Y', strtotime($article['tgl_upload'])) ?></div>
                                                         <?= esc($article['judul']) ?>

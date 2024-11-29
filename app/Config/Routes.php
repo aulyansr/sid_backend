@@ -32,10 +32,15 @@ $routes->get('statistik/pekerjaan', 'Page::statistik_pekerjaan');
 $routes->get('statistik/agama', 'Page::statistik_agama');
 $routes->get('statistik/kelompok-umur', 'Page::statistik_kelompok_umur');
 $routes->get('statistik/jenis-kelamin', 'Page::statistik_jenis_kelamin');
+$routes->group('(:segment)/', function ($routes) {
+    $routes->get('', 'Page::desa/$1');
+    $routes->get('artikel/(:num)', 'ArtikelController::show/$2');
+});
 
-$routes->group('(:segment)', function ($routes) {
+$routes->group('(:segment)/admin', function ($routes) {
 
-    $routes->get('dashboard', 'Dashboard::index/$1', ['as' => 'dashboard']);
+    $routes->get('', 'Dashboard::index/$1');
+    $routes->get('dashboard', 'Dashboard::index/$1');
 
 
     $routes->get('analisis_master', 'AnalisisMaster::index', ['filter' => 'permission:kelurahan.access']);
