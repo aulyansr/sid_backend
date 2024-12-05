@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\KelurahanModel;
-use App\Models\desaModel;
+use App\Models\DesaModel;
 use SawaStacks\CodeIgniter\Slugify;
 
 class Kelurahan extends BaseController
