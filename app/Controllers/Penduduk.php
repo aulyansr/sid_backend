@@ -34,9 +34,22 @@ class Penduduk extends BaseController
         $desa         = $desaModel->where('permalink', $permalink)->first();
         $data['desa'] = $desa;
 
+        $data['request'] = $this->request;
 
-        $search = $this->request->getGet('search');
+        $data['sexList']           = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
+        $data['pendidikanList']    = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
+        $data['agamaList']         = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
+        $data['pekerjaanList']     = $this->db->table('tweb_penduduk_pekerjaan')->get()->getResultArray();
+        $data['kawinList']         = $this->db->table('tweb_penduduk_kawin')->get()->getResultArray();
+        $data['hubunganList']      = $this->db->table('tweb_penduduk_hubungan')->get()->getResultArray();
+        $data['warganegaraList']   = $this->db->table('tweb_penduduk_warganegara')->get()->getResultArray();
+        $data['golongandarahList'] = $this->db->table('tweb_golongan_darah')->get()->getResultArray();
+        $data['statusList']        = $this->db->table('tweb_penduduk_status')->get()->getResultArray();
+        $data['cacatList']         = $this->db->table('tweb_cacat')->get()->getResultArray();
+        $data['dusunList']         = $this->wilayahModel->getDusun();
 
+        $filters = $this->request->getGet();
+        $search  = $filters['search'] ?? null;
 
         if ($currentUser->inGroup('superadmin')) {
             $query = $this->pendudukModel->getAllAttributes();
@@ -54,15 +67,71 @@ class Penduduk extends BaseController
                 ->groupEnd();
         }
 
-        $data['penduduks'] = $query->findAll();
 
+        $query = $this->filterPenduduks($filters, $query);
+
+        $data['penduduks'] = $query->findAll();
 
         $data['search']    = $search;
         $data['activeTab'] = 'penduduk';
 
-
         return view('penduduk/index', $data);
     }
+
+    public function filterPenduduks(array $filters, $query)
+    {
+
+        if (!empty($filters['sdk'])) {
+            $query->whereIn('tweb_penduduk_hubungan.id', $filters['sdk']);
+        }
+
+        if (!empty($filters['sex'])) {
+            $query->whereIn('tweb_penduduk.sex', $filters['sex']);
+        }
+
+
+        if (!empty($filters['pendidikankk'])) {
+            $query->whereIn('tweb_penduduk.pendidikan_kk_id', $filters['pendidikankk']);
+        }
+
+        if (!empty($filters['pendidikansdg'])) {
+            $query->whereIn('tweb_penduduk.pendidikan_sedang_id', $filters['pendidikansdg']);
+        }
+
+
+        if (!empty($filters['agama'])) {
+            $query->whereIn('tweb_penduduk.agama_id', $filters['agama']);
+        }
+
+
+        if (!empty($filters['pekerjaan'])) {
+            $query->whereIn('tweb_penduduk.pekerjaan_id', $filters['pekerjaan']);
+        }
+
+
+        if (!empty($filters['hubungan'])) {
+            $query->whereIn('tweb_penduduk.hubungan_id', $filters['hubungan']);
+        }
+
+
+        if (!empty($filters['stskwn'])) {
+            $query->whereIn('tweb_penduduk.status_kawin', $filters['stskwn']);
+        }
+
+        if (!empty($filters['wn'])) {
+            $query->whereIn('tweb_penduduk.warganegara_id', $filters['wn']);
+        }
+
+
+        if (!empty($filters['goldar'])) {
+            $query->whereIn('tweb_penduduk.golongan_darah_id', $filters['goldar']);
+        }
+
+
+
+        return $query;
+    }
+
 
 
 
@@ -109,15 +178,15 @@ class Penduduk extends BaseController
 
         $currentUser = auth()->user();
 
-        // Check if desa_id is empty
+
         if (empty($currentUser->desa_id)) {
-            // Fetch the first desa record from the database
+
             $firstDesa = $this->db->table('desa')->orderBy('id', 'ASC')->get(1)->getRow();
 
-            // Assign the first desa_id to $postData if a record exists
+
             $postData['desa_id'] = $firstDesa ? $firstDesa->id : null;
         } else {
-            // Use the current user's desa_id
+
             $postData['desa_id'] = $currentUser->desa_id;
         }
 

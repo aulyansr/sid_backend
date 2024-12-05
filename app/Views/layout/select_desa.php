@@ -40,7 +40,7 @@ $menus = $menu->where('tipe', 1)->findAll();
                         <h1 class="mb-5">
                             Pilih Desa
                         </h1>
-                        <div class="row g-4 justify-content-center">
+                        <div class="row g-4 justify-content-center mb-5">
                             <?php foreach ($villages as $index => $village): ?>
 
 

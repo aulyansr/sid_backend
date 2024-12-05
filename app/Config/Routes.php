@@ -240,6 +240,13 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('desa/update/(:num)', 'Desa::update/$1');
     $routes->get('desa/delete/(:num)', 'Desa::delete/$1');
 
+    $routes->get('kelurahan', 'Kelurahan::index');
+    $routes->get('kelurahan/create', 'Kelurahan::create');
+    $routes->post('kelurahan/store', 'Kelurahan::store');
+    $routes->get('kelurahan/edit/(:num)', 'Kelurahan::edit/$1');
+    $routes->post('kelurahan/update/(:num)', 'Kelurahan::update/$1');
+    $routes->get('kelurahan/delete/(:num)', 'Kelurahan::delete/$1');
+
 
 
 

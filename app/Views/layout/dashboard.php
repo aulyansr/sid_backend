@@ -174,6 +174,13 @@ $desa = $desa->find(1);
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/kelurahan">
+                        <i class="fas fa-cogs fa-sm fa-fw"></i>
+
+                        <span>Konfigurasi  Kelurhan</span></a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="/admin/pengurus">
                         <i class="fas fa-user-shield"></i>
 
