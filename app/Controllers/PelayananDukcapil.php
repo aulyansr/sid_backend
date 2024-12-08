@@ -241,25 +241,27 @@ class PelayananDukcapil extends BaseController
         // Simpan data ke session
         $this->session->set($filterData);
 
-        $file = $this->request->getFile('fileUpload2');
-
-        $dataSess = [
-            'NIK'                       => $this->session->get('NIK'), //PERMOHONAN_PELAYANAN_V2
-            'NAMA_PEMOHON'              => $this->session->get('NAMA_PEMOHON'), //PERMOHONAN_PELAYANAN_V2
-            'ALAMAT'                    => $this->session->get('ALAMAT'), //PERMOHONAN_PELAYANAN_V2
-            'NO_HP'                     => $this->session->get('NO_HP'), //PERMOHONAN_PELAYANAN_V2
-            'EMAIL_TERMOHON'            => $this->session->get('EMAIL_TERMOHON'), //PERMOHONAN_PELAYANAN_V2
-            'TGL_RENCANA_PENGAMBILAN'   => $this->session->get('TGL_RENCANA_PENGAMBILAN'), //PERMOHONAN_PELAYANAN_V2
-            // 'DETAILPERMOHONAN'          => $this->session->get('permohonan'), //step ke 2
-            'LOKASI_PENGAMBILAN'        => $this->session->get('LOKASI_PENGAMBILAN'), //step ke 3 //PERMOHONAN_PELAYANAN_DETAIL_V2
-            'CATATAN'                   => $this->session->get('CATATAN'),
-        ];
-
-        // dd($dataSess);
+        $fileSatu   = $this->request->getFile('fileUpload1');
+        $fileDua    = $this->request->getFile('fileUpload2');
 
         $detailPermohonan = $this->session->get('permohonan'); //PERMOHONAN_PELAYANAN_DETAIL_V2
 
         // dd($detailPermohonan);
+
+        $dataRow = [
+            'NIK'                       => $this->session->get('NIK'), 
+            'NAMA_PEMOHON'              => $this->session->get('NAMA_PEMOHON'),
+            'ALAMAT'                    => $this->session->get('ALAMAT'),
+            'NO_HP'                     => $this->session->get('NO_HP'), 
+            'EMAIL_TERMOHON'            => $this->session->get('EMAIL_TERMOHON'),
+           // 'TGL_RENCANA_PENGAMBILAN'   => $this->session->get('TGL_RENCANA_PENGAMBILAN'), //bug
+            // 'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'], 
+            // 'NIK_TERMOHON'              => $keyPermohonan['NIK_TERMOHON'],
+            // 'JENIS_DOC'                 => $keyPermohonan['JENIS_DOC'],
+            'LOKASI_PENGAMBILAN'        => $this->session->get('LOKASI_PENGAMBILAN'),
+            'CATATAN'                   => $this->session->get('CATATAN'),
+            'CREATED_BY'                => 'DESA A', //PERMOHONAN_PELAYANAN_V2
+        ];
 
          // Validasi bahwa detailPermohonan adalah array
         if (!is_array($detailPermohonan) || empty($detailPermohonan)) {
@@ -267,36 +269,25 @@ class PelayananDukcapil extends BaseController
         }
 
          // Proses penyimpanan data untuk setiap elemen detailPermohonan
+         $batchData = [];
          foreach ($detailPermohonan as $keyPermohonan) {
             // Pastikan setiap elemen memiliki data yang dibutuhkan
             if (isset($keyPermohonan['NAMA_TERMOHON'], $keyPermohonan['NIK_TERMOHON'], $keyPermohonan['JENIS_DOC'])) {
-                $dataRow = [
-                    'NIK'                       => $dataSess['NIK'],
-                    'NAMA_PEMOHON'              => $dataSess['NAMA_PEMOHON'],
-                    'ALAMAT'                    => $dataSess['ALAMAT'],
-                    'NO_HP'                     => $dataSess['NO_HP'],
-                    'EMAIL_TERMOHON'            => $dataSess['EMAIL_TERMOHON'],
-                    'TGL_RENCANA_PENGAMBILAN'   => $dataSess['TGL_RENCANA_PENGAMBILAN'],
-                    'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'],
+                $batchData[] = [
+                    'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'], 
                     'NIK_TERMOHON'              => $keyPermohonan['NIK_TERMOHON'],
                     'JENIS_DOC'                 => $keyPermohonan['JENIS_DOC'],
-                    'LOKASI_PENGAMBILAN'        => $dataSess['LOKASI_PENGAMBILAN'],
-                    'CATATAN'                   => $dataSess['CATATAN'],
                 ];
             }
 
           
         }
 
-        // echo "<pre>";
-        // print_r($dataRow).exit();
-        // echo "</pre>";
-
-        // Periksa apakah file valid
-        if (!$file->isValid()) {
+        // Periksa apakah file Satu valid
+        if (!$fileSatu->isValid()) {
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => 'File not found or invalid.'
+                'message' => 'File Satu not found or invalid.'
             ]);
         }
 
@@ -313,18 +304,33 @@ class PelayananDukcapil extends BaseController
             ];
         }
 
-        // Tambahkan file ke dalam array `multipart`
+        // Tambahkan batch data ke multipart
+        foreach ($batchData as $row) {
+            foreach ($row as $key => $value) {
+                $multipartData[] = [
+                    'name'     => $key . '[]', // Tambahkan [] untuk data array
+                    'contents' => $value,
+                ];
+            }
+        }
+
+        // Tambahkan file satu ke dalam array `multipart`
         $multipartData[] = [
             'name'     => 'FILE_URL',
-            'contents' => fopen($file->getTempName(), 'r'),
-            'filename' => $file->getName()
+            'contents' => fopen($fileSatu->getTempName(), 'r'),
+            'filename' => $fileSatu->getName(),
         ];
 
+        // Tambahkan file kedua ke array `multipart`
+        $multipartData[] = [
+            'name'     => 'FILE_URL2',
+            'contents' => fopen($fileDua->getTempName(), 'r'),
+            'filename' => $fileDua->getName(),
+        ];
 
         // echo "<pre>";
         // print_r($multipartData).exit();
         // echo "</pre>";
-
 
         try {
             // Buat klien Guzzle
@@ -344,15 +350,6 @@ class PelayananDukcapil extends BaseController
             }
             return 'Request Error: ' . $e->getMessage();
         }
-
-        // Kirim permintaan POST ke API server
-        // $response = $client->post('https://dev-smart.gunungkidulkab.go.id/api/upload', [
-        //     'multipart' => $multipartData,
-        //     'debug'     => true,
-        // ]);
-
-        // Mengembalikan respons dari API server
-        // return $this->response->setJSON(json_decode($response->getBody(), true));
     }
     
     public function progres_pelayanan()
