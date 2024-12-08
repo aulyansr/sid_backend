@@ -83,7 +83,7 @@ $desa = $desa->find(1);
             <?php if (auth()->user()->can('kelurahan.access')) : ?>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                    <a class="nav-link" href="<?php echo getAdminUrl('penduduk');  ?>">
                         <i class="fas fa-fw fa-users"></i>
                         <span>Data Penduduk</span>
                     </a>
@@ -92,7 +92,7 @@ $desa = $desa->find(1);
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/analisis_master' : '/admin/analisis_master'; ?>">
+                <a class="nav-link" href="<?php echo getAdminUrl('analisis_master');  ?>">
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>Statistik & Analisis
                     </span>
@@ -100,7 +100,7 @@ $desa = $desa->find(1);
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/program' : '/admin/program'; ?>">
+                <a class="nav-link" href="<?php echo getAdminUrl('program');  ?>">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>Program Bantuan</span></a>
             </li>
@@ -114,7 +114,7 @@ $desa = $desa->find(1);
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/artikel">
+                    <a class="nav-link" href="<?php echo getAdminUrl('artikel');  ?>">
                         <i class="fas fa-fw fa-user-lock"></i>
                         <span>
                             Kelola Artikel
@@ -131,13 +131,13 @@ $desa = $desa->find(1);
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/surat">
+                    <a class="nav-link" href="<?php echo getAdminUrl('surat');  ?>">
                         <i class="fas fa-fw fa-print"></i>
                         <span>Cetak Surat</span></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/surat">
+                    <a class="nav-link" href="<?php echo getAdminUrl('surat');  ?>">
                         <i class="fas fa-fw fa-print"></i>
                         <span>Riwayat Surat</span></a>
                 </li>

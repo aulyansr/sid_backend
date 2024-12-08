@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\DesaModel;
 use App\Models\ConfigModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
@@ -37,9 +38,10 @@ abstract class BaseController extends Controller
     protected $helpers = [];
 
     /**
-     * @var \App\Models\ConfigModel
+     * @var \App\Models\DesaModel
      */
     protected $desaModel;
+    protected $configModel;
 
     /**
      * @var array
@@ -53,14 +55,24 @@ abstract class BaseController extends Controller
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
-        // Do Not Edit This Line
+
         parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
-        // E.g.: $this->session = \Config\Services::session();
+        $this->desaModel = new DesaModel();
+        $this->configModel = new ConfigModel();
 
-        // Initialize the ConfigModel
-        // Ambil data desa
+        $uriSegment = $request->getUri()->getSegment(1);
+        $village    = $this->desaModel->where('permalink', $uriSegment)->get_desa_with_config()->first();
+        if ($village) {
+            $config = $this->configModel->where('desa_id', $village['id'])->first();
+
+
+            return view('layout/public', [
+                'uriSegment' => $uriSegment,
+                'village' => $village,
+                'config' =>  $config,
+            ]);
+        }
     }
 
     /**

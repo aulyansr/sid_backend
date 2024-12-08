@@ -3,14 +3,19 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
+use App\Models\DesaModel;
 use Faker\Factory;
 
 class PendudukSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Factory::create('id_ID');
-        $data  = [];
+        $faker     = Factory::create('id_ID');
+        $data      = [];
+        $desaModel = new DesaModel();
+
+        // Get the first village (desa)
+        $desa = $desaModel->first();
 
         for ($i = 0; $i < 100; $i++) {
             $data[] = [
@@ -52,7 +57,7 @@ class PendudukSeeder extends Seeder
                 'tanggalperkawinan' => $faker->optional()->date('Y-m-d'),
                 'akta_perceraian' => $faker->optional()->numerify('########'),
                 'tanggalperceraian' => $faker->optional()->date('Y-m-d'),
-                'desa_id' => 1,
+                'desa_id' => $desa['id'],
             ];
         }
 

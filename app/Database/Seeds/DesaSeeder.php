@@ -8,24 +8,37 @@ class DesaSeeder extends Seeder
 {
     public function run()
     {
+
+        $this->db->query('TRUNCATE desa CASCADE');
         $data = [
 
-            ['id' => 3, 'nama_desa' => 'PLAYEN', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'playen'],
-            ['id' => 4, 'nama_desa' => 'PATUK', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'patuk'],
-            ['id' => 5, 'nama_desa' => 'PALIYAN', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'paliyan'],
-            ['id' => 6, 'nama_desa' => 'PANGGANG', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'panggang'],
-            ['id' => 7, 'nama_desa' => 'TEPUS', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'tepus'],
-            ['id' => 8, 'nama_desa' => 'SEMANU', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'semanu'],
-            ['id' => 9, 'nama_desa' => 'KARANGMOJO', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'karangmojo'],
-            ['id' => 10, 'nama_desa' => 'PONJONG', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'ponjong'],
-            ['id' => 11, 'nama_desa' => 'RONGKOP', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'rongkop'],
-            ['id' => 12, 'nama_desa' => 'SEMIN', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'semin'],
-            ['id' => 13, 'nama_desa' => 'NGAWEN', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'ngawen'],
-            ['id' => 14, 'nama_desa' => 'GEDANGSARI', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'gedangsari'],
-            ['id' => 15, 'nama_desa' => 'SAPTOSARI', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'saptosari'],
-            ['id' => 16, 'nama_desa' => 'GIRISUBO', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'girisubo'],
-            ['id' => 17, 'nama_desa' => 'TANJUNGSARI', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'tanjungsari'],
-            ['id' => 18, 'nama_desa' => 'PURWOSARI', 'no_kab' => 3, 'no_prop' => 34, 'permalink' => 'purwosari'],
+            ['kode_desa' => '2013', 'nama_desa' => 'NGLERI', 'no_kecamatan' => '3', 'permalink' => 'ngleri'],
+            ['kode_desa' => '2003', 'nama_desa' => 'PENGKOK', 'no_kecamatan' => '4', 'permalink' => 'pengkok'],
+            ['kode_desa' => '2001', 'nama_desa' => 'BUNDER', 'no_kecamatan' => '4', 'permalink' => 'bunder'],
+            ['kode_desa' => '2005', 'nama_desa' => 'SALAM', 'no_kecamatan' => '4', 'permalink' => 'salam'],
+            ['kode_desa' => '2007', 'nama_desa' => 'NGORO-ORO', 'no_kecamatan' => '4', 'permalink' => 'ngoro-oro'],
+            ['kode_desa' => '2004', 'nama_desa' => 'SEMOYO', 'no_kecamatan' => '4', 'permalink' => 'semoyo'],
+            ['kode_desa' => '2002', 'nama_desa' => 'BEJI', 'no_kecamatan' => '4', 'permalink' => 'beji'],
+            ['kode_desa' => '2010', 'nama_desa' => 'NGLEGI', 'no_kecamatan' => '4', 'permalink' => 'nglegi'],
+            ['kode_desa' => '2009', 'nama_desa' => 'PUTAT', 'no_kecamatan' => '4', 'permalink' => 'putat'],
+            ['kode_desa' => '2006', 'nama_desa' => 'PATUK', 'no_kecamatan' => '4', 'permalink' => 'patuk'],
+            ['kode_desa' => '2008', 'nama_desa' => 'NGLANGGERAN', 'no_kecamatan' => '4', 'permalink' => 'nglanggeran'],
+            ['kode_desa' => '2011', 'nama_desa' => 'TERBAH', 'no_kecamatan' => '4', 'permalink' => 'terbah'],
+            ['kode_desa' => '2006', 'nama_desa' => 'MULUSAN', 'no_kecamatan' => '5', 'permalink' => 'mulusan'],
+            ['kode_desa' => '2002', 'nama_desa' => 'PAMPANG', 'no_kecamatan' => '5', 'permalink' => 'pampang'],
+            ['kode_desa' => '2005', 'nama_desa' => 'KARANGASEM', 'no_kecamatan' => '5', 'permalink' => 'karangasem'],
+            ['kode_desa' => '2007', 'nama_desa' => 'GIRING', 'no_kecamatan' => '5', 'permalink' => 'giring'],
+            ['kode_desa' => '2001', 'nama_desa' => 'SODO', 'no_kecamatan' => '5', 'permalink' => 'sodo'],
+            ['kode_desa' => '2003', 'nama_desa' => 'GROGOL', 'no_kecamatan' => '5', 'permalink' => 'grogol'],
+            ['kode_desa' => '2004', 'nama_desa' => 'KARANGDUWET', 'no_kecamatan' => '5', 'permalink' => 'karangduwet'],
+            ['kode_desa' => '2003', 'nama_desa' => 'GIRIMULYO', 'no_kecamatan' => '6', 'permalink' => 'girimulyo'],
+            ['kode_desa' => '2002', 'nama_desa' => 'GIRISEKAR', 'no_kecamatan' => '6', 'permalink' => 'girisekar'],
+            ['kode_desa' => '2005', 'nama_desa' => 'GIRIHARJO', 'no_kecamatan' => '6', 'permalink' => 'giriharjo'],
+            ['kode_desa' => '2004', 'nama_desa' => 'GIRIWUNGU', 'no_kecamatan' => '6', 'permalink' => 'giriwungu'],
+            ['kode_desa' => '2001', 'nama_desa' => 'GIRIKARTO', 'no_kecamatan' => '6', 'permalink' => 'girikarto'],
+            ['kode_desa' => '2006', 'nama_desa' => 'GIRISUKO', 'no_kecamatan' => '6', 'permalink' => 'girisuko'],
+            ['kode_desa' => '2004', 'nama_desa' => 'TEPUS', 'no_kecamatan' => '7', 'permalink' => 'tepus'],
+            ['kode_desa' => '2002', 'nama_desa' => 'SUMBERWUNGU', 'no_kecamatan' => '7', 'permalink' => 'sumberwungu'],
         ];
 
 

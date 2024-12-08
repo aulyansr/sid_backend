@@ -2,14 +2,11 @@
 <html lang="en">
 <?php
 $kategoriModel = new \App\Models\KategoriModel();
-$desa          = new \App\Models\ConfigModel();
 $menu          = new \App\Models\MenuModel();
-$villagemodel = new \App\Models\DesaModel();
 
 $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
-$desa       = $desa->find(1);
+
 $menus      = $menu->where('tipe', 1)->findAll();
-$village    = $villagemodel->where('permalink', session()->get('desa_permalink'))->first();
 $theme = $village['theme_color'] ?? '#00ba94';
 
 
@@ -21,7 +18,8 @@ $theme = $village['theme_color'] ?? '#00ba94';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title> <?= $desa['nama_desa']; ?></title>
+    <title><?= isset($artikel['judul']) ? 'Kalurahan ' . $village['nama_desa'] . '|' . $artikel['judul'] : 'Kalurahan ' . $village['nama_desa'] . '| SID Gunungkidul'  ?> </title>
+
     <link href="/assets/css/public/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
@@ -59,12 +57,12 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                             $submenus = $menu->where('parrent', $item['id'])->findAll();
                                             ?>
                                             <?php foreach ($submenus as $submenu) : ?>
-                                                <li><a class="dropdown-item" href="<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
+                                                <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </li>
                                 <?php else : ?>
-                                    <li class="nav-item"><a href="<?= $item['link']; ?>" class="nav-link link-light small"><?= $item['nama']; ?></a></li>
+                                    <li class="nav-item"><a href="/<?= $village['permalink']; ?>/<?= $item['link']; ?>" class="nav-link link-light small"><?= $item['nama']; ?></a></li>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -78,15 +76,16 @@ $theme = $village['theme_color'] ?? '#00ba94';
                         <div class="logo d-flex justify-content-center p-3">
                             <div class="logo">
                                 <a href=" <?= base_url() ?> ">
-                                    <img src="<?= base_url(esc($desa['logo'])); ?>" alt="Gunung Kidul" height="90">
+                                    <img src="<?= base_url(esc($config['logo'])); ?>" alt="Gunung Kidul" height="90">
                                 </a>
                             </div>
 
                             <div class="ms-4 d-flex flex-column justify-content-end">
-                                <h4 class="">Kalurahan <?= $desa['nama_desa']; ?></h4>
+                                <h4 class="">Kalurahan <?= isset($village['nama_desa']) ? $village['nama_desa'] : (isset($config['nama_desa']) ? $config['nama_desa'] : ''); ?> </h4>
+
                                 <p class="lh-1">
-                                    <small class="lh-1">Kapanewon <?= $desa['nama_kecamatan']; ?></small><br>
-                                    <small class="lh-1">Kabupaten <?= $desa['nama_kabupaten']; ?></small>
+                                    <small class="lh-1">Kapanewon <?= $village['nama_kecamatan']; ?></small><br>
+                                    <small class="lh-1">Kabupaten <?= $config['nama_kabupaten']; ?></small>
                                 </p>
                             </div>
                         </div>
@@ -94,7 +93,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto me-lg-5">
-                                <li class="nav-item"><a class="nav-link" href="/<?= session()->get('desa_permalink') ?> ">Beranda</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/<?= $village['permalink'] ?> ">Beranda</a></li>
 
                                 <?php foreach ($categories as $item) : ?>
 
@@ -116,7 +115,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
 
                                             <?php foreach ($articles as $index => $article): ?>
 
-                                                <a class="dropdown-item py-3" href="/<?= session()->get('desa_permalink'); ?>/artikel/<?= $article['id']; ?>">
+                                                <a class="dropdown-item py-3" href="/<?= $village['permalink']; ?>/artikel/<?= $article['id']; ?>">
                                                     <div>
                                                         <div class="small text-gray-500"><?= date('d F Y', strtotime($article['tgl_upload'])) ?></div>
                                                         <?= esc($article['judul']) ?>
@@ -181,12 +180,12 @@ $theme = $village['theme_color'] ?? '#00ba94';
                     <div class="row gx-5">
                         <div class="col-lg-3">
                             <div class="footer-brand">
-                                <img src="<?= base_url(esc($desa['logo'])); ?>" class="w-20">
+                                <img src="<?= base_url(esc($config['logo'])); ?>" class="w-20">
                             </div>
                             <div class="mb-3">
-                                <p>Kalurahan <?= $desa['nama_desa']; ?></p>
-                                <small><?= $desa['alamat_kantor']; ?></small><br />
-                                <small>Kapanewon <?= $desa['nama_kecamatan']; ?>, Kabupaten <?= $desa['nama_kabupaten']; ?></small>
+                                <p>Kalurahan <?= $config['nama_desa']; ?></p>
+                                <small><?= $config['alamat_kantor']; ?></small><br />
+                                <small>Kapanewon <?= $village['nama_kecamatan']; ?>, Kabupaten <?= $config['nama_kabupaten']; ?></small>
                             </div>
                             <div class="icon-list-social mb-5">
                                 <a class="icon-list-social-link" href="#!"><i class="fab fa-instagram"></i></a>
@@ -216,11 +215,11 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                     </div>
                                     <ul class="list-unstyled mb-0">
 
-                                        <li class="mb-2"><a href="/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
-                                        <li class="mb-2"><a href="/statistik/pekerjaan">Data Pekerjaan</a></li>
-                                        <li class="mb-2"><a href="/statistik/kelompok-umur">Data Kelompok Umur</a></li>
-                                        <li class="mb-2"><a href="/statistik/agama">Data Agama</a></li>
-                                        <li class="mb-2"><a href="/statistik/jenis-kelamin">Data Jenis Kelamin</a></li>
+                                        <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
+                                        <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/pekerjaan">Data Pekerjaan</a></li>
+                                        <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/kelompok-umur">Data Kelompok Umur</a></li>
+                                        <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/agama">Data Agama</a></li>
+                                        <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/jenis-kelamin">Data Jenis Kelamin</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-lg-4 col-md-6 mb-5 mb-md-0">
@@ -246,7 +245,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>. Sistem Informasi Desa (SID)
-                            Kabupaten <?= $desa['nama_kabupaten']; ?>
+                            Kabupaten <?= $config['nama_kabupaten']; ?>
                         </div>
                         <div class="col-md-6 text-md-end small">
                             <a href="privasi.html">Kebijakan Privasi</a>

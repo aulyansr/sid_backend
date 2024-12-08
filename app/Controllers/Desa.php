@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\DesaModel;
+use App\Models\KecamatanModel;
 use SawaStacks\CodeIgniter\Slugify;
 
 class Desa extends BaseController
@@ -17,7 +18,7 @@ class Desa extends BaseController
     // Display the list of desa
     public function index()
     {
-        $data['villages'] = $this->desaModel->findAll();
+        $data['villages'] = $this->desaModel->get_desa_with_config()->findAll();
         return view('desa/index', $data);
     }
 
@@ -47,7 +48,9 @@ class Desa extends BaseController
     // Show the form for editing the desa
     public function edit($id)
     {
-        $data['desa'] = $this->desaModel->find($id);
+        $list_kecamatan         = new KecamatanModel();
+        $data['list_kecamatan'] = $list_kecamatan->findAll();
+        $data['desa']           = $this->desaModel->find($id);
         return view('desa/edit', $data);
     }
 

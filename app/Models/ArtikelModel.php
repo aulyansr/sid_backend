@@ -23,7 +23,8 @@ class ArtikelModel extends Model
         'gambar2',
         'gambar3',
         'dokumen',
-        'link_dokumen'
+        'link_dokumen',
+        'desa_id'
     ];
 
     protected $useTimestamps = false;

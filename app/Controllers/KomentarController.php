@@ -41,7 +41,7 @@ class KomentarController extends Controller
         $this->komentarModel->save($data);
 
         // Redirect back to the article page
-        return redirect()->to('/artikel/' . $data['id_artikel']);
+        return redirect()->back();
     }
 
     public function disable($id)

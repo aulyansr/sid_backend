@@ -19,22 +19,28 @@ $routes->get('kategori', 'Page::categories', ['as' => 'categories_path']);
 $routes->get('kategori/(:segment)', 'KategoriController::show/$1', ['as' => 'detail_category_path']);
 
 
-$routes->get('gallery', 'Page::galleries', ['as' => 'galleries_path']);
-$routes->get('gallery/(:segment)', 'GambarGalleryController::show/$1', ['as' => 'detail_gallery_path']);
 
 
-$routes->get('search-articles', 'Page::search', ['as' => 'search_articles_path']);
+
+
 $routes->post('komentar/store', 'KomentarController::store');
 
-$routes->get('statistik/pendidikan-dalam-kk', 'Page::statistik_pendidikan_kk');
-$routes->get('statistik/pendidikan-ditempuh', 'Page::statistik_pendidikan_ditempuh');
-$routes->get('statistik/pekerjaan', 'Page::statistik_pekerjaan');
-$routes->get('statistik/agama', 'Page::statistik_agama');
-$routes->get('statistik/kelompok-umur', 'Page::statistik_kelompok_umur');
-$routes->get('statistik/jenis-kelamin', 'Page::statistik_jenis_kelamin');
 $routes->group('(:segment)/', function ($routes) {
     $routes->get('', 'Page::desa/$1');
     $routes->get('artikel/(:num)', 'ArtikelController::show/$2');
+    $routes->get('search-articles', 'Page::search', ['as' => 'search_articles_path']);
+    $routes->get('gallery', 'Page::galleries');
+    $routes->get('gallery/(:num)', 'GambarGalleryController::show/$1');
+
+    $routes->get('kategori', 'Page::categories');
+    $routes->get('kategori/(:num)', 'KategoriController::show/$1');
+
+    $routes->get('statistik/pendidikan-dalam-kk', 'Page::statistik_pendidikan_kk/$1');
+    $routes->get('statistik/pendidikan-ditempuh', 'Page::statistik_pendidikan_ditempuh/$1');
+    $routes->get('statistik/pekerjaan', 'Page::statistik_pekerjaan/$1');
+    $routes->get('statistik/agama', 'Page::statistik_agama/$1');
+    $routes->get('statistik/kelompok-umur', 'Page::statistik_kelompok_umur/$1');
+    $routes->get('statistik/jenis-kelamin', 'Page::statistik_jenis_kelamin/$1');
 });
 
 $routes->group('(:segment)/admin', function ($routes) {
