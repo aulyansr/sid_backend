@@ -63,7 +63,7 @@ use CodeIgniter\I18n\Time;
             <?php foreach ($artikels as $index => $artikel) : ?>
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <a class="text-dark" href="<?= route_to('detail_article_path', $artikel['id']); ?>">
+                        <a class="text-dark" href="/<?= $village['permalink']; ?>/<?= route_to('detail_article_path', $artikel['id']); ?>">
                             <h5 class="mt-0">
                                 <?= $artikel['judul']; ?>
                             </h5>
@@ -75,7 +75,7 @@ use CodeIgniter\I18n\Time;
                             <small><?= Time::parse($artikel['tgl_upload'])->humanize(); ?></small>
 
                         </p>
-                        <a class="text-arrow-icon small" href="<?= session()->get('desas') ?><?= route_to('detail_article_path', $artikel['id']); ?>">
+                        <a class="text-arrow-icon small" href="<?= $village['permalink']; ?><?= route_to('detail_article_path', $artikel['id']); ?>">
                             Selengkapnya
                             <i data-feather="arrow-right"></i>
                         </a>
@@ -125,7 +125,7 @@ use CodeIgniter\I18n\Time;
                         <?php endif; ?>
 
                     </div>
-                    <a class="text-arrow-icon small align-right" href="<?= route_to('galleries_path'); ?>">
+                    <a class="text-arrow-icon small align-right" href="/<?= $village['permalink']; ?>/gallery">
                         Selengkapnya
                         <i data-feather="arrow-right"></i>
                     </a>

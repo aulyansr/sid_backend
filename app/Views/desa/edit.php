@@ -28,6 +28,20 @@
                             <label class="small mb-1" for="inputPermalink">Tema Warna</label>
                             <input type="color" id="themeColor" name="theme_color" value="<?= old('theme_color', isset($desa) ? esc($desa['theme_color']) : '#00ba94'); ?>">
                         </div>
+
+
+                        <div class="col-md-6 mb-3">
+                            <label class="small mb-1" for="inputDesa">Nama Kecamatan</label>
+                            <select class="form-control select2" id="inputDesa" name="no_kecamatan">
+                                <option value="">Pilih Kecamatan</option>
+                                <?php foreach ($list_kecamatan as $kecamatan): ?>
+                                    <option value="<?= esc($kecamatan['id']); ?>" <?= (old('no_kecamatan', isset($desa) ? esc($desa['no_kecamatan']) : '') == esc($kecamatan['no_kecamatan'])) ? 'selected' : ''; ?>>
+                                        <?= esc($kecamatan['nama_kecamatan']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
                     </div>
 
                     <!-- Submit button -->

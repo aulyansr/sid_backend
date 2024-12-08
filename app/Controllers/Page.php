@@ -39,13 +39,13 @@ class Page extends BaseController
 
     public function desa($segment)
     {
+        $village = $this->desaModel->where('permalink', $segment)->first();
 
-
-        $session = session();
-        $session->remove('desa_permalink');
-        $session->set('desa_permalink', $segment);
-
-        $data['artikels'] = $this->artikelModel->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
+        if (!$village) {
+            // Handle the case where no village is found (e.g., show 404 page)
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Village not found.");
+        }
+        $data['artikels'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
 
         $data['headline'] = $this->artikelModel->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('tipe', 0)->findAll(1);
@@ -110,43 +110,50 @@ class Page extends BaseController
         return view('pages/search_results', $data);
     }
 
-    public function statistik_pendidikan_kk()
+    public function statistik_pendidikan_kk($segment)
+
     {
-        $data['pendidikanSummary'] = $this->pendudukModel->getPendidikanSummary();
+        $village = $this->desaModel->where('permalink', $segment)->first();
+        $data['pendidikanSummary'] = $this->pendudukModel->where('desa_id', $village['id'])->getPendidikanSummary();
 
         return view('pages/statistik_pendidikan_kk', $data);
     }
-    public function statistik_pendidikan_tempuh()
+    public function statistik_pendidikan_tempuh($segment)
     {
-        $data['pendidikanSummary'] = $this->pendudukModel->getPendidikanSummary();
+        $village = $this->desaModel->where('permalink', $segment)->first();
+        $data['pendidikanSummary'] = $this->pendudukModel->where('desa_id', $village['id'])->getPendidikanSummary();
 
         return view('pages/statistik_pendidikan_tempuh', $data);
     }
 
-    public function statistik_pekerjaan()
+    public function statistik_pekerjaan($segment)
     {
-        $data['summary'] = $this->pendudukModel->getPekerjaan();
+        $village = $this->desaModel->where('permalink', $segment)->first();
+        $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getPekerjaan();
 
         return view('pages/statistik_pekerjaan', $data);
     }
 
-    public function statistik_kelompok_umur()
+    public function statistik_kelompok_umur($segment)
     {
-        $data['summary'] = $this->pendudukModel->getKelompokUmur();
+        $village = $this->desaModel->where('permalink', $segment)->first();
+        $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getKelompokUmur();
 
         return view('pages/statistik_kelompok_umur', $data);
     }
 
-    public function statistik_jenis_kelamin()
+    public function statistik_jenis_kelamin($segment)
     {
-        $data['summary'] = $this->pendudukModel->getJenkel();
+        $village = $this->desaModel->where('permalink', $segment)->first();
+        $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getJenkel();
 
         return view('pages/statistik_jenis_kelamin', $data);
     }
 
-    public function statistik_agama()
+    public function statistik_agama($segment)
     {
-        $data['summary'] = $this->pendudukModel->getAgama();
+        $village = $this->desaModel->where('permalink', $segment)->first();
+        $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getAgama();
 
         return view('pages/statistik_agama', $data);
     }

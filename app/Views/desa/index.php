@@ -35,7 +35,10 @@
                                         <a href="<?= site_url('/admin/desa/edit/' . esc($village['id'])); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="<?= site_url('/admin/desa/delete/' . esc($village['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus desa ini?');">
+                                        <a href="<?= site_url('/admin/config/edit/' . esc($village['config_id'])); ?>" class="btn btn-sm btn-info" title="Ubah Data">
+                                            Data Desa
+                                        </a>
+                                        <a href=" <?= site_url('/admin/desa/delete/' . esc($village['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus desa ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
 

@@ -8,51 +8,45 @@ class KelurahanSeeder extends Seeder
 {
     public function run()
     {
-        $data = [
-            ['no_kel' => 2013, 'nama_kelurahan' => 'NGLERI', 'no_kec' => 3, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2003, 'nama_kelurahan' => 'PENGKOK', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2001, 'nama_kelurahan' => 'BUNDER', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2005, 'nama_kelurahan' => 'SALAM', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2007, 'nama_kelurahan' => 'NGORO-ORO', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2004, 'nama_kelurahan' => 'SEMOYO', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2002, 'nama_kelurahan' => 'BEJI', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2010, 'nama_kelurahan' => 'NGLEGI', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2009, 'nama_kelurahan' => 'PUTAT', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2006, 'nama_kelurahan' => 'PATUK', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2008, 'nama_kelurahan' => 'NGLANGGERAN', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2011, 'nama_kelurahan' => 'TERBAH', 'no_kec' => 4, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2006, 'nama_kelurahan' => 'MULUSAN', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2002, 'nama_kelurahan' => 'PAMPANG', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2005, 'nama_kelurahan' => 'KARANGASEM', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2007, 'nama_kelurahan' => 'GIRING', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2001, 'nama_kelurahan' => 'SODO', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2003, 'nama_kelurahan' => 'GROGOL', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2004, 'nama_kelurahan' => 'KARANGDUWET', 'no_kec' => 5, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2003, 'nama_kelurahan' => 'GIRIMULYO', 'no_kec' => 6, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2002, 'nama_kelurahan' => 'GIRISEKAR', 'no_kec' => 6, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2005, 'nama_kelurahan' => 'GIRIHARJO', 'no_kec' => 6, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2004, 'nama_kelurahan' => 'GIRIWUNGU', 'no_kec' => 6, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2001, 'nama_kelurahan' => 'GIRIKARTO', 'no_kec' => 6, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2006, 'nama_kelurahan' => 'GIRISUKO', 'no_kec' => 6, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2004, 'nama_kelurahan' => 'TEPUS', 'no_kec' => 7, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2002, 'nama_kelurahan' => 'SUMBERWUNGU', 'no_kec' => 7, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2003, 'nama_kelurahan' => 'SIDOHARJO', 'no_kec' => 7, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2005, 'nama_kelurahan' => 'PURWODADI', 'no_kec' => 7, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2001, 'nama_kelurahan' => 'GIRIPANGGUNG', 'no_kec' => 7, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2004, 'nama_kelurahan' => 'CANDIREJO', 'no_kec' => 8, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2001, 'nama_kelurahan' => 'NGEPOSARI', 'no_kec' => 8, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2003, 'nama_kelurahan' => 'PACAREJO', 'no_kec' => 8, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2005, 'nama_kelurahan' => 'DADAPAYU', 'no_kec' => 8, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2002, 'nama_kelurahan' => 'SEMANU', 'no_kec' => 8, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2001, 'nama_kelurahan' => 'BEJIHARJO', 'no_kec' => 9, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2004, 'nama_kelurahan' => 'KELOR', 'no_kec' => 9, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2007, 'nama_kelurahan' => 'GEDANGREJO', 'no_kec' => 9, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2009, 'nama_kelurahan' => 'JATIAYU', 'no_kec' => 9, 'no_kab' => 3, 'no_prop' => 34],
-            ['no_kel' => 2003, 'nama_kelurahan' => 'BENDUNGAN', 'no_kec' => 9, 'no_kab' => 3, 'no_prop' => 34],
+        $kelurahanData = [
+            ['kode_desa' => '2013', 'nama_desa' => 'NGLERI', 'no_kecamatan' => '3', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'ngleri'],
+            ['kode_desa' => '2003', 'nama_desa' => 'PENGKOK', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'pengkok'],
+            ['kode_desa' => '2001', 'nama_desa' => 'BUNDER', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'bunder'],
+            ['kode_desa' => '2005', 'nama_desa' => 'SALAM', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'salam'],
+            ['kode_desa' => '2007', 'nama_desa' => 'NGORO-ORO', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'ngoro-oro'],
+            ['kode_desa' => '2004', 'nama_desa' => 'SEMOYO', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'semoyo'],
+            ['kode_desa' => '2002', 'nama_desa' => 'BEJI', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'beji'],
+            ['kode_desa' => '2010', 'nama_desa' => 'NGLEGI', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'nglegi'],
+            ['kode_desa' => '2009', 'nama_desa' => 'PUTAT', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'putat'],
+            ['kode_desa' => '2006', 'nama_desa' => 'PATUK', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'patuk'],
+            ['kode_desa' => '2008', 'nama_desa' => 'NGLANGGERAN', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'nglanggeran'],
+            ['kode_desa' => '2011', 'nama_desa' => 'TERBAH', 'no_kecamatan' => '4', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'terbah'],
+            ['kode_desa' => '2006', 'nama_desa' => 'MULUSAN', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'mulusan'],
+            ['kode_desa' => '2002', 'nama_desa' => 'PAMPANG', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'pampang'],
+            ['kode_desa' => '2005', 'nama_desa' => 'KARANGASEM', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'karangasem'],
+            ['kode_desa' => '2007', 'nama_desa' => 'GIRING', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'giring'],
+            ['kode_desa' => '2001', 'nama_desa' => 'SODO', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'sodo'],
+            ['kode_desa' => '2003', 'nama_desa' => 'GROGOL', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'grogol'],
+            ['kode_desa' => '2004', 'nama_desa' => 'KARANGDUWET', 'no_kecamatan' => '5', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'karangduwet'],
+            ['kode_desa' => '2003', 'nama_desa' => 'GIRIMULYO', 'no_kecamatan' => '6', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'girimulyo'],
+            ['kode_desa' => '2002', 'nama_desa' => 'GIRISEKAR', 'no_kecamatan' => '6', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'girisekar'],
+            ['kode_desa' => '2005', 'nama_desa' => 'GIRIHARJO', 'no_kecamatan' => '6', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'giriharjo'],
+            ['kode_desa' => '2004', 'nama_desa' => 'GIRIWUNGU', 'no_kecamatan' => '6', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'giriwungu'],
+            ['kode_desa' => '2001', 'nama_desa' => 'GIRIKARTO', 'no_kecamatan' => '6', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'girikarto'],
+            ['kode_desa' => '2006', 'nama_desa' => 'GIRISUKO', 'no_kecamatan' => '6', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'girisuko'],
+            ['kode_desa' => '2004', 'nama_desa' => 'TEPUS', 'no_kecamatan' => '7', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'tepus'],
+            ['kode_desa' => '2002', 'nama_desa' => 'SUMBERWUNGU', 'no_kecamatan' => '7', 'NO_KAB' => '3', 'NO_PROP' => '34', 'permalink' => 'sumberwungu'],
+
         ];
 
 
+
         // Insert data into the kelurahan table
-        $this->db->table('kelurahan')->insertBatch($data);
+        $this->db->table('kelurahan')->insertBatch($kelurahanData);
+    }
+
+    private function generateSlug($string)
+    {
+        return strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string));
     }
 }

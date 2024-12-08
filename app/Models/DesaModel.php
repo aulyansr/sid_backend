@@ -13,11 +13,11 @@ class DesaModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['nama_desa', 'permalink', 'theme_color'];
+    protected $allowedFields = ['nama_desa', 'permalink', 'theme_color', 'kode_desa'];
 
     // Validation rules
     protected $validationRules = [
-        'nama_desa' => 'required|min_length[3]|max_length[255]',
+        'nama_desa' => 'required',
         'permalink' => 'required|is_unique[desa.permalink]',
     ];
 
@@ -27,5 +27,10 @@ class DesaModel extends Model
         ]
     ];
 
-    protected $skipValidation = false;
+    public function get_desa_with_config()
+    {
+        return $this->select("desa.*, config.id As config_id, kecamatan.nama_kecamatan as nama_kecamatan")
+            ->join("config", "config.desa_id = desa.id", "left")
+            ->join("kecamatan", "kecamatan.no_kecamatan = desa.no_kecamatan", "left");
+    }
 }
