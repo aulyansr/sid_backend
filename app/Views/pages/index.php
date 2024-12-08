@@ -206,7 +206,7 @@ use CodeIgniter\I18n\Time;
                 <hr class="my-4" />
                 <?php
                 $articleModel = new \App\Models\ArtikelModel();
-                $articles = $articleModel->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
+                $articles = $articleModel->where('desa_id', $village['id'])->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
                 ?>
                 <?php foreach ($articles as $article) : ?>
                     <a class="text-dark mb-4" href=" <?= route_to('detail_article_path', $article['id']) ?>">

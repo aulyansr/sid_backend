@@ -106,7 +106,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                         <div class="dropdown-menu dropdown-menu-end animated--fade-in-up" aria-labelledby="navbarDropdown<?= $item['id'] ?>">
                                             <?php
                                             $articleModel = new \App\Models\ArtikelModel();
-                                            $articles = $articleModel->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
+                                            $articles = $articleModel->where('desa_id', $village['id'])->where('id_kategori', $item['id'])->findAll(); // Fetch all articles for this category
                                             $totalArticles = count($articles);
 
                                             ?>
