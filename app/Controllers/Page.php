@@ -32,7 +32,7 @@ class Page extends BaseController
     {
         $session = session();
         $session->remove('desa_permalink');
-        $data['villages'] = $this->desaModel->findAll();
+        $data['villages'] = $this->desaModel->orderBy('id')->findAll();
 
         return view('pages/select_desa', $data);
     }
@@ -47,7 +47,7 @@ class Page extends BaseController
         }
         $data['artikels'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
 
-        $data['headline'] = $this->artikelModel->where('headline', 1)->getArtikels();
+        $data['headline'] = $this->artikelModel->where('desa_id', $village['id'])->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('tipe', 0)->findAll(1);
         $data['categories'] = $this->kategori->findAll();
         $data['comments'] = $this->komentarModel
