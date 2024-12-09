@@ -159,7 +159,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
     $routes->group('', ['filter' => 'permission:galleries.access'], function ($routes) {
         $routes->get('gambar-gallery', 'GambarGalleryController::index');
-        $routes->get('gambar-gallery/(:num)', 'GambarGalleryController::view/$1', ['filter' => 'permission:galleries.read']);
+        $routes->get('gambar-gallery/(:num)', 'GambarGalleryController::views/$1', ['filter' => 'permission:galleries.read']);
         $routes->get('gambar-gallery/new', 'GambarGalleryController::new', ['filter' => 'permission:galleries.create']);
         $routes->get('gambar-gallery/add-image', 'GambarGalleryController::add_image', ['filter' => 'permission:galleries.create']);
         $routes->post('gambar-gallery/store', 'GambarGalleryController::store', ['filter' => 'permission:galleries.create']);
