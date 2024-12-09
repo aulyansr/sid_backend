@@ -119,12 +119,13 @@ class GambarGalleryController extends BaseController
 
         // Gather data for insertion
         $data = [
-            'parrent' => $this->request->getVar('parrent') ? $this->request->getVar('parrent') : null,
-            'gambar' => $gambarpath,
-            'nama' => $this->request->getVar('nama'),
-            'enabled' => $this->request->getVar('enabled'),
+            'parrent'    => $this->request->getVar('parrent') ? $this->request->getVar('parrent') : null,
+            'gambar'     => $gambarpath,
+            'nama'       => $this->request->getVar('nama'),
+            'enabled'    => $this->request->getVar('enabled'),
             'tgl_upload' => $this->request->getVar('tgl_upload'),
-            'tipe' => $this->request->getVar('tipe')
+            'tipe'       => $this->request->getVar('tipe'),
+            'desa_id' => $this->request->getVar('desa_id')
         ];
 
         // Save the data using the model
@@ -211,12 +212,13 @@ class GambarGalleryController extends BaseController
 
         // Gather data for update
         $data = [
-            'parrent' => $this->request->getPost('parrent') ? $this->request->getPost('parrent') : null,
-            'gambar' => $gambarpath,
-            'nama' => $this->request->getPost('nama'),
-            'enabled' => $this->request->getPost('enabled'),
+            'parrent'    => $this->request->getPost('parrent') ? $this->request->getPost('parrent') : null,
+            'gambar'     => $gambarpath,
+            'nama'       => $this->request->getPost('nama'),
+            'enabled'    => $this->request->getPost('enabled'),
             'tgl_upload' => $this->request->getPost('tgl_upload'),
-            'tipe' => $this->request->getPost('tipe')
+            'tipe'       => $this->request->getPost('tipe'),
+            'desa_id' => $this->request->getVar('desa_id')
         ];
 
         // Save the updated data using the model
