@@ -163,7 +163,7 @@ class Page extends BaseController
             // Handle the case where no village is found (e.g., show 404 page)
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Village not found.");
         }
-        $data['artikels'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->findAll();
-        return view('pages/categories', $data);
+        $data['articles'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->findAll();
+        return view('pages/artikel_category', $data);
     }
 }

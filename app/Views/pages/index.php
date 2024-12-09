@@ -25,7 +25,7 @@ use CodeIgniter\I18n\Time;
                             <div class="col-lg-6 p-5 bg-white">
 
                                 <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="<?= route_to('detail_category_path', $headline['id_kategori']) ?>"><?= $headline['kategori_name']; ?></a>
-                                <a class="text-dark" href="<?= session()->get('desa_permalink') ?> / <?= route_to('detail_article_path', $headline['id']); ?>">
+                                <a class="text-dark" href="/<?= $village['permalink']; ?>/<?= route_to('detail_article_path', $headline['id']); ?>">
                                     <h1>
                                         <?= $headline['judul']; ?>
                                     </h1>
@@ -34,7 +34,7 @@ use CodeIgniter\I18n\Time;
                                     <?= esc(substr(strip_tags($headline['isi']), 0, 250)) . (strlen($headline['isi']) > 250 ? '...' : ''); ?>
                                 </p>
                                 <div class="flex-text align-self-center d-flex justify-content-between">
-                                    <a class="text-arrow-icon small" href="<?= route_to('detail_article_path', $headline['id']); ?>">
+                                    <a class="text-arrow-icon small" href="/<?= $village['permalink']; ?>/<?= route_to('detail_article_path', $headline['id']); ?>">
                                         Selengkapnya
                                         <i data-feather="arrow-right"></i>
                                     </a>
