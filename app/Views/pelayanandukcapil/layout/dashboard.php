@@ -66,7 +66,9 @@ $desa = $desa->find(1);
                 <div class="mx-3 text-sm align-left">
                     <small>SID Gunungkidul</small>
                     <br />
-                    <small></small>
+                    <?php if (session()->get('nama_villages')): ?>
+                        <small> Desa <?= session()->get('nama_villages'); ?> </small>
+                    <?php endif; ?>
                 </div>
             </a>
 
