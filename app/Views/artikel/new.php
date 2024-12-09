@@ -88,9 +88,28 @@
                                 <label class="small mb-1" for="tgl_upload">Tanggal Publish</label>
                                 <input class="form-control" id="tgl_upload" name="tgl_upload" type="date" value="<?= date('Y-m-d'); ?>">
                             </div>
+                            <?php if (auth()->user()->inGroup('superadmin')): ?>
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="small mb-1" for="inputDesa">Nama Desa</label>
+                                    <select class="form-control select2" id="inputDesa" name="desa_id">
+                                        <option value="">Pilih Desa</option>
+                                        <?php foreach ($list_desa as $desa): ?>
+                                            <option value="<?= esc($desa['id']); ?>" <?= (old('id', isset($desa) ? esc($desa['id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                                <?= esc($desa['nama_desa']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                            <?php else: ?>
+
+                                <input type="hidden" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
+
+                            <?php endif; ?>
                         </div>
 
-                        <!-- Submit button -->
+
                         <input type="hidden" name="id_user" value="<?= auth()->user()->id; ?>"> <!-- Hidden field for user ID -->
                         <button class="btn btn-primary" type="submit">Simpan Artikel</button>
                     </div>

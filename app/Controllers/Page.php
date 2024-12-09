@@ -47,7 +47,7 @@ class Page extends BaseController
         }
         $data['artikels'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
 
-        $data['headline'] = $this->artikelModel->where('desa_id', $village['id'])->where('headline', 1)->getArtikels();
+        $data['headline'] = $this->artikelModel->where('artikel.desa_id', $village['id'])->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('tipe', 0)->findAll(1);
         $data['categories'] = $this->kategori->findAll();
         $data['comments'] = $this->komentarModel
@@ -156,5 +156,18 @@ class Page extends BaseController
         $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getAgama();
 
         return view('pages/statistik_agama', $data);
+    }
+
+    public function article_category($segment, $id)
+    {
+        $data['category'] = $this->kategori->find($id);
+        $village = $this->desaModel->where('permalink', $segment)->first();
+
+        if (!$village) {
+            // Handle the case where no village is found (e.g., show 404 page)
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Village not found.");
+        }
+        $data['articles'] = $this->artikelModel->where('id_kategori', $id)->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->findAll();
+        return view('pages/artikel_category', $data);
     }
 }
