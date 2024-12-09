@@ -32,7 +32,7 @@ $routes->group('(:segment)/', function ($routes) {
     $routes->get('artikel-kategori/(:num)', 'Page::article_category/$1/$2');
     $routes->get('search-articles', 'Page::search', ['as' => 'search_articles_path']);
     $routes->get('gallery', 'Page::galleries');
-    $routes->get('gallery/(:num)', 'GambarGalleryController::show/$1');
+    $routes->get('gallery/(:num)', 'GambarGalleryController::show/$1/$2');
 
 
 
