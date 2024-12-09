@@ -29,7 +29,7 @@ $routes->post('komentar/store', 'KomentarController::store');
 $routes->group('(:segment)/', function ($routes) {
     $routes->get('', 'Page::desa/$1');
     $routes->get('artikel/(:num)', 'ArtikelController::show/$2');
-    $routes->get('artikel-kategori/(:num)', 'Page::article_category/$1/$2');
+    $routes->get('artikel-kategori/(:num)', 'Page::page_category/$1/$2');
     $routes->get('search-articles', 'Page::search', ['as' => 'search_articles_path']);
     $routes->get('gallery', 'Page::galleries');
     $routes->get('gallery/(:num)', 'GambarGalleryController::show/$1/$2');
