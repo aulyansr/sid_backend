@@ -453,6 +453,7 @@ class Auth extends ShieldAuth
 
                     // Store the permalink in the session
                     $session->set('desa_permalink_admin', $permalink);
+                    $session->set('nama_villages', $desa['nama_desa']);
 
                     // Redirect to /{permalink}/dashboard
                     return "/{$permalink}/admin/dashboard";
