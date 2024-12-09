@@ -159,12 +159,7 @@ $desa = $desa->find(1);
                 </li>
 
                 <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/config/edit/1">
-                        <i class="fas fa-cogs fa-sm fa-fw"></i>
 
-                        <span>Konfigurasi  Web</span></a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/desa">
@@ -173,12 +168,7 @@ $desa = $desa->find(1);
                         <span>Konfigurasi  Desa</span></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/kelurahan">
-                        <i class="fas fa-cogs fa-sm fa-fw"></i>
 
-                        <span>Konfigurasi  Kelurhan</span></a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/pengurus">
