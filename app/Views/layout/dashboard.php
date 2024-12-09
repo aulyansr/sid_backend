@@ -159,11 +159,13 @@ $desa = $desa->find(1);
                 </li>
 
                 <!-- Nav Item - Tables -->
+
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/config/edit/1">
+                    <a class="nav-link" href="/admin/desa">
                         <i class="fas fa-cogs fa-sm fa-fw"></i>
 
-                        <span>Konfigurasi  Web</span></a>
+                        <span>Konfigurasi  Desa</span></a>
                 </li>
 
 
