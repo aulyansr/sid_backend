@@ -53,7 +53,7 @@ $desa = $desa->find(1);
                     <img src="<?= base_url(esc($desa['logo'])); ?>" height="50px" alt="Logo Gunungkidul">
                 </div>
                 <div class="mx-3 text-sm align-left">
-                    <small>SID Kalurahan <?= $desa['nama_desa']; ?></small>
+                    <small>SID Gunungkidul</small>
                     <br />
                     <small></small>
                 </div>
@@ -88,6 +88,13 @@ $desa = $desa->find(1);
                         <span>Data Penduduk</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/verifikasi-data-pemohon">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Verifikasi Data</span>
+                    </a>
+                </li>
             <?php endif; ?>
 
             <!-- Nav Item - Tables -->
@@ -100,7 +107,7 @@ $desa = $desa->find(1);
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo getAdminUrl('program');  ?>">
+                <a class="nav-link" href="/admin/layanandukcapil/new">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>Program Bantuan</span></a>
             </li>
@@ -136,11 +143,6 @@ $desa = $desa->find(1);
                         <span>Cetak Surat</span></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo getAdminUrl('surat');  ?>">
-                        <i class="fas fa-fw fa-print"></i>
-                        <span>Riwayat Surat</span></a>
-                </li>
             <?php endif; ?>
 
             <!-- Nav Item - Tables -->
