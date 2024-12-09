@@ -89,8 +89,11 @@ class SuratController extends BaseController
         }
         $penduduk = $this->pendudukModel->getAllAttributes()->where('nik', $surat['nik'])->first();
 
-        $phpWord = \PhpOffice\PhpWord\IOFactory::load($templatePath);
+        $phpWord           = \PhpOffice\PhpWord\IOFactory::load($templatePath);
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
+
+        $desaModel = new ConfigModel();
+        $desa =   $desaModel->where('desa_id', auth()->user()->desa_id)->first();
 
         // Replace placeholders with actual data
         $templateProcessor->setValue('nama_kabupaten', $desa['nama_kabupaten']);
