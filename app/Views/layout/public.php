@@ -57,12 +57,12 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                             $submenus = $menu->where('parrent', $item['id'])->findAll();
                                             ?>
                                             <?php foreach ($submenus as $submenu) : ?>
-                                                <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
+                                                <li><a class="dropdown-item" href="<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </li>
                                 <?php else : ?>
-                                    <li class="nav-item"><a href="/<?= $village['permalink']; ?>/<?= $item['link']; ?>" class="nav-link link-light small"><?= $item['nama']; ?></a></li>
+                                    <li class="nav-item"><a href="<?= $item['link']; ?>" class="nav-link link-light small"><?= $item['nama']; ?></a></li>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
@@ -201,12 +201,21 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                         Profil Desa
                                     </div>
                                     <ul class="list-unstyled mb-0">
-                                        <li class="mb-2"><a href="single.html">Sejarah Desa</a></li>
-                                        <li class="mb-2"><a href="single.html">Potensi Desa</a></li>
-                                        <li class="mb-2"><a href="single.html">Visi Misi Desa</a></li>
-                                        <li class="mb-2"><a href="single.html">Pemerintah Desa</a></li>
-                                        <li class="mb-2"><a href="single.html">Lembaga Masyarakat</a></li>
-                                        <li class="mb-2"><a href="single.html">Hubungi Kami</a></li>
+                                        <?php foreach (array_filter($menus, fn($item) => $item['id'] == 3) as $item) : ?>
+                                            <?php if ($item['link_tipe'] == 1) : ?>
+                                                <li class="nav-item dropdown">
+
+                                                    <?php
+                                                    $submenus = $menu->where('parrent', $item['id'])->findAll();
+                                                    ?>
+                                                    <?php foreach ($submenus as $submenu) : ?>
+                                                <li><a class="dropdown-item" href="<?= $submenu['link']; ?>"><?= $submenu['nama']; ?></a></li>
+                                            <?php endforeach; ?>
+
+                                            </li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+
                                     </ul>
                                 </div>
                                 <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
@@ -227,12 +236,13 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                         Informasi Desa
                                     </div>
                                     <ul class="list-unstyled mb-0">
-                                        <li class="mb-2"><a href="kategori.html">Berita Desa</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Produk Desa</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Agenda Desa</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Peraturan Desa</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Laporan Desa</a></li>
-                                        <li class="mb-2"><a href="kategori.html">Panduan Layanan Desa</a></li>
+                                        <?php foreach ($categories as $item): ?>
+
+                                            <li class="mb-2"><a href="/<?= $village['permalink']; ?>/artikel-kategori/<?= $item['id'] ?>"><?= $item['kategori'] ?></a></li>
+
+
+                                        <?php endforeach; ?>
+
                                     </ul>
                                 </div>
                             </div>

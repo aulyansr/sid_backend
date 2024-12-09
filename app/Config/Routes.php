@@ -19,7 +19,8 @@ $routes->get('kategori', 'Page::categories', ['as' => 'categories_path']);
 $routes->get('kategori/(:segment)', 'KategoriController::show/$1', ['as' => 'detail_category_path']);
 
 
-
+$routes->get('kategori', 'Page::categories');
+$routes->get('kategori/(:num)', 'KategoriController::show/$1');
 
 
 
@@ -28,12 +29,12 @@ $routes->post('komentar/store', 'KomentarController::store');
 $routes->group('(:segment)/', function ($routes) {
     $routes->get('', 'Page::desa/$1');
     $routes->get('artikel/(:num)', 'ArtikelController::show/$2');
+    $routes->get('artikel-kategori/(:num)', 'Page::article_category/$1/$2');
     $routes->get('search-articles', 'Page::search', ['as' => 'search_articles_path']);
     $routes->get('gallery', 'Page::galleries');
     $routes->get('gallery/(:num)', 'GambarGalleryController::show/$1');
 
-    $routes->get('kategori', 'Page::categories');
-    $routes->get('kategori/(:num)', 'KategoriController::show/$1');
+
 
     $routes->get('statistik/pendidikan-dalam-kk', 'Page::statistik_pendidikan_kk/$1');
     $routes->get('statistik/pendidikan-ditempuh', 'Page::statistik_pendidikan_ditempuh/$1');
@@ -48,6 +49,7 @@ $routes->group('(:segment)/admin', function ($routes) {
     $routes->get('', 'Dashboard::index/$1');
     $routes->get('dashboard', 'Dashboard::index/$1');
 
+    $routes->get('artikel', 'ArtikelController::index');
 
     $routes->get('analisis_master', 'AnalisisMaster::index', ['filter' => 'permission:kelurahan.access']);
 

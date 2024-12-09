@@ -6,6 +6,7 @@ use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
 use App\Models\KomentarModel;
 use App\Models\UserModel;
+use App\Models\DesaModel;
 use CodeIgniter\Controller;
 use CodeIgniter\I18n\Time;
 
@@ -26,14 +27,22 @@ class ArtikelController extends BaseController
 
     public function index()
     {
-        $data['artikels'] = $this->artikelModel->getArtikels();
+        if (auth()->user()->inGroup('superadmin')) {
+            $data['artikels'] = $this->artikelModel->getArtikels();
+        } else {
+            $data['artikels'] = $this->artikelModel
+                ->where('artikel.desa_id', auth()->user()->desa_id)
+                ->getArtikels();
+        }
         $data['activeTab'] = 'artikel';
         return view('artikel/index', $data);
     }
 
     public function new()
     {
+        $desaModel   = new DesaModel();
         $data['kategoris'] = $this->kategori->findAll();
+        $data['list_desa'] =  $desaModel->findAll();
         return view('artikel/new', $data);
     }
 
@@ -91,6 +100,7 @@ class ArtikelController extends BaseController
             'id_user'      => 'required|integer',
             'judul'        => 'required|string|max_length[100]',
             'link_dokumen' => 'permit_empty|string|max_length[200]',
+
         ];
 
         if (!$this->validate($validationRules)) {
@@ -145,6 +155,7 @@ class ArtikelController extends BaseController
             'gambar3'      => $additionalImagePaths['gambar3'],
             'dokumen'      => $this->request->getVar('dokumen'),
             'link_dokumen' => $this->request->getVar('link_dokumen'),
+            'desa_id' => $this->request->getPost('desa_id'),
         ];
 
         if ($this->artikelModel->save($data)) {
@@ -176,8 +187,10 @@ class ArtikelController extends BaseController
 
     public function edit($id)
     {
-        $data['artikel'] = $this->artikelModel->find($id);
+        $data['artikel']   = $this->artikelModel->find($id);
+        $desaModel         = new DesaModel();
         $data['kategoris'] = $this->kategori->findAll();
+        $data['list_desa'] = $desaModel->findAll();
         if (!$data['artikel']) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
         }
@@ -290,6 +303,7 @@ class ArtikelController extends BaseController
             'gambar3'      => $additionalImagePaths['gambar3'],
             'dokumen'      => $this->request->getPost('dokumen'),
             'link_dokumen' => $this->request->getPost('link_dokumen'),
+            'desa_id' => $this->request->getPost('desa_id'),
         ];
 
         if ($this->artikelModel->update($id, $data)) {

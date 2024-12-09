@@ -68,7 +68,7 @@
                                 <select class="form-control select2" id="inputdesa" name="desa_id">
                                     <option value="">Pilih</option>
                                     <?php foreach ($desaList as $desa): ?>
-                                        <option value="<?= esc($desa['id']); ?>" <?= (old('desa_id', isset($user) ? esc($user['desa_id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                        <option value="<?= esc($desa['id']); ?>" <?= (old('desa_id', isset($user) ? esc($user->desa_id) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
                                             <?= esc($desa['nama_desa']); ?>
                                         </option>
                                     <?php endforeach; ?>
