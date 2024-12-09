@@ -63,6 +63,8 @@ $routes->group('(:segment)/admin', function ($routes) {
 
 
     $routes->get('program', 'ProgramController::index');
+
+    $routes->get('surat', 'SuratController::index');
 });
 
 
