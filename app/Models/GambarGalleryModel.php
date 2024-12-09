@@ -8,7 +8,7 @@ class GambarGalleryModel extends Model
 {
     protected $table = 'gambar_gallery';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['parrent', 'gambar', 'nama', 'enabled', 'tgl_upload', 'tipe'];
+    protected $allowedFields = ['parrent', 'gambar', 'nama', 'enabled', 'tgl_upload', 'tipe', 'desa_id'];
 
     protected $validationRules = [
         'parrent' => 'permit_empty|integer',

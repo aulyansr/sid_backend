@@ -4,21 +4,31 @@ namespace App\Controllers;
 
 use App\Models\GambarGalleryModel;
 use CodeIgniter\Controller;
+use App\Models\DesaModel;
 
-class GambarGalleryController extends Controller
+class GambarGalleryController extends BaseController
 
 {
     protected $gambarGallery;
+    protected $desaModel;
 
     public function __construct()
     {
         $this->gambarGallery = new GambarGalleryModel();
+        $this->desaModel = new DesaModel();
     }
 
     public function index()
     {
         $model = new GambarGalleryModel();
-        $data['gambar_galleries'] = $model->getGalleriesByType(0);
+        if (auth()->user()->inGroup('superadmin')) {
+            $data['gambar_galleries'] = $model->getGalleriesByType(0);
+        } else {
+            $data['gambar_galleries'] = $model
+                ->where('desa_id', auth()->user()->desa_id)
+                ->getGalleriesByType(0);
+        }
+
         $data['activeTab'] = 'gambar-gallery';
 
         return view('gambar_gallery/index', $data);
@@ -26,7 +36,9 @@ class GambarGalleryController extends Controller
 
     public function new()
     {
-        return view('gambar_gallery/new');
+        $desaModel         = new DesaModel();
+        $data['list_desa'] =  $desaModel->findAll();
+        return view('gambar_gallery/new', $data);
     }
 
     public function add_image()
@@ -131,8 +143,10 @@ class GambarGalleryController extends Controller
 
     public function edit($id)
     {
-        $model = new GambarGalleryModel();
+        $model                  = new GambarGalleryModel();
         $data['gambar_gallery'] = $model->find($id);
+        $desaModel              = new DesaModel();
+        $data['list_desa']      = $desaModel->findAll();
 
         return view('gambar_gallery/edit', $data);
     }
@@ -222,7 +236,7 @@ class GambarGalleryController extends Controller
         return redirect()->to('admin/gambar-gallery');
     }
 
-    public function view($id)
+    public function views($id)
     {
         $model = new GambarGalleryModel();
         $data['gambar_gallery'] = $model->find($id);
@@ -231,12 +245,12 @@ class GambarGalleryController extends Controller
         return view('gambar_gallery/view', $data);
     }
 
-    public function show($id)
+    public function show($segment, $id)
     {
+
         $model = new GambarGalleryModel();
         $data['gambar_gallery'] = $model->find($id);
         $data['images'] = $model->where('parrent', $id)->findAll();
-
         return view('gambar_gallery/show', $data);
     }
 }

@@ -16,8 +16,8 @@
         <?php foreach ($galleries as $index => $gallery) : ?>
 
             <div class="col-md-6 col-xl-4 mb-5">
-                <a class="card post-preview lift h-100" href="<?= route_to('detail_gallery_path', $gallery['id']); ?>">
-                    <img class="card-img-top" src="<?= $gallery['gambar']; ?>" alt="..." class="w-100" />
+                <a class="card post-preview lift h-100" href="/<?= $village['permalink']; ?>/gallery/<?= $gallery['id']; ?>">
+                    <img class="card-img-top" src="/<?= $gallery['gambar']; ?>" alt="..." class="w-100" />
                     <div class="card-body">
                         <h5 class="card-title"><?= $gallery['nama']; ?></h5>
                         <p class="card-text">

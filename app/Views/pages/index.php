@@ -103,11 +103,11 @@ use CodeIgniter\I18n\Time;
                     <hr />
                     <div class="mb-5">
                         <?php if (!empty($gallery) && isset($gallery[0])) : ?>
-                            <a class="card lift h-100" href="<?= route_to('detail_gallery_path', $gallery[0]['id']); ?>">
+                            <a class="card lift h-100" href="/<?= $village['permalink']; ?>/gallery/<?= $gallery[0]['id'] ?>">
                                 <div class="card-flag card-flag-dark card-flag-top-right card-flag-lg">
                                     <?php
                                     $fotoModel = new \App\Models\GambarGalleryModel();
-                                    $fotos = $fotoModel->where('parrent', $gallery[0]['id'])->findAll(); // Fetch all images for this gallery
+                                    $fotos = $fotoModel->where('parrent', $gallery[0]['id'])->where('desa_id', $village['id'])->findAll(); // Fetch all images for this gallery
                                     $total = count($fotos);
                                     ?>
                                     <?= $total; ?> Foto
