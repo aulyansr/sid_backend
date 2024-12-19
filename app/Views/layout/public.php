@@ -6,7 +6,7 @@ $menu          = new \App\Models\MenuModel();
 
 $categories = $kategoriModel->orderBy('urut', 'ASC')->findAll();
 
-$menus      = $menu->where('tipe', 1)->findAll();
+$menus      = $menu->where('tipe', 1)->where('desa_id', $village['id'])->findAll();
 $theme = $village['theme_color'] ?? '#00ba94';
 
 
@@ -65,6 +65,17 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                     <li class="nav-item"><a href="<?= $item['link']; ?>" class="nav-link link-light small"><?= $item['nama']; ?></a></li>
                                 <?php endif; ?>
                             <?php endforeach; ?>
+                            <li class="nav-item dropdown">
+                                        <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Data Desa</a>
+                                        <ul class="dropdown-menu">
+                                            
+                                            <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
+                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/pekerjaan">Data Pekerjaan</a></li>
+                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/kelompok-umur">Data Kelompok Umur</a></li>
+                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/agama">Data Agama</a></li>
+                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/jenis-kelamin">Data Jenis Kelamin</a></li>
+                                        </ul>
+                                    </li>
                         </ul>
                     </div>
                 </nav>
@@ -132,7 +143,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
 
                                 <?php endforeach; ?>
 
-                                <li class="nav-item dropdown d-block d-sm-block d-md-none">
+                                <!-- <li class="nav-item dropdown d-block d-sm-block d-md-none">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Profile</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#">Sejarah Desa</a></li>
@@ -154,7 +165,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
                             <a class="btn fw-500 ms-lg-4 btn-teal" href="#bx-search">
                                 Pencarian
                                 <i class="ms-2" data-feather="arrow-right"></i>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </nav>
@@ -223,7 +234,6 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                         Data Desa
                                     </div>
                                     <ul class="list-unstyled mb-0">
-
                                         <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
                                         <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/pekerjaan">Data Pekerjaan</a></li>
                                         <li class="mb-2"><a href="/<?= $village['permalink']; ?>/statistik/kelompok-umur">Data Kelompok Umur</a></li>
