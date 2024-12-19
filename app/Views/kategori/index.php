@@ -40,7 +40,7 @@
                                         <a href="/admin/kategori/edit/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/kategori/delete/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
+                                        <a href="/admin/kategori/delete/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
 

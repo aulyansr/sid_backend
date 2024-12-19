@@ -37,7 +37,7 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Data Analisis</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">45</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_analisis;?></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-chart-bar fa-2x text-gray-300"></i>

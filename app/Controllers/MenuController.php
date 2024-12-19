@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\MenuModel;
+use App\Models\DesaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class MenuController extends BaseController
@@ -16,7 +17,16 @@ class MenuController extends BaseController
 
     public function index()
     {
-        $data['menus'] = $this->menu->where('tipe', 1)->findAll();
+        $desaModel   = new DesaModel();
+        $currentUser = auth()->user();
+
+        if ($currentUser->inGroup('superadmin')) {
+            $data['menus'] = $this->menu->where('tipe', 1)->findAll();
+        } else {
+            $data['menus'] = $this->menu->where('tipe', 1)
+                ->where('desa_id', $currentUser->desa_id)
+                ->findAll();
+        }
         $data['activeTab'] = 'menu-statis';
         return view('menu/index', $data);
     }

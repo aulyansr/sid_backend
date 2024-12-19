@@ -4,7 +4,7 @@
 <div class = "container px-5">
 <div class = "row gx-5 justify-content-center">
 <div class = "col-lg-10 col-xl-8">
-<a   class = "badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href = "<?= route_to('detail_category_path', $kategori['id']) ?>"><? = $kategori['kategori']; ?></a>
+<a   class = "badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href = "<?= route_to('detail_category_path', $kategori['id']) ?>"><?= $kategori['kategori']; ?></a>
 <div class = "single-post">
                 <h1>
                     <?= $artikel['judul']; ?>
@@ -59,7 +59,7 @@
 
                     <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])): ?>
                           <p>Dokumen                                                          : </p>
-                        <a href = "<?= $artikel['link_dokumen']; ?>"><? = htmlspecialchars($artikel['dokumen']); ?></a>
+                        <a href = "<?= $artikel['link_dokumen']; ?>"><?= htmlspecialchars($artikel['dokumen']); ?></a>
                     <?php endif; ?>
 
                     <hr  class = "my-5" />
