@@ -144,9 +144,9 @@ class TwebPenduduk extends Model
             'jumlah'           => $total,
             'persen'           => 100,
             'laki_laki'        => array_sum(array_column($query, 'laki_laki')),
-            'laki_laki_persen' => round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2),
+            'laki_laki_persen' => ($total != 0) ? round((array_sum(array_column($query, 'laki_laki')) / $total) * 100, 2) : 0,   // Prevent division by zero
             'perempuan'        => array_sum(array_column($query, 'perempuan')),
-            'perempuan_persen' => round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2),
+            'perempuan_persen' => ($total != 0) ? round((array_sum(array_column($query, 'perempuan')) / $total) * 100, 2) : 0,   // Prevent division by zero
         ];
 
         return $query;
