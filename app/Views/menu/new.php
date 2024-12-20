@@ -20,19 +20,39 @@
                                 <input class="form-control" id="inputNama" name="nama" type="text" placeholder="Nama Menu" value="<?= old('nama'); ?>" required>
                             </div>
                             <!-- Form Group (link) -->
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-3 d-none">
                                 <label class="small mb-1" for="inputLink">Link</label>
-                                <input class="form-control" id="inputLink" name="link" type="text" placeholder="Link Menu" value="<?= old('link'); ?>" required>
+                                <input class="form-control" id="inputLink" name="link" type="text" placeholder="Link Menu" value="#">
                             </div>
 
-
                             <div class="col-md-12 mb-3">
-                                <label class="small mb-1" for="inputEnabled">Enabled</label>
-                                <select class="form-control" id="inputEnabled" name="enabled" required>
-                                    <option value="1" <?= old('enabled') == '1' ? 'selected' : ''; ?>>Enabled</option>
-                                    <option value="0" <?= old('enabled') == '0' ? 'selected' : ''; ?>>Disabled</option>
+                                <label class="small mb-1" for="inputEnabled">Ada SubMenu ?</label>
+                                <select class="form-control" id="inputEnabled" name="link_tipe" required>
+                                    <option value="1">Ada</option>
+                                    <option value="0">Tidak</option>
                                 </select>
                             </div>
+
+
+                            <?php if (auth()->user()->inGroup('superadmin')): ?>
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="small mb-1" for="inputDesa">Nama Desa</label>
+                                    <select class="form-control select2" id="inputDesa" name="desa_id">
+                                        <option value="">Pilih Desa</option>
+                                        <?php foreach ($list_desa as $desa): ?>
+                                            <option value="<?= esc($desa['id']); ?>" <?= (old('id', isset($desa) ? esc($desa['id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                                <?= esc($desa['nama_desa']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                            <?php else: ?>
+
+                                <input type="hidden" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
+
+                            <?php endif; ?>
                         </div>
 
                         <!-- Submit button -->

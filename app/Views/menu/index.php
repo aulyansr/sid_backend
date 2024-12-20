@@ -37,23 +37,36 @@
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="uibutton-group">
-                                        <a href="<?= site_url('admin/menu/' . esc($menu['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat
-                                        </a>
+                                        <?php if ($menu['link_tipe'] == 0): ?>
+                                            <?php
+                                            // Split the link by '/' and get the last part as article ID
+                                            $parts = explode('/', $menu['link']);
+                                            $articleId = end($parts);
+                                            ?>
+                                            <a href="/admin/artikel/edit/<?= esc($articleId); ?>" class="btn btn-sm btn-secondary" title="Ubah Data">
+                                                <i class="fa fa-eye"></i> Lihat
+                                            </a>
+                                        <?php else: ?>
+                                            <a href="<?= site_url('admin/menu/' . esc($menu['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
+                                                <i class="fa fa-eye"></i> Lihat
+                                            </a>
+                                        <?php endif; ?>
                                         <a href="/admin/menu/edit/<?= esc($menu['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>
-                                        <a href="/admin/menu/delete/<?= esc($menu['id']); ?>" 
-   class="btn btn-sm btn-danger" 
-   title="Hapus Data"
-   onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-    <i class="fa fa-trash"></i> Hapus
-</a>
 
+                                        <!-- Delete button -->
+                                        <a href="/admin/menu/delete/<?= esc($menu['id']); ?>"
+                                            class="btn btn-sm btn-danger"
+                                            title="Hapus Data"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                            <i class="fa fa-trash"></i> Hapus
+                                        </a>
                                     </div>
                                 </td>
 
                                 <td><?= esc($menu['nama']); ?></td>
+
                                 <td>
                                     <?php if ($menu['enabled']) : ?>
                                         <span class="badge badge-success">Active</span>
@@ -61,10 +74,10 @@
                                         <span class="badge badge-danger">Not Active</span>
                                     <?php endif; ?>
                                 </td>
-
-
                             </tr>
                         <?php endforeach; ?>
+
+
                     </tbody>
                 </table>
 

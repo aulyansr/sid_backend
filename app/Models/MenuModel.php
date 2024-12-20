@@ -17,7 +17,8 @@ class MenuModel extends Model
         'tipe',
         'parrent',
         'link_tipe',
-        'enabled'
+        'enabled',
+        'desa_id'
     ];
 
     // Auto timestamp
