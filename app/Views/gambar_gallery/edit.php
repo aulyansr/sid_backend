@@ -33,7 +33,7 @@
                                 <input class="form-control" id="inputNama" name="nama" type="text" placeholder="Nama" value="<?= esc($gambar_gallery['nama']); ?>" required>
                             </div>
                             <!-- Form Group (tipe) -->
-                            <input class="form-control d-none" id="inputTipe" name="tipe" type="hidden" value="<?= esc($gambar_gallery['tgl_upload']); ?>">
+                            <input class="form-control d-none" id="inputTipe" name="tipe" type="hidden" value="<?= esc($gambar_gallery['tipe']); ?>">
                             <!-- Form Group (enabled) -->
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1" for="inputEnabled">Status</label>

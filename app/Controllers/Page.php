@@ -45,9 +45,9 @@ class Page extends BaseController
             // Handle the case where no village is found (e.g., show 404 page)
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Village not found.");
         }
-        $data['artikels'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->limit(5)->findAll();
+        $data['artikels'] = $this->artikelModel->where('desa_id', $village['id'])->orderBy('id', 'DESC')->limit(5)->findAll();
 
-        $data['headline'] = $this->artikelModel->where('artikel.desa_id', $village['id'])->where('headline', 1)->getArtikels();
+        $data['headline'] = $this->artikelModel->where('artikel.enabled', 1)->where('artikel.desa_id', $village['id'])->where('headline', 1)->getArtikels();
         $data['gallery'] = $this->gallery->where('gambar_gallery.desa_id', $village['id'])->where('tipe', 0)->findAll(1);
         $data['categories'] = $this->kategori->findAll();
         $data['comments'] = $this->komentarModel->getcomments(5, $village['id']);
@@ -163,7 +163,20 @@ class Page extends BaseController
             // Handle the case where no village is found (e.g., show 404 page)
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Village not found.");
         }
-        $data['articles'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->orderBy('id', 'DESC')->findAll();
+        $data['articles'] = $this->artikelModel->where('desa_id', $village['id'])->where('enabled', 1)->where('id_kategori', $id)->orderBy('id', 'DESC')->findAll();
         return view('pages/artikel_category', $data);
+    }
+
+    public function privasi()
+    {
+        return view('pages/privasi',);
+    }
+    public function ketentuan()
+    {
+        return view('pages/ketentuan',);
+    }
+    public function about()
+    {
+        return view('pages/about',);
     }
 }

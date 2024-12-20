@@ -322,4 +322,12 @@ class ArtikelController extends BaseController
             return redirect()->to('/admin/artikel')->with('error', 'Failed to delete artikel.');
         }
     }
+
+    public function redirect_article($id)
+    {
+        $desaModel = new DesaModel();
+        $village   = $desaModel->find($this->artikelModel->find($id)['desa_id']);
+        $artikel =  $this->artikelModel->find($id);
+        return redirect()->to(base_url($village['permalink'] . '/artikel/' . $id));
+    }
 }

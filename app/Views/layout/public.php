@@ -66,16 +66,16 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                 <?php endif; ?>
                             <?php endforeach; ?>
                             <li class="nav-item dropdown">
-                                        <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Data Desa</a>
-                                        <ul class="dropdown-menu">
-                                            
-                                            <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
-                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/pekerjaan">Data Pekerjaan</a></li>
-                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/kelompok-umur">Data Kelompok Umur</a></li>
-                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/agama">Data Agama</a></li>
-                                        <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/jenis-kelamin">Data Jenis Kelamin</a></li>
-                                        </ul>
-                                    </li>
+                                <a class="nav-link link-light dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Data Desa</a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/pendidikan-dalam-kk">Data Pendidikan</a></li>
+                                    <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/pekerjaan">Data Pekerjaan</a></li>
+                                    <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/kelompok-umur">Data Kelompok Umur</a></li>
+                                    <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/agama">Data Agama</a></li>
+                                    <li><a class="dropdown-item" href="/<?= $village['permalink']; ?>/statistik/jenis-kelamin">Data Jenis Kelamin</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -212,7 +212,9 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                         Profil Desa
                                     </div>
                                     <ul class="list-unstyled mb-0">
-                                        <?php foreach (array_filter($menus, fn($item) => $item['id'] == 3) as $item) : ?>
+                                        <?php foreach (array_filter($menus, fn($item) => $item['nama'] == 'Profile Desa') as $item): ?>
+
+
                                             <?php if ($item['link_tipe'] == 1) : ?>
                                                 <li class="nav-item dropdown">
 
@@ -268,11 +270,11 @@ $theme = $village['theme_color'] ?? '#00ba94';
                             Kabupaten <?= $config['nama_kabupaten']; ?>
                         </div>
                         <div class="col-md-6 text-md-end small">
-                            <a href="privasi.html">Kebijakan Privasi</a>
+                            <a href="/privasi">Kebijakan Privasi</a>
                             &middot;
-                            <a href="ketentuan.html">Syarat &amp; Ketentuan</a>
+                            <a href="/ketentuan">Syarat &amp; Ketentuan</a>
                             &middot;
-                            <a href="tentang-sid.html">Tentang &amp; SID</a>
+                            <a href="/tentang-sid">Tentang &amp; SID</a>
                         </div>
                     </div>
                 </div>

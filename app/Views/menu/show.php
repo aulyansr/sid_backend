@@ -38,6 +38,14 @@
                                 <td>
                                     <div class="uibutton-group">
 
+                                        <?php
+                                        // Split the link by '/' and get the last part as article ID
+                                        $parts = explode('/', $item['link']);
+                                        $articleId = end($parts);
+                                        ?>
+                                        <a href="/admin/artikel/edit/<?= esc($articleId); ?>" class="btn btn-sm btn-secondary" title="Ubah Data">
+                                            <i class="fa fa-eye"></i> Lihat
+                                        </a>
                                         <a href="/admin/menu/edit/<?= esc($item['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>

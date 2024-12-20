@@ -9,7 +9,7 @@
                 </p>
             </div>
             <div class="col-lg-6">
-                <form action="<?= $village['permalink']; ?>/<?= base_url('/search-articles'); ?>" method="get">
+                <form action="<?= base_url($village['permalink'] . '/search-articles'); ?>" method="get">
                     <div class="input-group mb-2">
                         <input class="form-control form-control-solid" type="text" name="query" placeholder="Masukkan kata kunci pencarian" aria-label="Recipient's username" aria-describedby="button-addon2" />
                         <button class="btn btn-primary" id="button-addon2" type="submit">

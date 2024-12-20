@@ -12,7 +12,7 @@ $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
 
 $routes->get('artikel', 'Page::articles', ['as' => 'articles_path']);
-$routes->get('artikel/(:num)', 'ArtikelController::show/$1', ['as' => 'detail_article_path']);
+$routes->get('artikel/(:num)', 'ArtikelController::redirect_article/$1', ['as' => 'detail_article_path']);
 
 
 $routes->get('kategori', 'Page::categories', ['as' => 'categories_path']);
@@ -25,6 +25,10 @@ $routes->get('kategori/(:num)', 'KategoriController::show/$1');
 
 
 $routes->post('komentar/store', 'KomentarController::store');
+
+$routes->get('privasi', 'Page::privasi');
+$routes->get('ketentuan', 'Page::ketentuan');
+$routes->get('tentang-sid', 'Page::about');
 
 $routes->group('(:segment)/', function ($routes) {
     $routes->get('', 'Page::desa/$1');

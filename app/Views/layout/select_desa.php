@@ -19,36 +19,8 @@
 <body>
     <div id="layoutDefault">
         <div id="layoutDefault_content">
-            <main>
-                <div class="container">
-                    <!-- Sub Navbar -->
+            <?php $this->renderSection('content'); ?>
 
-                    <div class="text-center" style="margin-top:25vh">
-                        <h1 class="mb-5">
-                            Pilih Desa
-                        </h1>
-                        <div class="row g-4 justify-content-center mb-5">
-                            <?php foreach ($villages as $index => $village): ?>
-
-
-                                <div class="col-md-4">
-                                    <a href="/<?= $village['permalink']; ?>">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h2>
-                                                    <?= $village['nama_desa']; ?>
-                                                </h2>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
         </div>
 
         <div id="layoutDefault_footer">
@@ -64,11 +36,11 @@
 
                         </div>
                         <div class="col-md-6 text-md-end small">
-                            <a href="privasi.html">Kebijakan Privasi</a>
+                            <a href="/privasi">Kebijakan Privasi</a>
                             &middot;
-                            <a href="ketentuan.html">Syarat &amp; Ketentuan</a>
+                            <a href="/ketentuan">Syarat &amp; Ketentuan</a>
                             &middot;
-                            <a href="tentang-sid.html">Tentang &amp; SID</a>
+                            <a href="/tentang-sid">Tentang &amp; SID</a>
                         </div>
                     </div>
                 </div>

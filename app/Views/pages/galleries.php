@@ -5,11 +5,12 @@
 <div class="container px-5">
     <div class="row gx-5 justify-content-center">
         <div class="col-xl-6 col-lg-8 col-md-10 text-center py-5">
-            <h2>Galeri Kalurahan Candirejo</h2>
-            <p class="lead text-gray-500 mb-5">Album galeri Kalurahan Candirejo berisi dokumentasi
+            <h2>Galeri Kalurahan <?= $village['nama_desa']; ?></h2>
+            <p class="lead text-gray-500 mb-5">Album galeri Kalurahan <?= $village['nama_desa']; ?> berisi dokumentasi
                 hal-hal penting dan menarik lainnya untuk dibagikan ke publik</p>
         </div>
     </div>
+
 </div>
 <div class="container px-5">
     <div class="row gx-5">
@@ -26,15 +27,8 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <div class="post-preview-meta">
-                            <img class="post-preview-meta-img" src="assets/img/illustrations/profiles/profile-2.png" />
-                            <div class="post-preview-meta-details">
-                                <div class="post-preview-meta-details-name">
-                                    Budi Gunawan
-                                </div>
-                                <div class="post-preview-meta-details-date">
-                                    3 hari yang lalu
-                                </div>
-                            </div>
+
+
                         </div>
 
                         <div class="items">
