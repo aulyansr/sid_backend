@@ -33,4 +33,18 @@ class DesaModel extends Model
             ->join("config", "config.desa_id = desa.id", "left")
             ->join("kecamatan", "kecamatan.no_kecamatan = desa.no_kecamatan", "left");
     }
+
+    public function getDesaWithCounts()
+    {
+        $db = \Config\Database::connect();
+        return $db->table($this->table)
+            ->select('desa.id, desa.nama_desa, desa.permalink, 
+                      COUNT(DISTINCT artikel.id) as total_artikel, 
+                      COUNT(DISTINCT gallery.id) as total_gallery')
+            ->join('artikel', 'artikel.desa_id = desa.id', 'left')
+            ->join('gallery', 'gallery.desa_id = desa.id', 'left')
+            ->groupBy('desa.id')
+            ->get()
+            ->getResultArray();
+    }
 }

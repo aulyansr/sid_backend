@@ -22,4 +22,10 @@ class GambarGalleryModel extends Model
     {
         return $this->where('tipe', $type)->findAll();
     }
+
+    public function gallerySumary()
+    {
+        return $this->where('tipe', 0)->select('*, user.full_name AS user_name')
+            ->join('user', 'user.id = gambar_gallery.user_id', 'left');
+    }
 }
