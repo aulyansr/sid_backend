@@ -118,6 +118,16 @@ class AuthGroups extends ShieldAuthGroups
             'menus.*',
             'config.*',
             'users.*',
+            'kelurahan.access.*'
+        ],
+
+        'op_kabupaten' => [
+            #'articles.*',
+            'galleries.*',
+            'menus.*',
+            'config.*',
+            'users.*',
+            'kelurahan.access.*'
         ],
 
 
