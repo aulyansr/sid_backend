@@ -45,6 +45,7 @@ class SuratController extends BaseController
             'nama' => $this->request->getPost('nik'),
             'nik' => $this->request->getPost('nik'),
             'jenis_surat' => $this->request->getPost('jenis_surat'),
+            'desa_id' => $this->request->getPost('desa_id'),
             'keperluan' => $this->request->getPost('keperluan'),
         ];
 

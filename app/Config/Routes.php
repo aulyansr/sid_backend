@@ -66,9 +66,9 @@ $routes->group('(:segment)/admin', function ($routes) {
     });
 
 
-    $routes->get('program', 'ProgramController::index', ['filter' => 'permission:articles.access']);
+    $routes->get('program', 'ProgramController::index', ['filter' => 'permission:kelurahan.access']);
 
-    $routes->get('surat', 'SuratController::index', ['filter' => 'permission:articles.access']);
+    $routes->get('surat', 'SuratController::index', ['filter' => 'permission:kelurahan.access']);
 });
 
 
