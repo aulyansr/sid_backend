@@ -53,22 +53,22 @@ $routes->group('(:segment)/admin', function ($routes) {
     $routes->get('', 'Dashboard::index/$1');
     $routes->get('dashboard', 'Dashboard::index/$1');
 
-    $routes->get('artikel', 'ArtikelController::index');
+    $routes->get('artikel', 'ArtikelController::index', ['filter' => 'permission:articles.access']);
 
-    $routes->get('analisis_master', 'AnalisisMaster::index', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('analisis_master', 'AnalisisMaster::index', ['filter' => 'permission:kelurahan.access'], ['filter' => 'permission:articles.access']);
 
 
-    $routes->get('penduduk', 'Penduduk::index/$1');
+    $routes->get('penduduk', 'Penduduk::index/$1', ['filter' => 'permission:kelurahan.access']);
 
 
     $routes->group('analisis_master', function ($routes) {
-        $routes->get('(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$2');
+        $routes->get('(:num)/kategori-indikators', 'AnalisisKategoriIndikator::index/$2', ['filter' => 'permission:articles.access']);
     });
 
 
-    $routes->get('program', 'ProgramController::index');
+    $routes->get('program', 'ProgramController::index', ['filter' => 'permission:articles.access']);
 
-    $routes->get('surat', 'SuratController::index');
+    $routes->get('surat', 'SuratController::index', ['filter' => 'permission:articles.access']);
 });
 
 

@@ -16,6 +16,9 @@
                             <th>Aksi</th>
                             <th>Nama Desa</th>
                             <th>Permalink</th>
+                            <th>Total Artikel</th>
+                            <th>Total Surat</th>
+                            <th>Total Gallery</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -24,6 +27,9 @@
                             <th>Aksi</th>
                             <th>Nama Desa</th>
                             <th>Permalink</th>
+                            <th>Total Artikel</th>
+                            <th>Total Surat</th>
+                            <th>Total Gallery</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -42,10 +48,14 @@
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
 
+
                                     </div>
                                 </td>
                                 <td><?= esc($village['nama_desa']); ?></td>
                                 <td><?= esc($village['permalink']); ?></td>
+                                <td><?= isset($village['total_artikel']) ? esc($village['total_artikel']) : 0; ?></td>
+                                <td><?= isset($village['total_surat']) ? esc($village['total_surat']) : 0; ?></td>
+                                <td><?= isset($village['total_gallery']) ? esc($village['total_gallery']) : 0; ?></td>
 
                             </tr>
                         <?php endforeach; ?>
