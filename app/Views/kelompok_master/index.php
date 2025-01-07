@@ -35,9 +35,7 @@
                                 <td align="center"><?= $index + 1; ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="<?= site_url('admin/master-kelompok/' . esc($kelompok['id'])); ?>" class="btn btn-sm btn-secondary" title="Lihat Data">
-                                            <i class="fa fa-eye"></i> Lihat
-                                        </a>
+
                                         <a href="<?= site_url('admin/master-kelompok/' . esc($kelompok['id']) . '/edit'); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
                                             <i class="fa fa-edit"></i> Ubah
                                         </a>

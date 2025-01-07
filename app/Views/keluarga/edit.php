@@ -1,4 +1,4 @@
-<? = $this->extend('layout/dashboard'); ?>
+<?= $this->extend('layout/dashboard'); ?>
 
 <?= $this->section('content'); ?>
 <div class="container-fluid">
@@ -24,16 +24,16 @@
                                 <div class="col-md-12 mb-3">
                                     <label class="small mb-1 d-block" for="inputNIK">NIK Kepala Keluarga</label>
                                     <div class="row">
-                                        <div class="col-md-8">  
-                                            <select   select class="form-control" id="nik" name="nik_kepala" required>
+                                        <div class="col-md-8">
+                                            <select select class="form-control" id="nik" name="nik_kepala" required>
                                                 <option value="">Pilih Penduduk</option>
                                                 <?php if (isset($keluarga)): ?>
-                                                     <option value="<?= esc($kepala_keluarga['nik']); ?>" selected><?= esc($kepala_keluarga['nik']) . ' - ' . esc($kepala_keluarga['nama']); ?></option>
+                                                    <option value="<?= esc($kepala_keluarga['nik']); ?>" selected><?= esc($kepala_keluarga['nik']) . ' - ' . esc($kepala_keluarga['nama']); ?></option>
                                                 <?php endif; ?>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                             <a href="/admin/penduduk/new" class="btn btn-sm btn-primary" target="_blank">
+                                            <a href="/admin/penduduk/new" class="btn btn-sm btn-primary" target="_blank">
                                                 Tambah Penduduk
                                             </a>
                                         </div>

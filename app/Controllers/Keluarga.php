@@ -24,8 +24,17 @@ class Keluarga extends BaseController
 
     public function index()
     {
+        $currentUser = auth()->user();
         $data['activeTab'] = 'keluarga';
-        $data['keluargas'] = $this->keluargaModel->getKepalaKeluarga();
+        if ($currentUser->inGroup('superadmin')) {
+            $data['keluargas'] = $this->keluargaModel->getKepalaKeluarga();
+        } else {
+            $data['keluargas'] = $this->keluargaModel
+                ->where('tweb_keluarga.desa_id', $currentUser->desa_id)
+                ->getKepalaKeluarga();
+        }
+
+
 
         return view('keluarga/index', $data);
     }
@@ -187,20 +196,14 @@ class Keluarga extends BaseController
         // Start database transaction
         $this->db->transBegin();
 
-        // Update keluarga data
-        $keluargaData = [
-            'no_kk' => $postData['no_kk'],
-            'nik_kepala' => $postData['nik_kepala'],
-        ];
-
-        if (!$this->keluargaModel->update($id, $keluargaData)) {
-            // If update fails, rollback transaction and return errors
-            $this->db->transRollback();
-            $errors = $this->keluargaModel->errors();
-            return redirect()->back()->withInput()->with('errors', $errors);
+        // Reset anggota keluarga sebelumnya
+        $existingAnggota = $this->pendudukModel->where('id_kk', $id)->findAll();
+        if (!empty($existingAnggota)) {
+            foreach ($existingAnggota as $penduduk) {
+                $this->pendudukModel->update($penduduk['id'], ['id_kk' => null]);
+            }
         }
 
-        // Handle updating anggota_keluarga
         if (isset($postData['anggota_keluarga'])) {
             foreach ($postData['anggota_keluarga'] as $anggota) {
                 // Find the penduduk (anggota) by NIK
@@ -231,13 +234,11 @@ class Keluarga extends BaseController
                 }
             }
         }
-
-        // If everything is okay, commit the transaction
+        // Commit the transaction
         $this->db->transCommit();
-
-        // Redirect to the keluarga list page with success message
         return redirect()->to(base_url('admin/keluarga'))->with('message', 'Data keluarga berhasil diperbarui.');
     }
+
 
     public function delete($id)
     {

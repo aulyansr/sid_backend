@@ -26,8 +26,17 @@ class Rtm extends BaseController
 
     public function index()
     {
+        $currentUser = auth()->user();
         $data['activeTab'] = 'rtm';
-        $data['rtms'] = $this->rtmModel->getKepalaRtm();
+        if ($currentUser->inGroup('superadmin')) {
+            $data['rtms'] = $this->rtmModel->getKepalaRtm();
+        } else {
+            $data['rtms'] = $this->rtmModel
+                ->where('tweb_rtm.desa_id', $currentUser->desa_id)
+                ->getKepalaRtm();
+        }
+
+
 
         return view('rtm/index', $data);
     }
@@ -56,16 +65,15 @@ class Rtm extends BaseController
                 return redirect()->back()->withInput()->with('error', 'NIK Kepala Keluarga tidak boleh kosong.');
             }
 
-
-
             // Prepare the data for the new RTM record
             $rtmData = [
-                'no_kk'        => 0,
-                'nik_kepala'   => $postData['nik_kepala'],
-                'nama_kepala'  => $postData['nama_kepala'],
+                'no_kk'          => 0,
+                'nik_kepala'     => $postData['nik_kepala'],
+                'nama_kepala'    => $postData['nama_kepala'],
                 'jumlah_anggota' => isset($postData['anggota_keluarga']) ? count($postData['anggota_keluarga']) : 1,
-                'status_rtm'   => 0,
-                'tgl_daftar'   => date('Y-m-d H:i:s'),
+                'status_rtm'     => 0,
+                'tgl_daftar'     => date('Y-m-d H:i:s'),
+                'desa_id' => $postData['desa_id'],
             ];
 
             // Insert the new RTM record
@@ -125,6 +133,7 @@ class Rtm extends BaseController
 
     public function create_rtm_kk()
     {
+        $currentUser = auth()->user();
         // Get the No KK from the form input
         $no_kk = $this->request->getPost('no_kk');
 
@@ -152,11 +161,12 @@ class Rtm extends BaseController
 
         // Insert new RTM record
         $newRtmData = [
-            'no_kk'        => $no_kk,
-            'nik_kepala'   => $nik_kepala,
-            'nama_kepala'  => $kepalaPenduduk['nama'],  // Get nama from penduduk
-            'jumlah_anggota' => $jumlahAnggota, // Set the jumlah_anggota here
-            'tgl_daftar'   => date('Y-m-d H:i:s'),  // Add the registration date here
+            'no_kk'          => $no_kk,
+            'nik_kepala'     => $nik_kepala,
+            'nama_kepala'    => $kepalaPenduduk['nama'],   // Get nama from penduduk
+            'jumlah_anggota' => $jumlahAnggota,            // Set the jumlah_anggota here
+            'tgl_daftar'     => date('Y-m-d H:i:s'),       // Add the registration date here
+            'desa_id' => $currentUser->desa_id
         ];
 
 

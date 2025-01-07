@@ -8,7 +8,7 @@ class KelompokModel extends Model
 {
     protected $table = 'kelompok';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_master', 'id_ketua', 'kode', 'nama', 'keterangan'];
+    protected $allowedFields = ['id_master', 'id_ketua', 'kode', 'nama', 'keterangan', 'desa_id'];
     protected $useTimestamps = false;
 
     public function get_all_attributes()
