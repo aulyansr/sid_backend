@@ -28,7 +28,15 @@ class Kelompok extends BaseController
     public function index()
     {
         $data['activeTab'] = 'kelompok';
-        $data['kelompok'] = $this->kelompokModel->get_all_attributes();
+        $currentUser = auth()->user();
+        if ($currentUser->inGroup('superadmin')) {
+            $data['kelompok']  = $this->kelompokModel->get_all_attributes();
+        } else {
+            $data['kelompok'] = $this->kelompokModel
+                ->where('kelompok.desa_id', $currentUser->desa_id)
+                ->get_all_attributes();
+        }
+
         return view('kelompok/index', $data);
     }
 
@@ -46,11 +54,12 @@ class Kelompok extends BaseController
 
         // Save Kelompok data to the kelompok table
         $kelompokData = [
-            'id_master'   => $this->request->getPost('id_master'),
-            'id_ketua'    => $this->request->getPost('id_ketua'),
-            'kode'        => $this->request->getPost('kode'),
-            'nama'        => $this->request->getPost('nama'),
-            'keterangan'  => $this->request->getPost('keterangan'),
+            'id_master'  => $this->request->getPost('id_master'),
+            'id_ketua'   => $this->request->getPost('id_ketua'),
+            'kode'       => $this->request->getPost('kode'),
+            'nama'       => $this->request->getPost('nama'),
+            'keterangan' => $this->request->getPost('keterangan'),
+            'desa_id' => $this->request->getPost('desa_id'),
         ];
 
         // Insert kelompok data

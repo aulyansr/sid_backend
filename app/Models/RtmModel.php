@@ -17,6 +17,7 @@ class RtmModel extends Model
         'tgl_daftar',
         'kelas_sosial',
         'jumlah_anggota',
+        'desa_id'
     ];
 
     public function getKepalaRtm()

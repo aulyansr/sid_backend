@@ -60,7 +60,9 @@
                                 <td><?= esc($keluarga['no_kk']); ?></td>
                                 <td><?= esc($keluarga['nik_kepala']); ?></td>
                                 <td><?= esc($keluarga['nama_kepala']); ?></td>
-                                <td></td>
+                                <td>
+                                    <?= esc($keluarga['jumlah_anggota']); ?>
+                                </td>
 
                             </tr>
                         <?php endforeach; ?>
