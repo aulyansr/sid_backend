@@ -51,27 +51,6 @@ class Penduduk extends BaseController
         $filters = $this->request->getGet();
         $search  = $filters['search'] ?? null;
 
-        if ($currentUser->inGroup('superadmin')) {
-            $query = $this->pendudukModel->getAllAttributes();
-        } else {
-            $query = $this->pendudukModel
-                ->where('desa_id', $currentUser->desa_id)
-                ->getAllAttributes();
-        }
-
-
-        if (!empty($search)) {
-            $query->groupStart()
-                ->like("CAST(tweb_penduduk.nik AS TEXT)", $search)
-                ->orLike('tweb_penduduk.nama', $search)
-                ->groupEnd();
-        }
-
-
-        $query = $this->filterPenduduks($filters, $query);
-
-        $data['penduduks'] = $query->findAll();
-
         $data['search']    = $search;
         $data['activeTab'] = 'penduduk';
 

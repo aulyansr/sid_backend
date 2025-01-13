@@ -19,13 +19,13 @@
                 <div class="col-10">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sdhkx">SDHK</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agama">AGAMA</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pendidikankk">PENDIDIKAN KK</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pendidikansdg">PENDIDIKAN SEDANG</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pekerjaan">PEKERJAAN</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stskwn">STATUS KAWIN</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wn">WARGA NEGARA</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#goldar">Golongan Darah</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agamaModal">AGAMA</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pendidikankkModal">PENDIDIKAN KK</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pendidikansdgModal">PENDIDIKAN SEDANG</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pekerjaanModal">PEKERJAAN</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterModalStatusKawin">STATUS KAWIN</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wnModal">WARGA NEGARA</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#goldarModal">Golongan Darah</button>
 
                     </div>
                     <div class="modal fade" id="sdhkx" tabindex="-1" aria-labelledby="sdhkxLabel" aria-hidden="true">
@@ -37,7 +37,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="sdhkxfrm">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -56,14 +56,14 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button id="applySdkFilters" type="button" class="btn btn-primary">Cari</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="agama" tabindex="-1" aria-labelledby="agamaLabel" aria-hidden="true">
+                    <div class="modal fade" id="agamaModal" tabindex="-1" aria-labelledby="agamaLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -72,7 +72,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="filterFormAgama">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -91,14 +91,14 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button type="button" class="btn btn-primary" id="applyAgamaFilters">Cari</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="pendidikankk" tabindex="-1" aria-labelledby="pendidikankkLabel" aria-hidden="true">
+                    <div class="modal fade" id="pendidikankkModal" tabindex="-1" aria-labelledby="pendidikankkLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -107,7 +107,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="frmpendidikankk">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -126,14 +126,14 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button button type="button" class="btn btn-primary" id="applyPendidikankkFilters">Cari</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="pendidikansdg" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
+                    <div class="modal fade" id="pendidikansdgModal" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -142,7 +142,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="frmpendidikansdg">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -161,14 +161,14 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button button type="button" class="btn btn-primary" id="applypendidikansdgFilters">Cari</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="pekerjaan" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
+                    <div class="modal fade" id="pekerjaanModal" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -177,7 +177,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="frmPekerjaan">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -196,49 +196,44 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button type="button" class="btn btn-primary" id="applyPekerjaanFilters">Cari</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="stskwn" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                    <!-- Filter Modal 1: Status Kawin -->
+                    <div class="modal fade" id="filterModalStatusKawin" tabindex="-1" role="dialog" aria-labelledby="filterModalStatusKawinLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="pendidikankksdgLabel">Filter Berdasarkan Pendidikan Sedang</h5>
+                                    <h5 class="modal-title" id="filterModalStatusKawinLabel">Filter by Status Kawin</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
-                                    <div class="modal-body">
-
-                                        <div class="form-check">
-                                            <div class="row">
-                                                <?php foreach ($kawinList as $stskwn): ?>
-                                                    <div class="col-6">
-                                                        <input class="form-check-input" name="stskwn[]" type="checkbox" value="<?= htmlspecialchars(string: $stskwn['id']) ?>" id="checkbox-stskwn-<?= htmlspecialchars($stskwn['id']) ?>">
-                                                        <label class="form-check-label" for="checkbox-stskwn-<?= htmlspecialchars($stskwn['id']) ?>">
-                                                            <?= htmlspecialchars($stskwn['nama']) ?>
-                                                        </label>
-                                                    </div>
-                                                <?php endforeach; ?>
+                                <div class="modal-body">
+                                    <form id="filterFormStatusKawin">
+                                        <?php foreach ($kawinList as $kawin): ?>
+                                            <div class="col-6">
+                                                <input class="form-check-input" name="status_kawin[]" type="checkbox" value="<?= htmlspecialchars($kawin['id']) ?>" id="checkbox-<?= htmlspecialchars($kawin['id']) ?>">
+                                                <label class="form-check-label" for="checkbox-<?= htmlspecialchars($kawin['id']) ?>">
+                                                    <?= htmlspecialchars($kawin['nama']) ?>
+                                                </label>
                                             </div>
-                                        </div>
-
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
-                                    </div>
-                                </form>
-
+                                        <?php endforeach; ?>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="applyStatusKawinFilters">Apply Filter</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="wn" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
+
+                    <div class="modal fade" id="wnModal" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -247,7 +242,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="frmwn">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -266,14 +261,14 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button type="button" class="btn btn-primary" id="applyWNFilters">Cari</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="goldar" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
+                    <div class="modal fade" id="goldarModal" tabindex="-1" aria-labelledby="pendidikankksdgLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -282,7 +277,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="get" action="<?= session()->get('desa_permalink_admin') ? '/' . session()->get('desa_permalink_admin') . '/admin/penduduk' : '/admin/penduduk'; ?>">
+                                <form id="frmgoldar">
                                     <div class="modal-body">
 
                                         <div class="form-check">
@@ -308,7 +303,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Cari</button>
+                                        <button type="button" class="btn btn-primary" id="applyGoldarFilters">Cari</button>
                                     </div>
                                 </form>
 
@@ -348,48 +343,6 @@
                             <th>Status Kawin</th>
                         </tr>
                     </tfoot>
-                    <tbody>
-                        <?php foreach ($penduduks as $index => $penduduk) : ?>
-                            <tr>
-                                <td align="center"><?= $index + 1; ?></td>
-                                <td>
-                                    <form action="<?= base_url('admin/penduduk/' . esc($penduduk['id'])); ?>" method="post" style="">
-                                        <div class="btn-group">
-                                            <a href="/admin/penduduk/<?= esc($penduduk['id']); ?>" class="btn btn-sm btn-primary" title="Ubah Data">
-                                                <i class="fa fa fa-eye"></i> Rincian
-                                            </a>
-
-                                            <a href="/admin/penduduk/<?= esc($penduduk['id']); ?>/edit" class="btn btn-sm btn-warning" title="Ubah Data">
-                                                <i class="fa fa-edit"></i> Ubah
-                                            </a>
-
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                                <i class="fa fa-trash"></i> Hapus
-                                            </button>
-
-                                        </div>
-                                    </form>
-                                </td>
-                                <td><?= esc($penduduk['nik']); ?></td>
-                                <td><?= esc($penduduk['nama']); ?></td>
-                                <td><?= esc($penduduk['sex'] == '1' ? 'L' : 'P'); ?></td>
-                                <td>
-                                    <?php
-                                    $tanggalLahir = esc($penduduk['tanggallahir']);
-                                    $dob = new DateTime($tanggalLahir);
-                                    $today = new DateTime();
-                                    $age = $today->diff($dob)->y;
-                                    echo $age;
-                                    ?>
-                                </td>
-                                <td><?= esc($penduduk['tanggallahir']); ?></td>
-                                <td><?= esc($penduduk['pendidikan_nama']); ?></td>
-                                <td><?= esc($penduduk['pekerjaan_nama']); ?></td>
-                                <td><?= esc($penduduk['kawin_nama']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -414,32 +367,204 @@
 <script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.print.min.js"></script>
 
 <script>
-    var newPendudukPath = '/admin/penduduk/new';
-
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '<?= base_url("admin/ajax/penduduk"); ?>',
+                type: 'GET',
+                data: function(d) {
+                    // Get selected checkboxes for status_kawin filter
+                    let statusKawinFilter = [];
+                    $('input[name="status_kawin[]"]:checked').each(function() {
+                        statusKawinFilter.push($(this).val());
+                    });
+                    d.status_kawin = statusKawinFilter;
+                    let agamaFilter = [];
+                    $('input[name="agama[]"]:checked').each(function() {
+                        agamaFilter.push($(this).val());
+                    });
+                    d.agama = agamaFilter;
+                    let sdkFilter = [];
+                    $('input[name="sdk[]"]:checked').each(function() {
+                        sdkFilter.push($(this).val());
+                    });
+                    d.sdk = sdkFilter;
+                    let pendidikankk = [];
+                    $('input[name="pendidikankk[]"]:checked').each(function() {
+                        pendidikankk.push($(this).val());
+                    });
+                    d.pendidikankk = pendidikankk;
+
+                    let pendidikansdg = [];
+                    $('input[name="pendidikansdg[]"]:checked').each(function() {
+                        pendidikansdg.push($(this).val());
+                    });
+                    d.pendidikansdg = pendidikansdg;
+
+                    let pekerjaan = [];
+                    $('input[name="pekerjaan[]"]:checked').each(function() {
+                        pekerjaan.push($(this).val());
+                    });
+                    d.pekerjaan = pekerjaan;
+
+                    let wn = [];
+                    $('input[name="wn[]"]:checked').each(function() {
+                        wn.push($(this).val());
+                    });
+                    d.wn = wn;
+
+                    let goldar = [];
+                    $('input[name="goldar[]"]:checked').each(function() {
+                        goldar.push($(this).val());
+                    });
+                    d.goldar = goldar;
+                }
+            },
+            columns: [{
+                    data: 'no',
+                    name: 'no'
+                },
+                {
+                    data: 'id',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return `
+                    <form action="/admin/penduduk/${row.id}" method="post">
+                        <div class="btn-group">
+                            <a href="/admin/penduduk/${row.id}" class="btn btn-sm btn-primary" title="Rincian">
+                                <i class="fa fa-eye"></i> Rincian
+                            </a>
+                            <a href="/admin/penduduk/${row.id}/edit" class="btn btn-sm btn-warning" title="Ubah">
+                                <i class="fa fa-edit"></i> Ubah
+                            </a>
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                <i class="fa fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </form>
+                `;
+                    }
+                },
+                {
+                    data: 'nik',
+                    name: 'nik'
+                },
+                {
+                    data: 'nama',
+                    name: 'nama'
+                },
+                {
+                    data: 'sex',
+                    name: 'sex',
+                    render: function(data) {
+                        return (data === '1' ? 'L' : 'P');
+                    }
+                },
+                {
+                    data: 'tanggallahir',
+                    name: 'umur',
+                    render: function(data) {
+                        const dob = new Date(data);
+                        const today = new Date();
+                        const age = today.getFullYear() - dob.getFullYear();
+                        return age;
+                    }
+                },
+                {
+                    data: 'tanggallahir',
+                    name: 'tanggallahir'
+                },
+                {
+                    data: 'pendidikan_nama',
+                    name: 'pendidikan_nama'
+                },
+                {
+                    data: 'pekerjaan_nama',
+                    name: 'pekerjaan_nama'
+                },
+                {
+                    data: 'kawin_nama',
+                    name: 'kawin_nama'
+                }
+            ],
             lengthChange: false,
             buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Penduduk Baru`,
+                    text: `<i class="fa fa-plus-circle"></i>&nbsp;Tambah Penduduk Baru`,
                     className: "btn-sm",
-                    action: function(e, dt, node, config) {
-                        window.location.href = newPendudukPath;
-                    },
+                    action: function() {
+                        window.location.href = '/admin/penduduk/new';
+                    }
                 },
                 {
-                    text: `<i class="fa fa-print" aria-hidden="true"></i>&nbsp;Cetak`,
-                    className: "btn-sm",
-                    extend: "print",
+                    text: `<i class="fa fa-print"></i>&nbsp;Cetak`,
+                    extend: 'print',
+                    className: "btn-sm"
                 },
                 {
-                    text: `<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Preferensi Kolom`,
-                    className: "btn-sm",
-                    extend: "colvis",
-                },
+                    text: `<i class="fa fa-filter"></i>&nbsp;Preferensi Kolom`,
+                    extend: 'colvis',
+                    className: "btn-sm"
+                }
             ],
+            dom: 'Bfrtip'
         });
 
+        // Append DataTable buttons
         table.buttons().container().appendTo("#dataTable_wrapper .col-md-6:eq(0)");
+
+        // Show the filter modal when the filter button is clicked
+        $('#filterButtonStatusKawin').on('click', function() {
+            $('#filterModalStatusKawin').modal('show');
+        });
+
+        // Apply selected filters and reload the table
+        $('#applyStatusKawinFilters').on('click', function() {
+            table.ajax.reload();
+            $('#filterModalStatusKawin').modal('hide');
+        });
+
+        $('#applyAgamaFilters').on('click', function() {
+            table.ajax.reload();
+            $('#agamaModal').modal('hide');
+        });
+
+        $('#applySdkFilters').on('click', function() {
+            table.ajax.reload();
+            $('#sdhkx').modal('hide');
+        });
+
+        $('#applyPendidikankkFilters').on('click', function() {
+            table.ajax.reload();
+            $('#pendidikankkModal').modal('hide');
+        });
+
+        $('#applypendidikansdgFilters').on('click', function() {
+            table.ajax.reload();
+            $('#pendidikansdgModal').modal('hide');
+        });
+
+        $('#applyPekerjaanFilters').on('click', function() {
+            table.ajax.reload();
+            $('#pekerjaanModal').modal('hide');
+        });
+
+        $('#applyWNFilters').on('click', function() {
+            table.ajax.reload();
+            $('#wnModal').modal('hide');
+        });
+
+        $('#applyGoldarFilters').on('click', function() {
+            table.ajax.reload();
+            $('#goldarModal').modal('hide');
+        });
+
+
     });
 </script>
+
 <?= $this->endSection(); ?>

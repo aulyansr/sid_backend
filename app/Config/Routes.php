@@ -74,6 +74,8 @@ $routes->group('(:segment)/admin', function ($routes) {
 
 $routes->group('admin', ['filter' => 'session'],  function ($routes) {
 
+
+    $routes->get('ajax/penduduk/', 'AjaxController::penduduk');
     $routes->get('ajax/pamong/search', 'AjaxController::searchPamong');
     $routes->get('ajax/kk/search', 'AjaxController::search_kk');
     $routes->get('ajax/penduduk/search', 'AjaxController::searchPenduduk');
