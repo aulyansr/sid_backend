@@ -80,28 +80,26 @@ class AjaxController extends BaseController
 
         return $this->response->setJSON($results);
     }
-
     public function penduduk(string $permalink = null)
     {
-        $currentUser   = auth()->user();
         $pendudukModel = new TwebPenduduk();
+        $currentUser   = auth()->user();
         $filters       = $this->request->getGet();
 
-        $statusKawin = $filters['status_kawin'] ?? [];
-        $agama = $filters['agama'] ?? [];
-        $goldar = $filters['goldar'] ?? [];
+        $statusKawin   = $filters['status_kawin'] ?? [];
+        $agama         = $filters['agama'] ?? [];
+        $goldar        = $filters['goldar'] ?? [];
         $pendidikansdg = $filters['pendidikansdg'] ?? [];
-        $pendidikankk = $filters['pendidikankk'] ?? [];
-        $pekerjaan = $filters['pekerjaan'] ?? [];
-        $wn = $filters['wn'] ?? [];
-        $sdk = $filters['sdk'] ?? [];
-        $start = $filters['start'] ?? 0;
-        $length = $filters['length'] ?? 10;
-        $orderColumn = $filters['order'][0]['column'] ?? 0;
-        $orderDir = $filters['order'][0]['dir'] ?? 'asc';
+        $pendidikankk  = $filters['pendidikankk'] ?? [];
+        $pekerjaan     = $filters['pekerjaan'] ?? [];
+        $wn            = $filters['wn'] ?? [];
+        $sdk           = $filters['sdk'] ?? [];
 
+        $search = trim($filters['search'] ?? '');
+        $orderColumnIndex = $filters['order'][0]['column'] ?? 0;
+        $orderDir = $filters['order'][0]['dir'] ?? 'asc';
         $columns = ['id', 'nik', 'nama', 'sex', 'tanggallahir', 'pendidikan_nama', 'pekerjaan_nama', 'kawin_nama'];
-        $orderColumn = is_numeric($orderColumn) && isset($columns[$orderColumn]) ? $columns[$orderColumn] : 'nik';
+        $orderColumn = $columns[$orderColumnIndex] ?? 'nik';
 
         $query = $pendudukModel;
         if (!$currentUser->inGroup('superadmin')) {
@@ -125,29 +123,29 @@ class AjaxController extends BaseController
             }
         }
 
-        $query->select('tweb_penduduk.*, 
-        tweb_penduduk_sex.nama AS sex_nama, 
-        tweb_penduduk_pendidikan.nama AS pendidikan_nama, 
-        tweb_penduduk_pekerjaan.nama AS pekerjaan_nama, 
-        tweb_penduduk_kawin.nama AS kawin_nama')
+        $query->select('tweb_penduduk.*, tweb_penduduk_sex.nama AS sex_nama, tweb_penduduk_pendidikan.nama AS pendidikan_nama, tweb_penduduk_pekerjaan.nama AS pekerjaan_nama, tweb_penduduk_kawin.nama AS kawin_nama')
             ->join('tweb_penduduk_sex', 'tweb_penduduk.sex = tweb_penduduk_sex.id', 'left')
             ->join('tweb_penduduk_pendidikan', 'tweb_penduduk.pendidikan_kk_id = tweb_penduduk_pendidikan.id', 'left')
             ->join('tweb_penduduk_pekerjaan', 'tweb_penduduk.pekerjaan_id = tweb_penduduk_pekerjaan.id', 'left')
             ->join('tweb_penduduk_kawin', 'tweb_penduduk.status_kawin = tweb_penduduk_kawin.id', 'left');
 
-        try {
-            $totalRecords = $query->countAllResults(false);
-            $penduduks = $query->orderBy($orderColumn, $orderDir)->findAll($length, $start);
-        } catch (\Exception $e) {
-            return $this->response->setJSON(['error' => $e->getMessage()]);
+        if ($search) {
+            $query->groupStart()->like('CAST(tweb_penduduk.nik AS TEXT)', $search)->orLike('tweb_penduduk.nama', $search)->groupEnd();
         }
 
-        $data = [];
-        foreach ($penduduks as $index => $penduduk) {
+        try {
+            $totalRecords = $query->countAllResults(false);
+            $penduduks = $query->orderBy($orderColumn, $orderDir)->findAll($filters['length'] ?? 10, $filters['start'] ?? 0);
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            return $this->response->setJSON(['error' => 'An error occurred while retrieving data.']);
+        }
+
+        $data = array_map(function ($penduduk) use ($filters) {
             $age = (new \DateTimeImmutable($penduduk['tanggallahir']))->diff(new \DateTimeImmutable())->y;
-            $row = [
+            return [
                 'id' => esc($penduduk['id']),
-                'no' => $start + $index + 1,
+                'no' => ($filters['start'] ?? 0) + 1,
                 'nik' => esc($penduduk['nik']),
                 'nama' => esc($penduduk['nama']),
                 'sex' => esc($penduduk['sex'] == '1' ? 'L' : 'P'),
@@ -157,8 +155,7 @@ class AjaxController extends BaseController
                 'pekerjaan_nama' => esc($penduduk['pekerjaan_nama'] ?? 'N/A'),
                 'kawin_nama' => esc($penduduk['kawin_nama'] ?? 'N/A'),
             ];
-            $data[] = $row;
-        }
+        }, $penduduks);
 
         return $this->response->setJSON([
             'draw' => $filters['draw'] ?? 1,

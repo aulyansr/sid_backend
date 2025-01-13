@@ -365,7 +365,6 @@
 <script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.print.min.js"></script>
-
 <script>
     $(document).ready(function() {
         const table = $("#dataTable").DataTable({
@@ -375,46 +374,59 @@
                 url: '<?= base_url("admin/ajax/penduduk"); ?>',
                 type: 'GET',
                 data: function(d) {
-                    // Get selected checkboxes for status_kawin filter
+                    // Get the search input value
+                    d.search = $('#dataTable_filter input[type="search"]').val();
+
+                    // Filter: Status Kawin
                     let statusKawinFilter = [];
                     $('input[name="status_kawin[]"]:checked').each(function() {
                         statusKawinFilter.push($(this).val());
                     });
                     d.status_kawin = statusKawinFilter;
+
+                    // Filter: Agama
                     let agamaFilter = [];
                     $('input[name="agama[]"]:checked').each(function() {
                         agamaFilter.push($(this).val());
                     });
                     d.agama = agamaFilter;
+
+                    // Filter: SDK
                     let sdkFilter = [];
                     $('input[name="sdk[]"]:checked').each(function() {
                         sdkFilter.push($(this).val());
                     });
                     d.sdk = sdkFilter;
+
+                    // Filter: Pendidikan KK
                     let pendidikankk = [];
                     $('input[name="pendidikankk[]"]:checked').each(function() {
                         pendidikankk.push($(this).val());
                     });
                     d.pendidikankk = pendidikankk;
 
+                    // Filter: Pendidikan Sedang
                     let pendidikansdg = [];
                     $('input[name="pendidikansdg[]"]:checked').each(function() {
                         pendidikansdg.push($(this).val());
                     });
                     d.pendidikansdg = pendidikansdg;
 
+                    // Filter: Pekerjaan
                     let pekerjaan = [];
                     $('input[name="pekerjaan[]"]:checked').each(function() {
                         pekerjaan.push($(this).val());
                     });
                     d.pekerjaan = pekerjaan;
 
+                    // Filter: Warga Negara
                     let wn = [];
                     $('input[name="wn[]"]:checked').each(function() {
                         wn.push($(this).val());
                     });
                     d.wn = wn;
 
+                    // Filter: Golongan Darah
                     let goldar = [];
                     $('input[name="goldar[]"]:checked').each(function() {
                         goldar.push($(this).val());
@@ -433,21 +445,20 @@
                     searchable: false,
                     render: function(data, type, row) {
                         return `
-                    <form action="/admin/penduduk/${row.id}" method="post">
-                        <div class="btn-group">
-                            <a href="/admin/penduduk/${row.id}" class="btn btn-sm btn-primary" title="Rincian">
-                                <i class="fa fa-eye"></i> Rincian
-                            </a>
-                            <a href="/admin/penduduk/${row.id}/edit" class="btn btn-sm btn-warning" title="Ubah">
-                                <i class="fa fa-edit"></i> Ubah
-                            </a>
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                <i class="fa fa-trash"></i> Hapus
-                            </button>
-                        </div>
-                    </form>
-                `;
+                        <form action="/admin/penduduk/${row.id}" method="post">
+                            <div class="btn-group">
+                                <a href="/admin/penduduk/${row.id}" class="btn btn-sm btn-primary" title="Rincian">
+                                    <i class="fa fa-eye"></i> Rincian
+                                </a>
+                                <a href="/admin/penduduk/${row.id}/edit" class="btn btn-sm btn-warning" title="Ubah">
+                                    <i class="fa fa-edit"></i> Ubah
+                                </a>
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                    <i class="fa fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </form>`;
                     }
                 },
                 {
@@ -462,7 +473,7 @@
                     data: 'sex',
                     name: 'sex',
                     render: function(data) {
-                        return (data === '1' ? 'L' : 'P');
+                        return data === '1' ? 'L' : 'P';
                     }
                 },
                 {
@@ -517,12 +528,11 @@
         // Append DataTable buttons
         table.buttons().container().appendTo("#dataTable_wrapper .col-md-6:eq(0)");
 
-        // Show the filter modal when the filter button is clicked
+        // Filter button modals
         $('#filterButtonStatusKawin').on('click', function() {
             $('#filterModalStatusKawin').modal('show');
         });
 
-        // Apply selected filters and reload the table
         $('#applyStatusKawinFilters').on('click', function() {
             table.ajax.reload();
             $('#filterModalStatusKawin').modal('hide');
@@ -558,13 +568,16 @@
             $('#wnModal').modal('hide');
         });
 
-        $('#applyGoldarFilters').on('click', function() {
-            table.ajax.reload();
-            $('#goldarModal').modal('hide');
+        // Debounced search input reload
+        let searchTimer;
+        $('#dataTable_filter input[type="search"]').on('keyup', function() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(function() {
+                table.ajax.reload();
+            }, 500);
         });
-
-
     });
 </script>
+
 
 <?= $this->endSection(); ?>
