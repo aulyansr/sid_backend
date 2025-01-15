@@ -8,7 +8,7 @@ use App\Models\TwebPenduduk;
 use CodeIgniter\HTTP\ResponseInterface;
 use PhpOffice\PhpWord\PhpWord;
 use Dompdf\Dompdf;
-
+use App\Models\DesaModel;
 
 
 class SuratController extends BaseController
@@ -33,8 +33,14 @@ class SuratController extends BaseController
 
     public function create($jenis_surat = null)
     {
-        // Kirim data jenis_surat ke tampilan
-        return view('surat/create', ['jenis_surat' => $jenis_surat]);
+        $desaModel         = new DesaModel();
+        $data['list_desa'] = $desaModel->findAll();
+
+        // Pass both 'list_desa' and 'jenis_surat' to the view
+        return view('surat/create', [
+            'jenis_surat' => $jenis_surat,
+            'list_desa' => $data['list_desa']
+        ]);
     }
 
     public function store()

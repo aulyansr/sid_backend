@@ -3,31 +3,31 @@
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800 text-center">
-        <?                                                                      = isset($analisis) ? 'Edit Analisis Master' : 'Tambah Analisis Master'; ?>
+        <?= isset($analisis) ? 'Edit Analisis Master' : 'Tambah Analisis Master'; ?>
     </h1>
-    <form action = "<?= isset($analisis) ? site_url('/admin/analisis_master') : site_url('/admin/analisis_master'); ?>"
-          method = "post">
-          <?= csrf_field(); ?>
-    <div  class  = "row justify-content-center">
-         <div  class  = "col-xl-6">
+    <form action="<?= isset($analisis) ? site_url('/admin/analisis_master') : site_url('/admin/analisis_master'); ?>"
+        method="post">
+        <?= csrf_field(); ?>
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
                 <!-- Account details card -->
                 <div class="card mb-4">
                     <div class="card-header">Form Analisis Master</div>
                     <div class="card-body">
                         <!-- Hidden field for analisis ID if in edit mode -->
                         <?php if (isset($analisis)): ?>
-                        <input type="hidden" name="id" value="<?= esc($analisis['id']); ?>">
+                            <input type="hidden" name="id" value="<?= esc($analisis['id']); ?>">
                         <?php endif; ?>
 
                         <!-- Form Row -->
                         <div class="row gx-3 mb-3 justify-content-centers">
                             <!-- Form Group (analisis name) -->
-                            <div   class       = "col-md-12 mb-3">
-                            <div   class       = "form-group">
-                            <label class       = "small mb-1" for  = "inputAnalisisName">Nama Analisis</label>
-                            <input class       = "form-control" id = "inputAnalisisName" name = "nama" type = "text"
-                                   placeholder = "Nama Analisis"
-                                   value       = "<?= old('nama', isset($analisis) ? $analisis['nama'] : ''); ?>" required>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="inputAnalisisName">Nama Analisis</label>
+                                    <input class="form-control" id="inputAnalisisName" name="nama" type="text"
+                                        placeholder="Nama Analisis"
+                                        value="<?= old('nama', isset($analisis) ? $analisis['nama'] : ''); ?>" required>
                                 </div>
                             </div>
                             <!-- Form Group (description) -->
@@ -39,15 +39,15 @@
                                 </textarea>
                             </div>
 
-                            <div    class = "col-md-6 mb-3">
-                            <label  class = "small mb-1" for  = "inputchild">Analisis Terhubung</label>
-                            <select class = "form-control" id = "inputchild" name = "id_child">
-                            <option value="0" <?= old('id_child') == '0' ? 'selected' : '0'; ?>>Tidak terhubung</option>
-                                    <?php   foreach ($children as $child)                                                     : ?>
-                                    <option value="<?= esc($child['id']); ?>"
-                                        <?= $analisis['id_child'] == $child['id'] ? 'selected': ''; ?>>
-                                        <?= esc($child['nama']); ?>
-                                    </option>
+                            <div class="col-md-6 mb-3">
+                                <label class="small mb-1" for="inputchild">Analisis Terhubung</label>
+                                <select class="form-control" id="inputchild" name="id_child">
+                                    <option value="0" <?= old('id_child') == '0' ? 'selected' : '0'; ?>>Tidak terhubung</option>
+                                    <?php foreach ($children as $child) : ?>
+                                        <option value="<?= esc($child['id']); ?>"
+                                            <?= $analisis['id_child'] == $child['id'] ? 'selected' : ''; ?>>
+                                            <?= esc($child['nama']); ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
 
@@ -58,12 +58,12 @@
                                 <br>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <?php foreach ($lockOptions as $value => $label) : ?>
-                                    <label class="btn btn-sm btn-outline-primary">
-                                        <input type="radio" name="lock" value="<?= esc($value); ?>"
-                                            id="lock_<?= esc($value); ?>"
-                                            <?= (old('lock', isset($analisis) ? $analisis['lock'] : '') == $value) ? 'checked' : ''; ?>>
-                                        <?= esc($label); ?>
-                                    </label>
+                                        <label class="btn btn-sm btn-outline-primary">
+                                            <input type="radio" name="lock" value="<?= esc($value); ?>"
+                                                id="lock_<?= esc($value); ?>"
+                                                <?= (old('lock', isset($analisis) ? $analisis['lock'] : '') == $value) ? 'checked' : ''; ?>>
+                                            <?= esc($label); ?>
+                                        </label>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -73,13 +73,13 @@
                                 <br>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <?php foreach ($subjects as $value => $label) : ?>
-                                    <!-- Corrected to use $subjects directly -->
-                                    <label class="btn btn-sm btn-outline-primary">
-                                        <input type="radio" name="subjek_tipe" value="<?= esc($value); ?>"
-                                            id="subject_tipe_<?= esc($value); ?>"
-                                            <?= (old('subjek_tipe', isset($analisis) ? $analisis['subjek_tipe'] : '') == $value) ? 'checked' : ''; ?>>
-                                        <?= esc($label); ?>
-                                    </label>
+                                        <!-- Corrected to use $subjects directly -->
+                                        <label class="btn btn-sm btn-outline-primary">
+                                            <input type="radio" name="subjek_tipe" value="<?= esc($value); ?>"
+                                                id="subject_tipe_<?= esc($value); ?>"
+                                                <?= (old('subjek_tipe', isset($analisis) ? $analisis['subjek_tipe'] : '') == $value) ? 'checked' : ''; ?>>
+                                            <?= esc($label); ?>
+                                        </label>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -89,13 +89,13 @@
                                 <br>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <?php foreach ($prelist as $value => $label) : ?>
-                                    <!-- Use the $prelist array -->
-                                    <label class="btn btn-sm btn-outline-primary">
-                                        <input type="radio" name="fitur_prelist" value="<?= esc($value); ?>"
-                                            id="prelist_<?= esc($value); ?>"
-                                            <?= (old('fitur_prelist', isset($analisis) ? $analisis['fitur_prelist'] : '') == $value) ? 'checked' : ''; ?>>
-                                        <?= esc($label); ?>
-                                    </label>
+                                        <!-- Use the $prelist array -->
+                                        <label class="btn btn-sm btn-outline-primary">
+                                            <input type="radio" name="fitur_prelist" value="<?= esc($value); ?>"
+                                                id="prelist_<?= esc($value); ?>"
+                                                <?= (old('fitur_prelist', isset($analisis) ? $analisis['fitur_prelist'] : '') == $value) ? 'checked' : ''; ?>>
+                                            <?= esc($label); ?>
+                                        </label>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -105,13 +105,13 @@
                                 <br>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <?php foreach ($fitur_pembobotan as $value => $label) : ?>
-                                    <!-- Use the $fitur_pembobotan array -->
-                                    <label class="btn btn-sm btn-outline-primary">
-                                        <input type="radio" name="fitur_pembobotan" value="<?= esc($value); ?>"
-                                            id="fitur_pembobotan_<?= esc($value); ?>"
-                                            <?= (old('fitur_pembobotan', isset($analisis) ? $analisis['fitur_pembobotan'] : '') == $value) ? 'checked' : ''; ?>>
-                                        <?= esc($label); ?>
-                                    </label>
+                                        <!-- Use the $fitur_pembobotan array -->
+                                        <label class="btn btn-sm btn-outline-primary">
+                                            <input type="radio" name="fitur_pembobotan" value="<?= esc($value); ?>"
+                                                id="fitur_pembobotan_<?= esc($value); ?>"
+                                                <?= (old('fitur_pembobotan', isset($analisis) ? $analisis['fitur_pembobotan'] : '') == $value) ? 'checked' : ''; ?>>
+                                            <?= esc($label); ?>
+                                        </label>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -132,9 +132,24 @@
                             </div>
 
 
-
-
                             <hr>
+
+                            <?php if (auth()->user()->inGroup('superadmin')): ?>
+                                <div class="col-md-12 mb-3">
+                                    <label class="small mb-1" for="inputDesa">Nama Desa</label>
+                                    <select class="form-control select2" id="inputDesa" name="desa_id">
+                                        <option value="">Pilih Desa</option>
+                                        <?php foreach ($list_desa as $desa): ?>
+                                            <option value="<?= esc($desa['id']); ?>"
+                                                <?= (old('desa_id', isset($analisis) ? $analisis['desa_id'] : '') == $desa['id']) ? 'selected' : ''; ?>>
+                                                <?= esc($desa['nama_desa']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php else: ?>
+                                <input type="hidden" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
+                            <?php endif; ?>
 
                         </div>
                         <!-- Submit button -->

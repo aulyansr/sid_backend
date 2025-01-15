@@ -118,6 +118,9 @@ class Penduduk extends BaseController
     public function new()
     {
 
+
+        $desaModel    = new DesaModel();
+
         $sexList = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
         $pendidikanList = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
         $agamaList = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
@@ -133,17 +136,18 @@ class Penduduk extends BaseController
 
 
         $data = [
-            'sexList' => $sexList,
-            'pendidikanList' => $pendidikanList,
-            'agamaList' => $agamaList,
-            'pekerjaanList' => $pekerjaanList,
-            'kawinList' => $kawinList,
-            'hubunganList' => $hubunganList,
-            'warganegaraList' => $warganegaraList,
+            'sexList'           => $sexList,
+            'pendidikanList'    => $pendidikanList,
+            'agamaList'         => $agamaList,
+            'pekerjaanList'     => $pekerjaanList,
+            'kawinList'         => $kawinList,
+            'hubunganList'      => $hubunganList,
+            'warganegaraList'   => $warganegaraList,
             'golongandarahList' => $golongandarahList,
-            'statusList' => $statusList,
-            'cacatList' => $cacatList,
-            'dusunList' => $dusunList
+            'statusList'        => $statusList,
+            'cacatList'         => $cacatList,
+            'dusunList'         => $dusunList,
+            'list_desa'    => $desaModel->findAll()
         ];
 
         return view('penduduk/new', $data);
@@ -156,20 +160,6 @@ class Penduduk extends BaseController
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
 
         $currentUser = auth()->user();
-
-
-        if (empty($currentUser->desa_id)) {
-
-            $firstDesa = $this->db->table('desa')->orderBy('id', 'ASC')->get(1)->getRow();
-
-
-            $postData['desa_id'] = $firstDesa ? $firstDesa->id : null;
-        } else {
-
-            $postData['desa_id'] = $currentUser->desa_id;
-        }
-
-
 
         if (!$this->pendudukModel->save($postData)) {
 
@@ -223,20 +213,23 @@ class Penduduk extends BaseController
     public function edit($id)
     {
 
+        $desaModel    = new DesaModel();
+
         $data['penduduk'] = $this->pendudukModel->find($id);
 
 
-        $data['sexList'] = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
-        $data['pendidikanList'] = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
-        $data['agamaList'] = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
-        $data['pekerjaanList'] = $this->db->table('tweb_penduduk_pekerjaan')->get()->getResultArray();
-        $data['kawinList'] = $this->db->table('tweb_penduduk_kawin')->get()->getResultArray();
-        $data['hubunganList'] = $this->db->table('tweb_penduduk_hubungan')->get()->getResultArray();
-        $data['warganegaraList'] = $this->db->table('tweb_penduduk_warganegara')->get()->getResultArray();
+        $data['sexList']           = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
+        $data['pendidikanList']    = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
+        $data['agamaList']         = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
+        $data['pekerjaanList']     = $this->db->table('tweb_penduduk_pekerjaan')->get()->getResultArray();
+        $data['kawinList']         = $this->db->table('tweb_penduduk_kawin')->get()->getResultArray();
+        $data['hubunganList']      = $this->db->table('tweb_penduduk_hubungan')->get()->getResultArray();
+        $data['warganegaraList']   = $this->db->table('tweb_penduduk_warganegara')->get()->getResultArray();
         $data['golongandarahList'] = $this->db->table('tweb_golongan_darah')->get()->getResultArray();
-        $data['statusList'] = $this->db->table('tweb_penduduk_status')->get()->getResultArray();
-        $data['cacatList'] = $this->db->table('tweb_cacat')->get()->getResultArray();
-        $data['dusunList'] = $this->wilayahModel->getDusun();
+        $data['statusList']        = $this->db->table('tweb_penduduk_status')->get()->getResultArray();
+        $data['cacatList']         = $this->db->table('tweb_cacat')->get()->getResultArray();
+        $data['dusunList']         = $this->wilayahModel->getDusun();
+        $data['list_desa']         = $desaModel->findAll();
 
 
         return view('penduduk/edit', $data);
@@ -253,10 +246,16 @@ class Penduduk extends BaseController
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
 
 
-        $this->pendudukModel->update($id, $postData);
+        if ($this->pendudukModel->update($id, $postData)) {
+            return redirect()->to('/admin/penduduk')->with('success', 'Data has been updated successfully.');
+        } else {
+            $errors = $this->pendudukModel->errors();
 
 
-        return redirect()->to('/admin/penduduk')->with('success', 'Data has been updated successfully.');
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
     }
 
     public function delete($id)

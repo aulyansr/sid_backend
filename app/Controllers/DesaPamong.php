@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\DesaPamongModel;
+use App\Models\DesaModel;
 
 class DesaPamong extends BaseController
 {
@@ -15,19 +16,35 @@ class DesaPamong extends BaseController
 
     public function index()
     {
-        $data['desaPamongs'] = $this->desaPamongModel->findAll();
+
+        $currentUser = auth()->user();
+        if ($currentUser->inGroup('superadmin')) {
+            $data['desaPamongs'] = $this->desaPamongModel->findAll();
+        } else {
+            $data['desaPamongs'] = $this->desaPamongModel
+                ->where('tweb_desa_pamong.desa_id', $currentUser->desa_id)
+                ->findAll();
+        }
+
         return view('desa_pamong/index', $data);
     }
 
     public function new()
+
     {
-        return view('desa_pamong/new');
+        $desaModel         = new DesaModel();
+        $data['list_desa'] = $desaModel->findAll();
+        return view('desa_pamong/new', $data);
     }
 
     public function create()
     {
-        $this->desaPamongModel->save($this->request->getPost());
-        return redirect()->to('/admin/pengurus');
+        $postData = $this->request->getPost();
+        if ($this->desaPamongModel->save($postData)) {
+            return redirect()->to('/admin/pengurus')->with('success', 'Data has been successfully saved.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Failed to save data.');
+        }
     }
 
     public function show($id)
@@ -38,14 +55,20 @@ class DesaPamong extends BaseController
 
     public function edit($id)
     {
-        $data['pamong'] = $this->desaPamongModel->find($id);
+        $data['pamong']    = $this->desaPamongModel->find($id);
+        $desaModel         = new DesaModel();
+        $data['list_desa'] = $desaModel->findAll();
         return view('desa_pamong/edit', $data);
     }
 
     public function update($id)
     {
-        $this->desaPamongModel->update($id, $this->request->getPost());
-        return redirect()->to('/admin/pengurus');
+
+        if ($this->desaPamongModel->update($id, $this->request->getPost())) {
+            return redirect()->to('/admin/pengurus')->with('success', 'Data has been successfully updated.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Failed to update data.');
+        }
     }
 
     public function delete($id)

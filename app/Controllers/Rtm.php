@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\RtmModel;
 use App\Models\TwebPenduduk;
 use App\Models\KeluargaModel;
+use App\Models\DesaModel;
 use CodeIgniter\Database\BaseBuilder;
 
 class Rtm extends BaseController
@@ -43,9 +44,10 @@ class Rtm extends BaseController
 
     public function new()
     {
+        $desaModel = new DesaModel();
+        $data['list_desa'] =  $desaModel->findAll();
 
-
-        return view('rtm/new');
+        return view('rtm/new', $data);
     }
 
     public function create()
