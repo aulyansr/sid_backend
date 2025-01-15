@@ -27,7 +27,7 @@
 	
 	$QR_BASEDIR = dirname(__FILE__).DIRECTORY_SEPARATOR;
 	
-	// Required libs
+	// Required libs d
 	
 	include $QR_BASEDIR."phpqrcode/qrconst.php";
 	include $QR_BASEDIR."phpqrcode/qrconfig.php";
