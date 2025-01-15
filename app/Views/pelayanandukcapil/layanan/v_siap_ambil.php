@@ -15,25 +15,35 @@
             <table class="table table-bordered table-striped compact" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>NO PEND</th>
                             <th>TERMOHON</th>
                             <th>TANGGAL</th>
                             <th>PROSES BY</th>
                             <th>STATUS</th>
                             <th>DEADLINE</th>
+                            <th>AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $i = 1; foreach ($dtSiapAmbil as $key): ?>
+                        <?php $NOPEND  = str_replace("/", "-",  $key['NO_PEND']);?>
                             <tr>
-                                <td align="center"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td align="center"><?= $i++;?></td>
+                                <td><?= $key['NO_PEND']; ?></td>
+                                <td><?= $key['NAMA_PEMOHON']; ?></td>
+                                <td><?= $key['TGL_PEND']; ?></td>
+                                <td><?= $key['CREATED_BY']; ?></td>
+                                <td><?= $key['PROSES_BY']; ?></td>
+                                <td><?= $key['TGL_PROSES']; ?></td>
+                                <td>
+                                    <a href="<?= site_url('admin/detail-siap-ambil/'.$NOPEND);?>" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i> detail</a>
+                                    <!-- <a href="javascript:void(0)" id="detail-siap-ambil" data-url="<?= site_url("admin/detail-siap-ambil/".$NOPEND);?>" class="btn btn-sm btn-primary" title="Detail"><i class="fa fa-eye"></i> detail</a> -->
+                                    <!-- <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fa fa-eye"></i> detail</button> -->
+                                </td>
                             </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

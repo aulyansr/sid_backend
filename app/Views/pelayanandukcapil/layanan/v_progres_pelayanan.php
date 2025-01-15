@@ -15,7 +15,7 @@
                 <table class="table table-bordered table-striped compact"  width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>NO PEND</th>
                             <th>JENIS DOC</th>
                             <th>TERMOHON</th>
@@ -23,21 +23,58 @@
                             <th>CREATED BY</th>
                             <th>PROSES BY</th>
                             <th>STATUS</th>
-                            <th>FILE</th>
+                            <th>AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $i = 1; foreach ($progPel as $key): ?>
+                           <?php $NOPEND  = str_replace("-", "/",  $key['NO_PEND2']);?>
                             <tr>
-                                <td align="center"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td align="center"><?= $i++;?></td>
+                                <td><?= $NOPEND; ?></td>
+                                <td><?= $key['JENIS_DOC']; ?></td>
+                                <td><?= $key['NAMA_TERMOHON']; ?></td>
+                                <td><?= $key['TGL_PEND']; ?></td>
+                                <td><?= $key['CREATED_BY']; ?></td>
+                                <td><?= $key['PROSES_BY']; ?></td>
+                                <td><?= $key['STATUS']; ?></td>
+                                <td>
+                                    <?php if (isset($key['FILE_URL']) && !empty($key['FILE_URL'])) {
+                                       echo anchor_popup(
+                                            site_url('admin/preview/' . urlencode($key['FILE_URL'])), // URL preview
+                                            '<i class="fa fa-file"></i> file 1',                    // Teks atau konten anchor
+                                            [
+                                                'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
+                                                'width' => '800',                                   // Lebar popup
+                                                'height' => '600',                                  // Tinggi popup
+                                                'resizable' => 'yes',                               // Dapat diubah ukurannya
+                                                'scrollbars' => 'yes'                               // Aktifkan scrollbar
+                                            ]
+                                        );
+                                    } else {
+                                        echo "1. N/a";
+                                    }?>
+                                    
+                                    <?php if (!empty($key['FILE_URL2'])) {
+                                        echo anchor_popup(
+                                            site_url('admin/preview/' . urlencode($key['FILE_URL2'])), // URL preview
+                                            '<i class="fa fa-file"></i> file 2',                    // Teks atau konten anchor
+                                            [
+                                                'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
+                                                'width' => '800',                                   // Lebar popup
+                                                'height' => '600',                                  // Tinggi popup
+                                                'resizable' => 'yes',                               // Dapat diubah ukurannya
+                                                'scrollbars' => 'yes'                               // Aktifkan scrollbar
+                                            ]
+                                        );
+                                    } else {
+                                        echo "2. N/a";
+                                    }?>
+                                    <a href="ceklayanan/<?= $key['NO_PEND2']; ?>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>edit</a>
+                                    
+                                </td>
                             </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
 
