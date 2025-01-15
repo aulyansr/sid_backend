@@ -3,7 +3,7 @@
 namespace App\Libraries;
 
 // Load library phpqrcode
-require_once APPPATH . 'Libraries\phpqrcode.php';
+require_once APPPATH . 'Libraries\Phpqrcode.php';
 
 class CIQRCode
 {
