@@ -263,11 +263,6 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('kelurahan/update/(:num)', 'Kelurahan::update/$1');
     $routes->get('kelurahan/delete/(:num)', 'Kelurahan::delete/$1');
 
-
-
-
-
-
     $routes->get('verifikasi-data-pemohon', 'PelayananDukcapil::verifikasi_data');
     $routes->get('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
     $routes->post('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
@@ -275,8 +270,15 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
     $routes->post('simpan-permohonan', 'PelayananDukcapil::store');
     $routes->get('progres-pelayanan', 'PelayananDukcapil::progres_pelayanan');
+    $routes->get('ceklayanan/(:any)', 'PelayananDukcapil::cek_layanan/$1');
+    $routes->post('simpan-cek-verifikasi-layanan', 'PelayananDukcapil::simpan_cek_verifikasi_layanan');
     $routes->get('siap-ambil', 'PelayananDukcapil::siap_ambil');
-    $routes->get('rekap-layanan', 'PelayananDukcapil::rekap_layanan');
+    $routes->get('detail-siap-ambil/(:any)', 'PelayananDukcapil::detail_siap_ambil/$1');
+    $routes->get('verifikasi-layanan/(:any)', 'PelayananDukcapil::verifikasi_layanan/$1');
+    $routes->post('simpan-verifikasi-layanan', 'PelayananDukcapil::simpan_verifikasi_layanan');
+    $routes->get('verifikasi-cetak/(:segment)', 'PelayananDukcapil::cetak//$1');
+    $routes->get('preview/(:any)', 'PelayananDukcapil::previewFile/$1');
+    $routes->get('pdf', 'PelayananDukcapil::generate');
 
     $routes->get('layanandukcapil/new', 'PelayananDukcapil::new');
     $routes->post('layanandukcapil/store', 'PelayananDukcapil::store');

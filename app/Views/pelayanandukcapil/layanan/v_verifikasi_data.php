@@ -22,16 +22,17 @@
                 <form action="verifikasi-detail-permohonan" method="post">
                     <div class="mb-3">
                         <!-- kode kapanewon wonosari value="1"-->
-                        <input type="text" class="form-control" id="KAPANEWON" name="KAPANEWON" value="1" placeholder="KAPANEWON"  aria-label="KAPANEWON" aria-describedby="basic-addon2">
+                        <input type="hidden" class="form-control" id="KAPANEWON" name="KAPANEWON" value="1" placeholder="KAPANEWON"  aria-label="KAPANEWON" aria-describedby="basic-addon2">
                     </div> 
                     <!-- kode kalurahan wonosari value="2001"-->
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="KALURAHAN" name="KALURAHAN" value="2001" placeholder="KALURAHAN"  aria-label="KALURAHAN" aria-describedby="basic-addon2">
+                        <input type="hidden" class="form-control" id="KALURAHAN" name="KALURAHAN" value="2001" placeholder="KALURAHAN"  aria-label="KALURAHAN" aria-describedby="basic-addon2">
                     </div> 
 
                     <div class="mb-3">
                         <label class="small mb-1" for="NIK">NIK</label>
                         <input type="text" class="form-control hanyaangka" name="NIK" placeholder="NIK" value="<?= isset($NIK) ? $NIK : '' ?>" required aria-label="NIK" aria-describedby="basic-addon2">
+                        <div id="nikCounter" style="color: black;">0/16</div>
                         <!-- <div class="input-group-append">
                             <button id="getBio" class="btn btn-success" type="button"> Cari..</button>
                         </div> -->
@@ -54,11 +55,11 @@
                         <label class="small mb-1" for="EMAIL_TERMOHON">EMAIL TERMOHON</label>
                         <input class="form-control" id="EMAIL_TERMOHON" type="email" name="EMAIL_TERMOHON" value="<?= isset($EMAIL_TERMOHON) ? $EMAIL_TERMOHON : '' ?>" required placeholder="EMAIL TERMOHON">
                     </div>
-                    <div class="mb-3">
-                        <label class="small mb-1" for="exampleFormControlInput1">TGL RENCANA PENGAMBILAN</label>
+                    <!-- <div class="mb-3">
+                        <label class="small mb-1" for="exampleFormControlInput1">TGL RENCANA PENGAMBILAN</label> -->
                         <!-- <input class="form-control" id="exampleFormControlInput1" id="datepicker" type="date" placeholder="TGL RENCANA PENGAMBILAN"> -->
-                        <input type="text" class="form-control" id="datepicker" name="TGL_RENCANA_PENGAMBILAN" value="<?= isset($TGL_RENCANA_PENGAMBILAN) ? $TGL_RENCANA_PENGAMBILAN : '' ?>" required placeholder="Pilih tanggal">
-                    </div>
+                        <!-- <input type="text" class="form-control" id="datepicker" name="TGL_RENCANA_PENGAMBILAN" value="<?= isset($TGL_RENCANA_PENGAMBILAN) ? $TGL_RENCANA_PENGAMBILAN : '' ?>" required placeholder="Pilih tanggal">
+                    </div> -->
 
                     <div class="d-flex justify-content-end">
                         <div>
@@ -74,27 +75,7 @@
         </div>
         <!-- end card kiri -->
         <!-- star card kanan -->
-        <div class="card shadow mb-3 col-md-3">
-            <div class="card-header border-bottom">
-                Permohonan Hari ini
-            </div>
-            <div class="card-body">
-                <form>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped compact" width="100%" cellspacing="0">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <a class="btn btn-success btn-sm text-xs" data-title="Print" target="_blank" href="https://sid-dev.gunungkidulkab.go.id/verifikasi/cetak/0000-00-10-0000"><i class="fa fa-print"></i>&nbsp;00187/17/10/2024</a>
-                                    </td>
-                                    <td class="text-xs">JOHN DOE</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <?= $this->include('pelayanandukcapil/layanan/sidebar_permohonan_hariini'); ?>
         <!-- end card kanan -->
     </div>
 </div>
@@ -124,6 +105,8 @@
     var newkategorid = '/admin/kategori/new';
 
     $(document).ready(function() {
+        validasiFormNik();
+        eventNik();
         const table = $("#dataTable").DataTable({
             lengthChange: false,
             buttons: [{
@@ -149,5 +132,35 @@
 
         table.buttons().container().appendTo("#dataTable_wrapper .col-md-6:eq(0)");
     });
+
+
+    function validasiFormNik() {
+        var nik = $('.hanyaangka').val();
+        $('#nikCounter').text(nik.length + '/16');
+        $('#errorNIK').hide();
+        if (nik.length < 16) {
+            $('#errorNIK').text('NIK harus terdiri dari 16 angka.').show();
+            $('#submitBtn').prop('disabled', true);
+            return false;
+        } else if (nik.length === 16 && /^[0-9]+$/.test(nik)) {
+            $('#submitBtn').prop('disabled', false);
+            return true;
+        } else {
+            $('#errorNIK').text('NIK hanya boleh berisi angka.').show();
+            $('#submitBtn').prop('disabled', true);
+            return false;
+        }
+    }
+
+    function eventNik() {
+        $('.hanyaangka').on('input', function() {
+            var nik = $(this).val();
+            if (nik.length > 16) {
+                $(this).val(nik.substring(0, 16));
+            }
+            validasiFormNik();
+        });
+
+    }
 </script>
 <?= $this->endSection(); ?>
