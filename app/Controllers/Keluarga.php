@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\KeluargaModel;
 use App\Models\TwebPenduduk;
 use App\Models\ClusterDesaModel;
+use App\Models\DesaModel;
 
 class Keluarga extends BaseController
 {
@@ -41,11 +42,11 @@ class Keluarga extends BaseController
 
     public function new()
     {
-
+        $desaModel   = new DesaModel();
         $hubunganList = $this->db->table('tweb_penduduk_hubungan')->get()->getResultArray();
-
         $data = [
             'hubunganList' => $hubunganList,
+            'list_desa'    => $desaModel->findAll()
         ];
 
         return view('keluarga/new', $data);

@@ -46,12 +46,13 @@ class AnalisisMaster extends BaseController
 
     public function new()
     {
-
-        $data['subjects'] = $this->analisisMasterModel->getSubjects();
-        $data['prelist'] = $this->analisisMasterModel->getPrelistOptions();
+        $desaModel                = new DesaModel();
+        $data['list_desa']        = $desaModel->findAll();
+        $data['subjects']         = $this->analisisMasterModel->getSubjects();
+        $data['prelist']          = $this->analisisMasterModel->getPrelistOptions();
         $data['fitur_pembobotan'] = $this->analisisMasterModel->getFiturPembobotanOptions();
-        $data['children'] = $this->analisisMasterModel->findAll();
-        $data['lockOptions'] = $this->analisisMasterModel->getLockOptions();
+        $data['children']         = $this->analisisMasterModel->findAll();
+        $data['lockOptions']      = $this->analisisMasterModel->getLockOptions();
 
         return view('analisis_master/new', $data);
     }
@@ -59,9 +60,8 @@ class AnalisisMaster extends BaseController
     public function create()
     {
 
-        $data            = $this->request->getPost();
-        $currentUser     = auth()->user();
-        $data['desa_id'] = $currentUser->desa_id;
+        $data                = $this->request->getPost();
+        $currentUser         = auth()->user();
         $data['subjek_tipe'] = 1;
 
         if (empty($data['kode_analisis'])) {
@@ -79,18 +79,21 @@ class AnalisisMaster extends BaseController
 
     public function edit($id)
     {
-        $data['analisis'] = $this->analisisMasterModel->find($id);
-        $data['subjects'] = $this->analisisMasterModel->getSubjects();
-        $data['prelist'] = $this->analisisMasterModel->getPrelistOptions();
+        $desaModel                = new DesaModel();
+        $data['list_desa']        = $desaModel->findAll();
+        $data['analisis']         = $this->analisisMasterModel->find($id);
+        $data['subjects']         = $this->analisisMasterModel->getSubjects();
+        $data['prelist']          = $this->analisisMasterModel->getPrelistOptions();
         $data['fitur_pembobotan'] = $this->analisisMasterModel->getFiturPembobotanOptions();
-        $data['children'] = $this->analisisMasterModel->findAll();
-        $data['lockOptions'] = $this->analisisMasterModel->getLockOptions();
+        $data['children']         = $this->analisisMasterModel->findAll();
+        $data['lockOptions']      = $this->analisisMasterModel->getLockOptions();
         return view('analisis_master/edit', $data);
     }
 
     public function update($id)
     {
         $data = $this->request->getPost();
+
 
         if ($this->analisisMasterModel->update($id, $data)) {
             return redirect()->to('/admin/analisis_master')->with('success', 'Analisis Master updated successfully.');

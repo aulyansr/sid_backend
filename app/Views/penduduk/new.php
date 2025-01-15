@@ -251,6 +251,25 @@
                                     <input class="form-control" id="inputLokasiPenduduk" name="lokasi_penduduk" type="text" placeholder="Lokasi Penduduk" value="<?= old('lokasi_penduduk', isset($penduduk) ? esc($penduduk['lokasi_penduduk']) : ''); ?>">
                                 </div>
 
+                                <?php if (auth()->user()->inGroup('superadmin')): ?>
+
+                                    <div class="col-md-12 mb-3">
+                                        <label class="small mb-1" for="inputDesa">Nama Desa</label>
+                                        <select class="form-control select2" id="inputDesa" name="desa_id">
+                                            <option value="">Pilih Desa</option>
+                                            <?php foreach ($list_desa as $desa): ?>
+                                                <option value="<?= esc($desa['id']); ?>" <?= (old('id', isset($desa) ? esc($desa['id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                                    <?= esc($desa['nama_desa']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                <?php else: ?>
+
+                                    <input type="hidden" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
+
+                                <?php endif; ?>
 
 
                                 <!-- Form Group (Dusun) -->

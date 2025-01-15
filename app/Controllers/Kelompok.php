@@ -6,6 +6,7 @@ use App\Models\KelompokModel;
 use App\Models\KelompokMasterModel;
 use App\Models\KelompokAnggotaModel;
 use App\Models\TwebPenduduk;
+use App\Models\DesaModel;
 
 class Kelompok extends BaseController
 {
@@ -43,7 +44,9 @@ class Kelompok extends BaseController
     // Display form to create a new Kelompok
     public function new()
     {
+        $desaModel   = new DesaModel();
         $data['kelompokMasters'] = $this->kelompokMasterModel->findAll();
+        $data['list_desa'] =  $desaModel->findAll();
         return view('kelompok/new', $data);
     }
 

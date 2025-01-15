@@ -56,7 +56,7 @@ class TwebPenduduk extends Model
     // Define validation rules if needed
     protected $validationRules = [
         'nama'                  => 'required|string|max_length[100]',
-        'nik'                   => 'required|numeric|is_unique[tweb_penduduk.nik,id,{id}]',
+        'nik'                   => 'required|numeric',
         'kk_level'              => 'permit_empty|integer',
         'id_rtm'                => 'permit_empty|numeric',
         'rtm_level'             => 'permit_empty|integer',

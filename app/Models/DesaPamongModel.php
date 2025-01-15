@@ -14,6 +14,7 @@ class DesaPamongModel extends Model
         'pamong_nik',
         'jabatan',
         'pamong_status',
-        'pamong_tgl_terdaftar'
+        'pamong_tgl_terdaftar',
+        'desa_id'
     ];
 }

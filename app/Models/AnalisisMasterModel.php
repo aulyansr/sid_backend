@@ -25,17 +25,18 @@ class AnalisisMasterModel extends Model
         'id_kelompok',
         'pembagi',
         'fitur_pembobotan',
-        'desa_id',
+        'desa_id'
     ];
 
     protected $validationRules = [
-        'nama'          => 'required|max_length[40]',
-        'subjek_tipe'   => 'required|integer',
-        'lock'          => 'required|integer',
-        'fitur_prelist' => 'required|integer',
-        'kode_analisis' => 'required|max_length[5]',
-        'pembagi'       => 'decimal|permit_empty',
+        'nama'             => 'required|max_length[40]',
+        'subjek_tipe'      => 'required|integer',
+        'lock'             => 'required|integer',
+        'fitur_prelist'    => 'required|integer',
+        'kode_analisis'    => 'required|max_length[5]',
+        'pembagi'          => 'decimal|permit_empty',
         'fitur_pembobotan' => 'required',
+        'desa_id' => 'required'
     ];
 
     // Define constants for categories
