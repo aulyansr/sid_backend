@@ -8,7 +8,4 @@
     <li class="nav-item">
         <a class="nav-link <?= ($activeTab == 'siap-ambil') ? 'active' : '' ?>" id="card-siap-ambil-tab" href="/admin/siap-ambil">Siap Ambil</a>
     </li>
-    <!-- <li class="nav-item">
-        <a class="nav-link <?= ($activeTab == 'rekap-layanan') ? 'active' : '' ?>" id="card-rekap-layanan-tab" href="/admin/rekap-layanan">Rekap Layanan</a>
-    </li> -->
 </ul>
