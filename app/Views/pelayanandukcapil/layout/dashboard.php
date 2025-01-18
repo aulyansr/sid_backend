@@ -113,7 +113,7 @@ $desa = $desa->find(1);
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/verifikasi-data-pemohon">
                         <i class="fas fa-fw fa-users"></i>
-                        <span>Verifikasi Data</span>
+                        <span>Layanan kependudukan</span>
                     </a>
                 </li>
             <?php endif; ?>
