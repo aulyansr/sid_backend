@@ -266,6 +266,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('verifikasi-data-pemohon', 'PelayananDukcapil::verifikasi_data');
     $routes->get('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
     $routes->post('verifikasi-detail-permohonan', 'PelayananDukcapil::verifikasi_detail_permohonan');
+    $routes->post('upload-detail-permohonan', 'PelayananDukcapil::upload_detail_permohonan');
     $routes->get('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
     $routes->post('verifikasi-upload-dokumen', 'PelayananDukcapil::verifikasi_upload_dokumen');
     $routes->post('simpan-permohonan', 'PelayananDukcapil::store');
