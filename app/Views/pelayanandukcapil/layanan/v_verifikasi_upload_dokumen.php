@@ -20,7 +20,7 @@
                 <?= $this->include('pelayanandukcapil/layanan/breadcrumb'); ?>
                 <!-- start breadcrumb -->
                 <form action="simpan-permohonan" method="post" enctype='multipart/form-data'>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="small mb-1" for="exampleFormControlInput1">LOKASI PENGAMBILAN</label>
                         <select class="form-control" id="LOKASI_PENGAMBILAN" name="LOKASI_PENGAMBILAN">
                             <option value='00' <?= $LOKASI_PENGAMBILAN == '00' ? 'selected' : '' ?>>Mall Pelayanan Publik</option>
@@ -45,7 +45,7 @@
                             <option value='17' <?= $LOKASI_PENGAMBILAN == '17' ? 'selected' : '' ?>>Kapanewon Tanjungsari</option>
                             <option value='18' <?= $LOKASI_PENGAMBILAN == '18' ? 'selected' : '' ?>>Kapanewon Purwosari</option>
                         </select>
-                    </div>
+                    </div> -->
 
 
                     <div class="mb-3">

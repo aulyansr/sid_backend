@@ -37,7 +37,8 @@
                                 <i class="fa fa-file mr-2"></i>  <?= $value['JENIS_DOC'];?> / <?= $value['NAMA_TERMOHON'];?>
                             </label>
                             <!-- Radio Buttons -->
-                            <div>
+                            <input class="form-check-input" type="hidden" name="vrf[<?= $key;?>][status]" id="status-diterima-" value="1">  
+                            <!-- <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="vrf[<?= $key;?>][status]" id="status-diterima-" value="1" checked>
                                     <label class="form-check-label" for="status-diterima-">Diterima</label>
@@ -46,7 +47,7 @@
                                     <input class="form-check-input" type="radio" name="vrf[<?= $key;?>][status]" id="status-ditolak-" value="-1">
                                     <label class="form-check-label" for="status-ditolak-">Ditolak</label>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Input teks -->
                         <div class="mt-2">
@@ -92,17 +93,22 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <label class="small mb-1" for="fileUpload1">UPLOAD PERSYARATAN</label>
 
-                                <?= anchor_popup(
-                                    site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL'])), // URL preview
-                                    '<i class="fa fa-eye"></i> Preview',                    // Teks atau konten anchor
-                                    [
-                                        'class' => 'btn-sm btn-primary',                    // Tambahkan kelas CSS
-                                        'width' => '800',                                   // Lebar popup
-                                        'height' => '600',                                  // Tinggi popup
-                                        'resizable' => 'yes',                               // Dapat diubah ukurannya
-                                        'scrollbars' => 'yes'                               // Aktifkan scrollbar
-                                    ]
-                                ); ?>
+                                <?php 
+                                    if (isset($dtGetVerifMaster['FILE_URL']) && !empty($dtGetVerifMaster['FILE_URL'])) {
+                                       echo anchor_popup(
+                                            site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL'])), // URL preview
+                                            '<i class="fa fa-eye"></i> preview 1',                    // Teks atau konten anchor
+                                            [
+                                                'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
+                                                'width' => '800',                                   // Lebar popup
+                                                'height' => '600',                                  // Tinggi popup
+                                                'resizable' => 'yes',                               // Dapat diubah ukurannya
+                                                'scrollbars' => 'yes'                               // Aktifkan scrollbar
+                                            ]
+                                        );
+                                    } else {
+                                        echo "1. N/a";
+                                    }?>
                                 
                             </div>
                             <div class="mt-2">
@@ -120,17 +126,22 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center justify-content-between">
                                 <label class="small mb-1" for="fileUpload2">UPLOAD PERSYARATAN TAMBAHAN</label>
-                                <?= anchor_popup(
-                                    site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL2'])), // URL preview
-                                    '<i class="fa fa-eye"></i> Preview',                    // Teks atau konten anchor
-                                    [
-                                        'class' => 'btn-sm btn-primary',                    // Tambahkan kelas CSS
-                                        'width' => '800',                                   // Lebar popup
-                                        'height' => '600',                                  // Tinggi popup
-                                        'resizable' => 'yes',                               // Dapat diubah ukurannya
-                                        'scrollbars' => 'yes'                               // Aktifkan scrollbar
-                                    ]
-                                ); ?>
+                                <?php 
+                                    if (isset($dtGetVerifMaster['FILE_URL']) && !empty($dtGetVerifMaster['FILE_URL2'])) {
+                                       echo anchor_popup(
+                                            site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL2'])), // URL preview
+                                            '<i class="fa fa-eye"></i> preview 2',                                       // Teks atau konten anchor
+                                            [
+                                                'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
+                                                'width' => '800',                                   // Lebar popup
+                                                'height' => '600',                                  // Tinggi popup
+                                                'resizable' => 'yes',                               // Dapat diubah ukurannya
+                                                'scrollbars' => 'yes'                               // Aktifkan scrollbar
+                                            ]
+                                        );
+                                    } else {
+                                        echo "2. N/a";
+                                    }?>
                             </div>
                             <div class="mt-2">
                                 <input type="file" id="fileUpload2" name="fileUpload2" class="form-control" placeholder="file upload" aria-label="file upload" accept=".pdf" onchange="previewFile(event, 'previewContainer2', 'fileName2')">
@@ -145,7 +156,7 @@
 
                     <div class="mb-3">
                         <label class="small mb-1" for="exampleFormControlInput1">CATATAN</label>
-                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN" required><?= isset($CATATAN) ? $CATATAN : '' ?></textarea>
+                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN"><?= isset($CATATAN) ? $CATATAN : '' ?></textarea>
                         <!-- <input type="text" class="form-control" placeholder="catatan"  aria-label="text" aria-describedby="basic-addon2"> -->
                     </div>
 

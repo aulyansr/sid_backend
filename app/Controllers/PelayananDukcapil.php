@@ -9,6 +9,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use GuzzleHttp\Client;
 use CodeIgniter\Database\Exceptions\Exception;
+// use Dompdf\Dompdf;
+// use Dompdf\Options;
+// use App\Libraries\Pdf;
 use App\Libraries\CIQRCode;
 
 
@@ -26,6 +29,7 @@ class PelayananDukcapil extends BaseController
         $this->artikel = new ArtikelModel();
         $this->desa = new DesaModel();
         $this->session = session(); // Memulai session
+        helper('lokasi_pengambilan_helper');
     }
 
 
@@ -147,40 +151,58 @@ class PelayananDukcapil extends BaseController
         $data['activeTab'] = 'verifikasi-data';
         return view('pelayanandukcapil/layanan/v_verifikasi_detail_permohonan', $data);
     }
+
+    function upload_detail_permohonan(){
+        $data = $this->request->getPost('data');
+
+        if (!empty($data)) {
+            $this->session->set('permohonan', $data);
+            return $this->response->setJSON(['message' => 'Data berhasil disimpan!']);
+        } else {
+            // Kirimkan respons gagal jika tidak ada data
+            return $this->response->setJSON(['message' => 'Data tida tersimpan.']);
+        }
+    }
     
     public function verifikasi_upload_dokumen()
     {
-       
+        
+        // echo "<pre>";
+        // print_r($data).exit();
+        // echo "</pre>";
         // Ambil data dari form
-        $termohon       = $this->request->getPost('NAMA_TERMOHON');
-        $niktermohon    = $this->request->getPost('NIK_TERMOHON');
-        $jenis_doc      = $this->request->getPost('JENIS_DOC');
+        // $termohon       = $this->request->getPost('NAMA_TERMOHON');
+        // $niktermohon    = $this->request->getPost('NIK_TERMOHON');
+        // $jenis_doc      = $this->request->getPost('JENIS_DOC');
 
+
+        // print_r($termohon).exit();
         // $data = [
         //     'termohon'       => $this->request->getPost('NAMA_TERMOHON'),
         //     'niktermohon'    => $this->request->getPost('NIK_TERMOHON'),
         //     'jenis_doc'     => $this->request->getPost('JENIS_DOC'),
         // ];
 
+        // print_r($data).exit();
         // dd($data);
         // Simpan data permohonan di session
-        if ($termohon &&  $niktermohon && $jenis_doc) {
-            $permohonanData = [];
-            foreach ($termohon as $index => $value) {
-                $permohonanData[] = [
-                    'NAMA_TERMOHON' => $value,
-                    'NIK_TERMOHON' => $niktermohon[$index],
-                    'JENIS_DOC' => $jenis_doc[$index]
-                ];
+        // if ($termohon &&  $niktermohon && $jenis_doc) {
+        //     $permohonanData = [];
+        //     foreach ($termohon as $index => $value) {
+        //         $permohonanData[] = [
+        //             'NAMA_TERMOHON' => $value,
+        //             'NIK_TERMOHON' => $niktermohon[$index],
+        //             'JENIS_DOC' => $jenis_doc[$index]
+        //         ];
 
 
-            }
+        //     }
 
-        $this->session->set('permohonan', $permohonanData);
+        // $this->session->set('permohonan', $permohonanData);
 
         // dd($permohonanData).exit();
         
-        }
+        // }
         
         //start ambil data getuser desa
         $id         = auth()->user()->desa_id;
@@ -196,7 +218,7 @@ class PelayananDukcapil extends BaseController
         $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
         //end ambil data getuser desa
 
-            //start get data permohonan hari ini
+        //start get data permohonan hari ini
         $permohonanHariIni = "https://dev-smart.gunungkidulkab.go.id/api/permohonanhariini/$getUser";
         $client = \Config\Services::curlrequest();
 
@@ -410,13 +432,34 @@ class PelayananDukcapil extends BaseController
     public function store()
     {
         $client = new Client();
+        //ambil data kode desa dan nama desa
+        $id = auth()->user()->desa_id;
+        $dataDesa = $this->desa
+        // ->select('nama_desa,kode_desa,no_kecamatan,nama_kecamatan')
+        ->join('kecamatan', 'kecamatan.no_kecamatan = desa.no_kecamatan')
+        ->where('desa.id', auth()->user()->desa_id)
+        ->get()
+        ->getResult();
+    
+        if (!empty($dataDesa)) {
+            $hasil = [
+                'kodeDesa' => $dataDesa[0]->kode_desa,
+                'namaDesa' => $dataDesa[0]->nama_desa, 
+                'noKec'    => $dataDesa[0]->no_kecamatan, 
+                'namaKec'  => $dataDesa[0]->nama_kecamatan, 
+            ];
+        } else {
+            $hasil = 'Data desa tidak ditemukan.';
+        }
 
         $data = [
-            'LOKASI_PENGAMBILAN' => $this->request->getPost('LOKASI_PENGAMBILAN'),
-            'LOKASI_PENGAMBILAN' => $this->request->getPost('LOKASI_PENGAMBILAN'),
-            'CATATAN'            => $this->request->getPost('CATATAN'),
-            // Tambahkan variabel lain sesuai kebutuhan
+            'KD_PENGAMBILAN'     => $dataDesa[0]->no_kecamatan,
+            'LOKASI_PENGAMBILAN' => lokasi_pengambilan($dataDesa[0]->no_kecamatan),
+            // 'CATATAN'            => $this->request->getPost('CATATAN'),
+            // Tambahkan variabel lain sesua   i kebutuhan
         ];
+
+        // print_r($data).exit();
 
         $filterData = array_filter($data, function($value) {
             return !is_null($value) && $value !== '';
@@ -456,23 +499,7 @@ class PelayananDukcapil extends BaseController
 
         // dd($detailPermohonan);
 
-        //ambil data kode desa dan nama desa
-        $id = auth()->user()->desa_id;
-        $dataDesa = $this->desa
-        ->where('id', auth()->user()->desa_id)
-        ->get()
-        ->getResult();
-    
-        if (!empty($dataDesa)) {
-            $hasil = [
-                'kodeDesa' => $dataDesa[0]->kode_desa,
-                'namaDesa' => $dataDesa[0]->nama_desa, 
-                'noKec'    => $dataDesa[0]->no_kecamatan, 
-            ];
-        } else {
-            $hasil = 'Data desa tidak ditemukan.';
-        }
-
+        
         $dataRow = [
             'NIK'                       => $this->session->get('NIK'), 
             'NAMA_PEMOHON'              => $this->session->get('NAMA_PEMOHON'),
@@ -483,12 +510,20 @@ class PelayananDukcapil extends BaseController
             // 'NAMA_TERMOHON'             => $keyPermohonan['NAMA_TERMOHON'], 
             // 'NIK_TERMOHON'              => $keyPermohonan['NIK_TERMOHON'],
             // 'JENIS_DOC'                 => $keyPermohonan['JENIS_DOC'],
+            'KD_PENGAMBILAN'            => $this->session->get('KD_PENGAMBILAN'),
             'LOKASI_PENGAMBILAN'        => $this->session->get('LOKASI_PENGAMBILAN'),
             'KD_LOKASI'                 => $hasil['noKec'],
+            'LOKASI_DAFTAR'             => 'KALURAHAN '.session()->get('nama_villages'),
             'CATATAN'                   => $this->session->get('CATATAN'),
             'CREATED_BY'                => $hasil['kodeDesa'].$hasil['namaDesa'], //PERMOHONAN_PELAYANAN_V2
-            'ID_SKOTA'                  => $hasil['kodeDesa'], //PERMOHONAN_PELAYANAN_V2
+            'ID_SKOTA'                  => '', //PERMOHONAN_PELAYANAN_V2
+            'NO_KEL'                    => session()->get('desa_id'), //PERMOHONAN_PELAYANAN_V2
+            'NAMA_KEL'                  => 'KALURAHAN '.session()->get('nama_villages'), //PERMOHONAN_PELAYANAN_V2
+            'NO_KEC'                    => $hasil['noKec'], //PERMOHONAN_PELAYANAN_V2
+            'NAMA_KEC'                  => 'KAPANEWON '.$hasil['namaKec'], //PERMOHONAN_PELAYANAN_V2
         ];
+
+        // print_r($dataRow).exit();
 
          // Validasi bahwa detailPermohonan adalah array
         if (!is_array($detailPermohonan) || empty($detailPermohonan)) {
@@ -948,7 +983,7 @@ class PelayananDukcapil extends BaseController
     }
 
 
-    public function simpan_verifikasi_layanan() {
+    public function simpan_verixxxfikasi_layanan() {
 
         // $termohon       = $this->request->getPost('NAMA_TERMOHON');
         // $niktermohon    = $this->request->getPost('NIK_TERMOHON');
@@ -1002,8 +1037,8 @@ class PelayananDukcapil extends BaseController
         foreach ($formData as $data) {
             if (isset($data['no_urut'], $data['status'], $data['ket'])) {
                 $updateData[] = [
-                    // 'no_pend' => $data['no_pend'],
-                    'status' => $data['status'],
+                    'no_pend' => $data['no_pend'],
+                    // 'status' => 1,
                     'keterangan' => $data['ket'],
                     'no_urut' => $data['no_urut'],
                 ];
@@ -1089,11 +1124,11 @@ class PelayananDukcapil extends BaseController
         // $jenis_doc      = $this->request->getPost('JENIS_DOC');
 
         $dataRow = [
-            'no_pend'   => $this->request->getPost('NO_PEND'),
-            'kd_lokasi' => $this->request->getPost('LOKASI_PENGAMBILAN'),
-            'cat'       => $this->request->getPost('CATATAN'),
+            'no_pend'               => $this->request->getPost('NO_PEND'),
+            'kd_lokasi'             => $this->request->getPost('LOKASI_PENGAMBILAN'),
+            'lokasi_pengambilan'    => lokasi_pengambilan($this->request->getPost('LOKASI_PENGAMBILAN')),
+            'cat'                   => $this->request->getPost('CATATAN'),
         ];   
-
 
         $formData = $this->request->getPost('vrf');
         // $nm_lokasi =$this->request->getPost('LOKASI_PENGAMBILAN');
@@ -1137,7 +1172,8 @@ class PelayananDukcapil extends BaseController
             if (isset($data['no_urut'], $data['status'], $data['ket'])) {
                 $updateData[] = [
                     // 'no_pend' => $data['no_pend'],
-                    'status' => $data['status'],
+                    // 'status' => $data['status'],
+                    'status' => 1,
                     'keterangan' => $data['ket'],
                     'no_urut' => $data['no_urut'],
                 ];

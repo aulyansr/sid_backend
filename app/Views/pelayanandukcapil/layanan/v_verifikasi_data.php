@@ -31,7 +31,7 @@
 
                     <div class="mb-3">
                         <label class="small mb-1" for="NIK">NIK</label>
-                        <input type="text" class="form-control hanyaangka" name="NIK" placeholder="NIK" value="<?= isset($NIK) ? $NIK : '' ?>" required aria-label="NIK" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control hanyaangka" data-maxlength="16" data-minlength="16" name="NIK" placeholder="NIK" value="<?= isset($NIK) ? $NIK : '' ?>" required aria-label="NIK" aria-describedby="basic-addon2">
                         <div id="nikCounter" style="color: black;">0/16</div>
                         <!-- <div class="input-group-append">
                             <button id="getBio" class="btn btn-success" type="button"> Cari..</button>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="small mb-1" for="EMAIL_TERMOHON">EMAIL TERMOHON</label>
-                        <input class="form-control" id="EMAIL_TERMOHON" type="email" name="EMAIL_TERMOHON" value="<?= isset($EMAIL_TERMOHON) ? $EMAIL_TERMOHON : '' ?>" required placeholder="EMAIL TERMOHON">
+                        <input class="form-control" id="EMAIL_TERMOHON" type="text" name="EMAIL_TERMOHON" value="<?= isset($EMAIL_TERMOHON) ? $EMAIL_TERMOHON : '' ?>" required placeholder="EMAIL TERMOHON">
                     </div>
                     <!-- <div class="mb-3">
                         <label class="small mb-1" for="exampleFormControlInput1">TGL RENCANA PENGAMBILAN</label> -->
@@ -63,7 +63,7 @@
 
                     <div class="d-flex justify-content-end">
                         <div>
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary" type="submit" id="submitsatu">
                                 <i class="fas fa-arrow-right"></i> lanjut
                             </button>
                         </div>
@@ -87,16 +87,6 @@
 <script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/jquery.dataTables.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js"></script>
 
-<!-- Data table plugins -->
-<script src="/assets/js/admin/vendors/datatables/extensions/JSZip-3.10.1/jszip.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/pdfmake-0.2.7/pdfmake.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/pdfmake-0.2.7/vfs_fonts.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.bootstrap4.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.html5.min.js"></script>
-<script src="/assets/js/admin/vendors/datatables/extensions/Buttons-2.4.2/js/buttons.print.min.js"></script>
-
 <!-- Page level custom scripts -->
 <!-- <script src="/assets/js/admin/demo/datatables-pengguna.js"></script> -->
 
@@ -107,35 +97,12 @@
     $(document).ready(function() {
         validasiFormNik();
         eventNik();
-        const table = $("#dataTable").DataTable({
-            lengthChange: false,
-            buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Kategori Baru`,
-                    className: "btn-sm",
-                    action: function(e, dt, node, config) {
-                        // Redirect to the new user path
-                        window.location.href = newkategorid;
-                    },
-                },
-                {
-                    text: `<i class="fa fa-print" aria-hidden="true"></i>&nbsp;Cetak`,
-                    className: "btn-sm",
-                    split: ["csv", "pdf", "excel"],
-                },
-                {
-                    text: `<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Preferensi Kolom`,
-                    className: "btn-sm",
-                    extend: "colvis",
-                },
-            ],
-        });
-
-        table.buttons().container().appendTo("#dataTable_wrapper .col-md-6:eq(0)");
     });
 
 
     function validasiFormNik() {
         var nik = $('.hanyaangka').val();
+        // alert(nik);
         $('#nikCounter').text(nik.length + '/16');
         $('#errorNIK').hide();
         if (nik.length < 16) {
@@ -152,13 +119,35 @@
         }
     }
 
-    function eventNik() {
-        $('.hanyaangka').on('input', function() {
-            var nik = $(this).val();
-            if (nik.length > 16) {
-                $(this).val(nik.substring(0, 16));
+    $('#submitsatu').on('click', function () {
+        if (!/^\d{16}$/.test(NIK)) {
+                alert('NIK harus berupa angka dan memiliki tepat 16 karakter!');
+                return; // Hentikan proses jika tidak valid
             }
-            validasiFormNik();
+    });
+
+    function eventNik() {
+        // $('.hanyaangka').on('input', function() {
+        //     var nik = $(this).val();
+        //     if (nik.length > 16 && nik.length < 16) {
+        //         $(this).val(nik.substring(0, 16));
+        //     }
+        //     validasiFormNik();
+        // });
+        $('.hanyaangka').on('input', function () {
+            var nik = $(this).val();
+
+            // Hapus karakter non-angka
+            nik = nik.replace(/\D/g, '');
+
+            // Batasi panjang maksimal 16 karakter
+            if (nik.length > 16) {
+                nik = nik.substring(0, 16);
+            }
+
+            $(this).val(nik); // Set nilai input
+
+            validasiFormNik(); // Panggil fungsi validasi
         });
 
     }
