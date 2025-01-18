@@ -30,16 +30,16 @@
                                 <i class="fa fa-file mr-2"></i>  <?= $value['JENIS_DOC'];?> / <?= $value['NAMA_TERMOHON'];?>
                             </label>
                             <!-- Radio Buttons -->
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="vrf[<?= $key;?>][status]" id="status-diterima-" value="1" checked>
-                                    <label class="form-check-label" for="status-diterima-">Diterima</label>
+                            <!-- <div>
+                                <div class="form-check form-check-inline"> -->
+                                    <input class="form-check-input" type="hidden" name="vrf[<?= $key;?>][status]" id="status-diterima-" value="1">
+                                    <!-- <label class="form-check-label" for="status-diterima-">Diterima</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="vrf[<?= $key;?>][status]" id="status-ditolak-" value="-1">
                                     <label class="form-check-label" for="status-ditolak-">Ditolak</label>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Input teks -->
                         <div class="mt-2">
@@ -147,7 +147,7 @@
 
                     <div class="mb-3">
                         <label class="small mb-1" for="exampleFormControlInput1">CATATAN</label>
-                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN" required><?= isset($CATATAN) ? $CATATAN : '' ?></textarea>
+                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN"><?= isset($CATATAN) ? $CATATAN : '' ?></textarea>
                         <!-- <input type="text" class="form-control" placeholder="catatan"  aria-label="text" aria-describedby="basic-addon2"> -->
                     </div>
 
