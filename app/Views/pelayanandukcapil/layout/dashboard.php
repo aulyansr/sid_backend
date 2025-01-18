@@ -69,13 +69,14 @@ $desa = $desa->find(1);
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
                 <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
-                    <!-- <img src="<
-                     ?= base_url(esc($desa['logo'])); ?>" height="50px" alt="Logo Gunungkidul"> -->
+                    <img src="<?= base_url(esc($desa['logo'])); ?>" height="50px" alt="Logo Gunungkidul">
                 </div>
                 <div class="mx-3 text-sm align-left">
-                    <small>SID Kalurahan <?= $desa['nama_desa']; ?></small>
+                    <small>SID Gunungkidul</small>
                     <br />
-                    <small></small>
+                    <?php if (session()->get('nama_villages')): ?>
+                        <small> Desa <?= session()->get('nama_villages'); ?> </small>
+                    <?php endif; ?>
                 </div>
             </a>
 
@@ -92,95 +93,115 @@ $desa = $desa->find(1);
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Data
             </div>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/penduduk">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Data Penduduk
-                    </span></a>
-            </li>
+
+            <?php if (auth()->user()->can('kelurahan.access')) : ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo getAdminUrl('penduduk');  ?>">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Data Penduduk</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/verifikasi-data-pemohon">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Verifikasi Data</span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login">
+                <a class="nav-link" href="<?php echo getAdminUrl('analisis_master');  ?>">
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>Statistik & Analisis
-                    </span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="https://smart.gunungkidulkab.go.id/login">
-                    <i class="fas fa-fw fa-hands-helping"></i>
-                    <span>Program Bantuan</span></a>
-            </li>
-
-            <div class="sidebar-heading">
-                ARTIKEL & BERITA
-            </div>
-
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/artikel">
-                    <i class="fas fa-fw fa-user-lock"></i>
-                    <span>
-                        Kelola Artikel
                     </span>
                 </a>
             </li>
 
-            <div class="sidebar-heading">
-                PERSURATAN
-            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/layanandukcapil/new">
+                    <i class="fas fa-fw fa-hands-helping"></i>
+                    <span>Program Bantuan</span></a>
+            </li>
 
+            <?php if (auth()->user()->can('articles.access')) : ?>
+
+                <div class="sidebar-heading">
+                    ARTIKEL & BERITA
+                </div>
+
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo getAdminUrl('artikel');  ?>">
+                        <i class="fas fa-fw fa-user-lock"></i>
+                        <span>
+                            Kelola Artikel
+                        </span>
+                    </a>
+                </li>
+            <?php endif; ?>
+
+            <?php if (auth()->user()->can('kelurahan.access')) : ?>
+                <div class="sidebar-heading">
+                    PERSURATAN
+                </div>
+
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo getAdminUrl('surat');  ?>">
+                        <i class="fas fa-fw fa-print"></i>
+                        <span>Cetak Surat</span></a>
+                </li>
+
+            <?php endif; ?>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/surat">
-                    <i class="fas fa-fw fa-print"></i>
-                    <span>Cetak Surat</span></a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/surat">
-                    <i class="fas fa-fw fa-print"></i>
-                    <span>Riwayat Surat</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-
-            <div class="sidebar-heading">
-                Setting
-            </div>
+            <?php if (auth()->user()->inGroup('superadmin')) : ?>
+                <div class="sidebar-heading">
+                    Setting
+                </div>
 
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?= route_to('users_path') ?>">
-                    <i class="fas fa-fw fa-id-card"></i>
-                    <span>Manajemen Pengguna</span></a>
-            </li>
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= route_to('users_path') ?>">
+                        <i class="fas fa-fw fa-id-card"></i>
+                        <span>Manajemen Pengguna</span></a>
+                </li>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/config/edit/1">
-                    <i class="fas fa-cogs fa-sm fa-fw"></i>
+                <!-- Nav Item - Tables -->
 
-                    <span>Konfigurasi  Web</span></a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/pengurus">
-                    <i class="fas fa-user-shield"></i>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/desa">
+                        <i class="fas fa-cogs fa-sm fa-fw"></i>
 
-                    <span>Konfigurasi  Pemerintahan</span></a>
-            </li>
+                        <span>Konfigurasi  Desa</span></a>
+                </li>
 
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/pengurus">
+                        <i class="fas fa-user-shield"></i>
+
+                        <span>Konfigurasi  Pemerintahan</span></a>
+                </li>
+
+
+            <?php endif; ?>
 
 
 
