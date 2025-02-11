@@ -71,7 +71,7 @@ class UserController extends BaseController
             'nama'     => $this->request->getVar('nama'),
             'password' => $this->request->getVar('password'),
             'foto'     => $fotoPath,
-            'desa_id' =>  $this->request->getVar('desa_id') ?: 0,
+            'desa_id'  => $this->request->getVar('desa_id') ?: 0,
         ];
 
         try {
@@ -120,51 +120,75 @@ class UserController extends BaseController
 
     public function update()
     {
-        $id = $this->request->getPost('id');
+        $id    = $this->request->getPost('id');
         $users = auth()->getProvider();
 
-        // Handle file upload
-        $image = $this->request->getFile('foto');
-        if ($image && $image->isValid()) {
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'foto' => [
-                    'rules' => 'uploaded[foto]'
-                        . '|is_image[foto]'
-                        . '|mime_in[foto,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                        . '|max_size[foto,1000]'
-                ],
-            ]);
-
-            if (!$validation->withRequest($this->request)->run()) {
-                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        try {
+            // Ambil user lama untuk mendapatkan password lama jika tidak diubah
+            $existingUser = $this->userModel->find($id);
+            if (!$existingUser) {
+                throw new \Exception('User tidak ditemukan.');
             }
 
-            $newName = $image->getRandomName();
-            $image->move('uploads', $newName);
-            $fotoPath = 'uploads/' . $newName;
+            // Handle file upload
+            $image = $this->request->getFile('foto');
+            if ($image && $image->isValid() && !$image->hasMoved()) {
+                $validation = \Config\Services::validation();
+                $validation->setRules([
+                    'foto' => [
+                        'rules' => 'uploaded[foto]'
+                            . '|is_image[foto]'
+                            . '|mime_in[foto,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
+                            . '|max_size[foto,1000]'
+                    ],
+                ]);
+
+                if (!$validation->withRequest($this->request)->run()) {
+                    throw new \Exception(implode(', ', $validation->getErrors()));
+                }
+
+                $newName = $image->getRandomName();
+                $image->move('uploads', $newName);
+                $fotoPath = 'uploads/' . $newName;
+            }
+
+            // Periksa apakah ada input password baru
+            $password     = $this->request->getPost('password');
+            $existingUser = auth()->user()->fill([
+                'password' => $this->request->getPost('password')
+            ]);
+
+            $data = [
+                'username' => $this->request->getPost('username'),
+                'email'    => $this->request->getPost('email'),
+                'nama'     => $this->request->getPost('nama'),
+                'desa_id'  => $this->request->getVar('desa_id') ?: null
+            ];
+
+            if (isset($fotoPath)) {
+                $data['foto'] = $fotoPath;
+            }
+            $users->save($existingUser);
+
+            // Update user data
+            if (!$this->userModel->update($id, $data)) {
+                throw new \Exception('Gagal memperbarui data pengguna.');
+            }
+
+
+            // Update user group
+            $user = $users->findById($id);
+            if (!$user) {
+                throw new \Exception('User tidak ditemukan untuk sinkronisasi grup.');
+            }
+
+            $user->syncGroups($this->request->getPost('group'));
+
+            session()->setFlashdata('message', 'User updated successfully.');
+            return redirect()->to('/admin/users');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
-
-        $data = [
-            'username' => $this->request->getPost('username'),
-            'email'    => $this->request->getPost('email'),
-            'nama'     => $this->request->getPost('nama'),
-            'password' => $this->request->getPost('password'),
-            'desa_id' => $this->request->getVar('desa_id') ?: 0
-        ];
-
-        if (isset($fotoPath)) {
-            $data['foto'] = $fotoPath;
-        }
-
-        $this->userModel->update($id, $data);
-
-        // Update user group
-        $user = $users->findById($id);
-        $user->syncGroups($this->request->getPost('group'));
-
-        session()->setFlashdata('message', 'User updated successfully.');
-        return redirect()->to('/admin/users');
     }
 
     public function delete($id)
