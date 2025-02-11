@@ -71,7 +71,7 @@ class UserController extends BaseController
             'nama'     => $this->request->getVar('nama'),
             'password' => $this->request->getVar('password'),
             'foto'     => $fotoPath,
-            'desa_id' => $this->request->getVar('desa_id'),
+            'desa_id' =>  $this->request->getVar('desa_id') ?: 0,
         ];
 
         try {
@@ -150,7 +150,7 @@ class UserController extends BaseController
             'email'    => $this->request->getPost('email'),
             'nama'     => $this->request->getPost('nama'),
             'password' => $this->request->getPost('password'),
-            'desa_id' => $this->request->getVar('desa_id'),
+            'desa_id' => $this->request->getVar('desa_id') ?: 0
         ];
 
         if (isset($fotoPath)) {
