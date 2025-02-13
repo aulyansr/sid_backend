@@ -26,8 +26,8 @@
                                 <select class="form-control text" id="JENIS_DOC" name="JENIS_DOC">
                                     <option value="AKTA_LHR">AKTA KELAHIRAN</option>
                                     <option value="AKTA_KMT">AKTA KEMATIAN</option>
-                                    <option value="KK">KARTU TANDA PENDUDUK</option>
-                                    <option value="KTP">KARTU IDENTITAS ANAK</option>
+                                    <option value="KTP">KARTU TANDA PENDUDUK</option>
+                                    <option value="KIA">KARTU IDENTITAS ANAK</option>
                                     <option value="PINDAH_K">PINDAH KELUAR</option>
                                     <option value="PINDAH_M">PINDAH DATANG</option>
                                 </select>
@@ -43,9 +43,12 @@
                                 <div id="nikCounter" style="color: black;">0/16</div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" type="submit" id="add-data">
-                            <i class="fas fa-plus"></i> Add Data
-                        </button>
+                        
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" type="submit" id="add-data">
+                                <i class="fas fa-plus"></i> Add Data
+                            </button>
+                        </div>
 
                     <!-- <div class="mb-3">
                         <button class="btn btn-success" id="tambahFormDetailPermohonan" type="button">
@@ -145,7 +148,6 @@
         });
     }
 
-
     function validasiFormNik() {
         var nik = $('.hanyaangka').val();
         $('#nikCounter').text(nik.length + '/16');
@@ -204,12 +206,14 @@
             const NAMA_TERMOHON = $('#NAMA_TERMOHON').val();
             const NIK_TERMOHON = $('#NIK_TERMOHON').val();
 
-            if (!/^\d{16}$/.test(NIK_TERMOHON)) {
-                alert('NIK harus berupa angka dan memiliki tepat 16 karakter!');
-                return; // Hentikan proses jika tidak valid
+            if (JENIS_DOC === 'KTP' || JENIS_DOC === 'PINDAH_K'| JENIS_DOC === 'PINDAH_M') {
+                if (!/^\d{16}$/.test(NIK_TERMOHON)) {
+                    alert('NIK harus berupa angka dan memiliki tepat 16 karakter!');
+                    return; // Hentikan proses jika tidak valid
+                }
             }
 
-            if (JENIS_DOC && NAMA_TERMOHON && NIK_TERMOHON) {
+            if (JENIS_DOC && NAMA_TERMOHON) {
                 const index = dataArray.length + 1;
 
                 // Add data to the array

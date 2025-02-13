@@ -36,7 +36,7 @@
                                     <th>NO</th>
                                     <th>NAMA TERMOHON</th>
                                     <th>JENIS DOC</th>
-                                    <th>NO DOC</th>
+                                    <!-- <th>NO DOC</th> -->
                                     <th>STATUS</th>
                                     <th>KETERANGAN</th>
                                 </tr>
@@ -57,7 +57,7 @@
                                         <td align="center">#</td>
                                         <td><?= $value['NAMA_TERMOHON'];?></td>
                                         <td><?= $value['JENIS_DOC'];?></td>
-                                        <td><?= $value['NO_DOC'];?></td>
+                                        <!-- <td><?= $value['NO_DOC'];?></td> -->
                                         <td><?= $value['STATUS'];?></td>
                                         <td><?= $value['KET_AMBIL'];?></td>
 
