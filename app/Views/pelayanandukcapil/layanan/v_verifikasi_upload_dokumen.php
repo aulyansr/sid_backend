@@ -72,12 +72,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="mb-3">
-                        <label class="small mb-1" for="exampleFormControlInput1">CATATAN</label>
-                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN" required><?= isset($CATATAN) ? $CATATAN : '' ?></textarea> -->
-                        <!-- <input type="text" class="form-control" placeholder="catatan"  aria-label="text" aria-describedby="basic-addon2"> -->
-                    <!-- </div> -->
-
                     <div class="d-flex justify-content-between">
                         <div>
                             <a href="<?= site_url('admin/verifikasi-detail-permohonan'); ?>"><button class="btn btn-primary" type="button">
@@ -87,7 +81,7 @@
 
                         <div>
                             <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-arrow-right"></i> simpan
+                                <i class="fas fa-arrow-right"></i> verifikasi
                             </button>
                         </div>
                     </div>
@@ -110,34 +104,7 @@
 <!-- <script src="/assets/js/admin/demo/datatables-pengguna.js"></script> -->
 
 <script>
-    // Define the JavaScript variable with the URL from PHP
-    var newkategorid = '/admin/kategori/new';
 
-    $(document).ready(function() {
-        const table = $("#dataTable").DataTable({
-            lengthChange: false,
-            buttons: [{
-                    text: `<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tambah Kategori Baru`,
-                    className: "btn-sm",
-                    action: function(e, dt, node, config) {
-                        // Redirect to the new user path
-                        window.location.href = newkategorid;
-                    },
-                },
-                {
-                    text: `<i class="fa fa-print" aria-hidden="true"></i>&nbsp;Cetak`,
-                    className: "btn-sm",
-                    split: ["csv", "pdf", "excel"],
-                },
-                {
-                    text: `<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Preferensi Kolom`,
-                    className: "btn-sm",
-                    extend: "colvis",
-                },
-            ],
-        });
-
-        table.buttons().container().appendTo("#dataTable_wrapper .col-md-6:eq(0)");
-    });
+    
 </script>
 <?= $this->endSection(); ?>
