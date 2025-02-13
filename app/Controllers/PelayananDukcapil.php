@@ -8,6 +8,8 @@ use App\Models\DesaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use CodeIgniter\Database\Exceptions\Exception;
 use App\Libraries\CIQRCode;
 
@@ -223,6 +225,8 @@ class PelayananDukcapil extends BaseController
             'LOKASI_PENGAMBILAN' => lokasi_pengambilan($dataDesa[0]->no_kecamatan),
         ];
 
+        // print_r($data).exit();
+
         $filterData = array_filter($data, function($value) {
             return !is_null($value) && $value !== '';
         });
@@ -256,7 +260,7 @@ class PelayananDukcapil extends BaseController
             // 'CATATAN'                   => $this->session->get('CATATAN'),
             'CREATED_BY'                => $hasil['kodeDesa'].$hasil['namaDesa'], //PERMOHONAN_PELAYANAN_V2
             'ID_SKOTA'                  => '', //PERMOHONAN_PELAYANAN_V2
-            'NO_KEL'                    => session()->get('desa_id'), //PERMOHONAN_PELAYANAN_V2
+            'NO_KEL'                    => session()->get('desa_kode'), //PERMOHONAN_PELAYANAN_V2
             'NAMA_KEL'                  => 'KALURAHAN '.session()->get('nama_villages'), //PERMOHONAN_PELAYANAN_V2
             'NO_KEC'                    => $hasil['noKec'], //PERMOHONAN_PELAYANAN_V2
             'NAMA_KEC'                  => 'KAPANEWON '.$hasil['namaKec'], //PERMOHONAN_PELAYANAN_V2
@@ -352,10 +356,21 @@ class PelayananDukcapil extends BaseController
             }
         } catch (RequestException $e) {
             // Tangkap error
+            // if ($e->hasResponse()) {
+            //     return 'Error Response: ' . $e->getResponse()->getBody()->getContents();
+            // }
+            // return 'Request Error: ' . $e->getMessage();
             if ($e->hasResponse()) {
-                return 'Error Response: ' . $e->getResponse()->getBody()->getContents();
+                $errorMessage = 'Error Response: ' . $e->getResponse()->getBody()->getContents();
+            } else {
+                $errorMessage = 'Request Error: ' . $e->getMessage();
             }
-            return 'Request Error: ' . $e->getMessage();
+
+            // Simpan error ke flashdata
+            session()->setFlashdata('error', $errorMessage);
+
+            // Redirect ke halaman sebelumnya atau halaman error
+            return redirect()->to('/admin/verifikasi-data-pemohon');
         }
     }
     
@@ -435,6 +450,7 @@ class PelayananDukcapil extends BaseController
 
         $data['dtSiapAmbil']  = $dataSiapAmbil['data'] ?? [] ;
         $data['kategoris']    = $this->kategori->findAll();
+        // dd($data);
         $data['activeTab']    = 'siap-ambil';
         return view('pelayanandukcapil/layanan/v_siap_ambil', $data);
     } 
@@ -527,6 +543,7 @@ class PelayananDukcapil extends BaseController
         $data['dtGetVerifMaster']   = $dataGetVerif['data']['param1'] ?? [] ;
         $data['dtGetVerifDetail']   = $dataGetVerif['data']['param2'] ?? [] ;
         $data['activeTab']          = 'verifikasi-layanan';
+        // dd($data);
         return view('pelayanandukcapil/layanan/v_verifikasi_layanan', $data);
     }
     
@@ -555,6 +572,7 @@ class PelayananDukcapil extends BaseController
         $data['dtGetVerifMaster']   = $dataGetVerif['data']['param1'] ?? [] ;
         $data['dtGetVerifDetail']   = $dataGetVerif['data']['param2'] ?? [] ;
         $data['activeTab']          = 'cek-verifikasi-layanan';
+        // dd($data);
         return view('pelayanandukcapil/layanan/v_cek_verifikasi_layanan', $data);
     }
     // end new
@@ -563,6 +581,11 @@ class PelayananDukcapil extends BaseController
     {
         $hapusEkstensi = pathinfo($fileName, PATHINFO_FILENAME);
         $apiUrl = 'https://dev-smart.gunungkidulkab.go.id/api/getfiles/' . $hapusEkstensi;
+
+        // dd($apiUrl).exit();
+        // $apiUrl = "https://dev-smart.gunungkidulkab.go.id/{$fileName}";
+
+        // print_r($apiUrl);
 
         // Inisialisasi cURL
         $curl = curl_init($apiUrl);
@@ -591,13 +614,17 @@ class PelayananDukcapil extends BaseController
     }
     
     public function simpan_cek_verifikasi_layanan() {
+        
         $dataRow = [
             'no_pend'               => $this->request->getPost('NO_PEND'),
+            'tgl_pengambilan'       => $this->request->getPost('TGL_RENCANA_PENGAMBILAN'),
             'kd_lokasi'             => $this->request->getPost('LOKASI_PENGAMBILAN'),
             'lokasi_pengambilan'    => lokasi_pengambilan($this->request->getPost('LOKASI_PENGAMBILAN')),
             'cat'                   => $this->request->getPost('CATATAN'),
         ];   
 
+
+        // print_r($dataRow).exit();
         $formData = $this->request->getPost('vrf');
         $multipartData = [];
         // Tambahkan setiap item data ke dalam array `multipart`
@@ -616,9 +643,9 @@ class PelayananDukcapil extends BaseController
         foreach ($formData as $data) {
             if (isset($data['no_urut'], $data['status'], $data['ket'])) {
                 $updateData[] = [
-                    'status' => 1,
-                    'keterangan' => $data['ket'],
-                    'no_urut' => $data['no_urut'],
+                    'status'        => 1,
+                    'keterangan'    => $data['ket'],
+                    'no_urut'       => $data['no_urut'],
                 ];
             }
         }
@@ -631,6 +658,8 @@ class PelayananDukcapil extends BaseController
                 ];
             }
         }
+
+        // dd($multipartData);
 
         try {
             // Buat klien Guzzle
@@ -648,7 +677,9 @@ class PelayananDukcapil extends BaseController
 
             $data = json_decode($status, true);
             if ($data['status'] == 'success') {
+                session()->setFlashdata('message', 'Berhasil disimpan');
                 return redirect()->route('admin/progres-pelayanan');
+                
                 return $this->respond([
                     'status' => 'success',
                     'message' => 'Data berhasil disimpan.',
