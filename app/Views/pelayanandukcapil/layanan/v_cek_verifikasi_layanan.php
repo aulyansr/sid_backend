@@ -51,39 +51,43 @@
                         </div>
                         <!-- Input teks -->
                         <div class="mt-2">
-                            <input type="text" class="form-control" id="input-keterangan-" name="vrf[<?= $key;?>][ket]" placeholder="Masukkan keterangan">
+                            <input type="text" class="form-control" id="input-keterangan-" value="<?= $value['KET'];?>" name="vrf[<?= $key;?>][ket]" placeholder="Masukkan keterangan">
                             <input name="NO_PEND"  class="no_pend form-control input-sm " type="hidden" value="<?= $value['NO_PEND'];?>" placeholder="Keterangan">
                             <input name="vrf[<?= $key;?>][no_urut]"  class="no_urut form-control input-sm " type="hidden" value="<?= $value['NO'];?>" placeholder="Keterangan">
                             <input name="vrf[<?= $key;?>][no_hp]"  class="no_hp form-control input-sm " type="hidden" value="<?= $dtGetVerifMaster['CONTACT_PEMOHON'];?>" placeholder="hp">
                         </div>
                     </div>
                 <?php endforeach; ?>
-
+                    <div class="mb-3">
+                    <label class="medium mb-1 font-weight-bold text-primary" for="exampleFormControlInput1">TGL RENCANA PENGAMBILAN</label>
+                    <!-- <input class="form-control" id="exampleFormControlInput1" id="datepicker" type="date" placeholder="TGL RENCANA PENGAMBILAN"> -->
+                        <input type="text" class="form-control" id="datepicker" name="TGL_RENCANA_PENGAMBILAN" value="<?= $dtGetVerifMaster['TGL_PENGAMBILAN'];?>" required placeholder="Pilih tanggal">
+                    </div>
                     <div class="mb-3">
                         <label class="medium mb-1 font-weight-bold text-primary" for="exampleFormControlInput1">Lokasi Pengambilan di: <?= $dtGetVerifMaster['NAMA_LOKASI'];?></label>
                         <select class="form-control" id="LOKASI_PENGAMBILAN" name="LOKASI_PENGAMBILAN">
-                            <option value=''>Ubah Lokasi Pengambilan</option>
-                            <option value='00' <?= $LOKASI_PENGAMBILAN == '00' ? 'selected' : '' ?>>Mall Pelayanan Publik</option>
-                            <option value='19' <?= $LOKASI_PENGAMBILAN == '19' ? 'selected' : '' ?>>Dinas Dukcapil Gunungkidul</option>
-                            <option value='20' <?= $LOKASI_PENGAMBILAN == '20' ? 'selected' : '' ?>>Anjungan Dukcapil Mandiri</option>
-                            <option value='1' <?= $LOKASI_PENGAMBILAN == '1' ? 'selected' : '' ?>>Kapanewon Wonosari</option>
-                            <option value='2' <?= $LOKASI_PENGAMBILAN == '2' ? 'selected' : '' ?>>Kapanewon Nglipar</option>
-                            <option value='3' <?= $LOKASI_PENGAMBILAN == '3' ? 'selected' : '' ?>>Kapanewon Playen</option>
-                            <option value='4' <?= $LOKASI_PENGAMBILAN == '4' ? 'selected' : '' ?>>Kapanewon Patuk</option>
-                            <option value='5' <?= $LOKASI_PENGAMBILAN == '5' ? 'selected' : '' ?>>Kapanewon Paliyan</option>
-                            <option value='6' <?= $LOKASI_PENGAMBILAN == '6' ? 'selected' : '' ?>>Kapanewon Panggang</option>
-                            <option value='7' <?= $LOKASI_PENGAMBILAN == '7' ? 'selected' : '' ?>>Kapanewon Tepus</option>
-                            <option value='8' <?= $LOKASI_PENGAMBILAN == '8' ? 'selected' : '' ?>>Kapanewon Semanu</option>
-                            <option value='9' <?= $LOKASI_PENGAMBILAN == '9' ? 'selected' : '' ?>>Kapanewon Karangmojo</option>
-                            <option value='10' <?= $LOKASI_PENGAMBILAN == '10' ? 'selected' : '' ?>>Kapanewon Ponjong</option>
-                            <option value='11' <?= $LOKASI_PENGAMBILAN == '11' ? 'selected' : '' ?>>Kapanewon Rongkop</option>
-                            <option value='12' <?= $LOKASI_PENGAMBILAN == '12' ? 'selected' : '' ?>>Kapanewon Semin</option>
-                            <option value='13' <?= $LOKASI_PENGAMBILAN == '13' ? 'selected' : '' ?>>Kapanewon Ngawen</option>
-                            <option value='14' <?= $LOKASI_PENGAMBILAN == '14' ? 'selected' : '' ?>>Kapanewon Gedangsari</option>
-                            <option value='15' <?= $LOKASI_PENGAMBILAN == '15' ? 'selected' : '' ?>>Kapanewon Saptosari</option>
-                            <option value='16' <?= $LOKASI_PENGAMBILAN == '16' ? 'selected' : '' ?>>Kapanewon Girisubo</option>
-                            <option value='17' <?= $LOKASI_PENGAMBILAN == '17' ? 'selected' : '' ?>>Kapanewon Tanjungsari</option>
-                            <option value='18' <?= $LOKASI_PENGAMBILAN == '18' ? 'selected' : '' ?>>Kapanewon Purwosari</option>
+                            <option value='<?= $dtGetVerifMaster['KD_PENGAMBILAN'];?>'>Ubah Lokasi Pengambilan</option>
+                            <option value='00' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '00' ? 'selected' : '' ?>>Mall Pelayanan Publik</option>
+                            <option value='19' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '19' ? 'selected' : '' ?>>Dinas Dukcapil Gunungkidul</option>
+                            <option value='20' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '20' ? 'selected' : '' ?>>Anjungan Dukcapil Mandiri</option>
+                            <option value='1' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '1' ? 'selected' : '' ?>>Kapanewon Wonosari</option>
+                            <option value='2' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '2' ? 'selected' : '' ?>>Kapanewon Nglipar</option>
+                            <option value='3' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '3' ? 'selected' : '' ?>>Kapanewon Playen</option>
+                            <option value='4' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '4' ? 'selected' : '' ?>>Kapanewon Patuk</option>
+                            <option value='5' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '5' ? 'selected' : '' ?>>Kapanewon Paliyan</option>
+                            <option value='6' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '6' ? 'selected' : '' ?>>Kapanewon Panggang</option>
+                            <option value='7' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '7' ? 'selected' : '' ?>>Kapanewon Tepus</option>
+                            <option value='8' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '8' ? 'selected' : '' ?>>Kapanewon Semanu</option>
+                            <option value='9' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '9' ? 'selected' : '' ?>>Kapanewon Karangmojo</option>
+                            <option value='10' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '10' ? 'selected' : '' ?>>Kapanewon Ponjong</option>
+                            <option value='11' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '11' ? 'selected' : '' ?>>Kapanewon Rongkop</option>
+                            <option value='12' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '12' ? 'selected' : '' ?>>Kapanewon Semin</option>
+                            <option value='13' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '13' ? 'selected' : '' ?>>Kapanewon Ngawen</option>
+                            <option value='14' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '14' ? 'selected' : '' ?>>Kapanewon Gedangsari</option>
+                            <option value='15' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '15' ? 'selected' : '' ?>>Kapanewon Saptosari</option>
+                            <option value='16' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '16' ? 'selected' : '' ?>>Kapanewon Girisubo</option>
+                            <option value='17' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '17' ? 'selected' : '' ?>>Kapanewon Tanjungsari</option>
+                            <option value='18' <?= $dtGetVerifMaster['KD_PENGAMBILAN'] == '18' ? 'selected' : '' ?>>Kapanewon Purwosari</option>
                         </select>
                     </div>
 
@@ -91,12 +95,13 @@
                     <div class="mb-3">
                         <div class="mb-3">
                             <div class="d-flex align-items-center justify-content-between">
-                                <label class="small mb-1" for="fileUpload1">UPLOAD PERSYARATAN</label>
+                                <label class="medium mb-1 font-weight-bold text-primary" for="fileUpload1">UPLOAD PERSYARATAN</label>
 
                                 <?php 
-                                    if (isset($dtGetVerifMaster['FILE_URL']) && !empty($dtGetVerifMaster['FILE_URL'])) {
+                                    $fileurlsatu = str_replace("/", "-", $dtGetVerifMaster['FILE_URL']);
+                                    if (isset($fileurlsatu) && !empty($fileurlsatu)) {
                                        echo anchor_popup(
-                                            site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL'])), // URL preview
+                                            site_url('admin/preview/' . urlencode($fileurlsatu)), // URL preview
                                             '<i class="fa fa-eye"></i> preview 1',                    // Teks atau konten anchor
                                             [
                                                 'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
@@ -111,9 +116,9 @@
                                     }?>
                                 
                             </div>
-                            <div class="mt-2">
+                            <!-- <div class="mt-2">
                                 <input type="file" id="fileUpload1" name="fileUpload1" class="form-control" placeholder="file upload" aria-label="file upload" accept=".pdf" onchange="previewFile(event, 'previewContainer1', 'fileName1')">
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Preview Container -->
                         <div id="previewContainer1" class="preview-container" style="display: none;">
@@ -125,11 +130,12 @@
                     <div class="mb-3">
                         <div class="mb-3">
                             <div class="d-flex align-items-center justify-content-between">
-                                <label class="small mb-1" for="fileUpload2">UPLOAD PERSYARATAN TAMBAHAN</label>
+                                <label class="medium mb-1 font-weight-bold text-primary" for="fileUpload2">UPLOAD PERSYARATAN TAMBAHAN</label>
                                 <?php 
-                                    if (isset($dtGetVerifMaster['FILE_URL']) && !empty($dtGetVerifMaster['FILE_URL2'])) {
+                                    $fileurldua = str_replace("/", "-", $dtGetVerifMaster['FILE_URL2']);
+                                    if (isset($fileurldua) && !empty($fileurldua)) {
                                        echo anchor_popup(
-                                            site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL2'])), // URL preview
+                                            site_url('admin/preview/' . urlencode($fileurldua)), // URL preview
                                             '<i class="fa fa-eye"></i> preview 2',                                       // Teks atau konten anchor
                                             [
                                                 'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
@@ -143,9 +149,9 @@
                                         echo "2. N/a";
                                     }?>
                             </div>
-                            <div class="mt-2">
+                            <!-- <div class="mt-2">
                                 <input type="file" id="fileUpload2" name="fileUpload2" class="form-control" placeholder="file upload" aria-label="file upload" accept=".pdf" onchange="previewFile(event, 'previewContainer2', 'fileName2')">
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Preview Container -->
                         <div id="previewContainer2" class="preview-container" style="display: none;">
@@ -156,7 +162,7 @@
 
                     <div class="mb-3">
                         <label class="small mb-1" for="exampleFormControlInput1">CATATAN</label>
-                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN"><?= isset($CATATAN) ? $CATATAN : '' ?></textarea>
+                        <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN"><?= isset($CATATAN) ? $CATATAN : '' ?><?= $dtGetVerifMaster['CATATAN'];?></textarea>
                         <!-- <input type="text" class="form-control" placeholder="catatan"  aria-label="text" aria-describedby="basic-addon2"> -->
                     </div>
 

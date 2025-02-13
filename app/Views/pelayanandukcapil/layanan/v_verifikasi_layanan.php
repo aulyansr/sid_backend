@@ -50,11 +50,16 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+                    <div class="mb-3">
+                        <label class="medium mb-1 font-weight-bold text-primary" for="exampleFormControlInput1">TGL RENCANA PENGAMBILAN : <?= $dtGetVerifMaster['TGL_PENGAMBILAN'];?></label>
+                        <!-- <input class="form-control" id="exampleFormControlInput1" id="datepicker" type="date" placeholder="TGL RENCANA PENGAMBILAN"> -->
+                        <input type="text" class="form-control" id="datepicker" name="TGL_RENCANA_PENGAMBILAN" required placeholder="Pilih tanggal" require>
+                    </div>
 
                     <div class="mb-3">
                         <label class="medium mb-1 font-weight-bold text-primary" for="exampleFormControlInput1">Lokasi Pengambilan di: <?= $dtGetVerifMaster['NAMA_LOKASI'];?></label>
                         <select class="form-control" id="LOKASI_PENGAMBILAN" name="LOKASI_PENGAMBILAN">
-                            <option value=''>Ubah Lokasi Pengambilan</option>
+                            <option value='<?= $dtGetVerifMaster['KD_LOKASI'];?>'>Ubah Lokasi Pengambilan</option>
                             <option value='00' <?= $LOKASI_PENGAMBILAN == '00' ? 'selected' : '' ?>>Mall Pelayanan Publik</option>
                             <option value='19' <?= $LOKASI_PENGAMBILAN == '19' ? 'selected' : '' ?>>Dinas Dukcapil Gunungkidul</option>
                             <option value='20' <?= $LOKASI_PENGAMBILAN == '20' ? 'selected' : '' ?>>Anjungan Dukcapil Mandiri</option>
@@ -83,11 +88,12 @@
                     <div class="mb-3">
                         <div class="mb-3">
                             <div class="d-flex align-items-center justify-content-between">
-                                <label class="small mb-1" for="fileUpload1">UPLOAD PERSYARATAN</label>
+                                <label class="medium mb-1 font-weight-bold text-primary" for="fileUpload1">UPLOAD PERSYARATAN</label>
                                 <?php 
-                                    if (isset($dtGetVerifMaster['FILE_URL']) && !empty($dtGetVerifMaster['FILE_URL'])) {
+                                    $fileurlsatu = str_replace("/", "-", $dtGetVerifMaster['FILE_URL']);
+                                    if (isset($fileurlsatu) && !empty($fileurlsatu)) {
                                        echo anchor_popup(
-                                            site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL'])), // URL preview
+                                            site_url('admin/preview/' . urlencode($fileurlsatu)), // URL preview
                                             '<i class="fa fa-eye"></i> preview 1',                    // Teks atau konten anchor
                                             [
                                                 'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
@@ -102,9 +108,9 @@
                                     }?>
 
                             </div>
-                            <div class="mt-2">
+                            <!-- <div class="mt-2">
                                 <input type="file" id="fileUpload1" name="fileUpload1" class="form-control" placeholder="file upload" aria-label="file upload" accept=".pdf" onchange="previewFile(event, 'previewContainer1', 'fileName1')">
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Preview Container -->
                         <div id="previewContainer1" class="preview-container" style="display: none;">
@@ -116,11 +122,12 @@
                     <div class="mb-3">
                         <div class="mb-3">
                             <div class="d-flex align-items-center justify-content-between">
-                                <label class="small mb-1" for="fileUpload2">UPLOAD PERSYARATAN TAMBAHAN</label>
+                                <label class="medium mb-1 font-weight-bold text-primary" for="fileUpload2">UPLOAD PERSYARATAN TAMBAHAN</label>
                                 <?php 
-                                    if (isset($dtGetVerifMaster['FILE_URL']) && !empty($dtGetVerifMaster['FILE_URL2'])) {
+                                    $fileurldua = str_replace("/", "-", $dtGetVerifMaster['FILE_URL2']);
+                                    if (isset($fileurldua) && !empty($fileurldua)) {
                                        echo anchor_popup(
-                                            site_url('admin/preview/' . urlencode($dtGetVerifMaster['FILE_URL2'])), // URL preview
+                                            site_url('admin/preview/' . urlencode($fileurldua)), // URL preview
                                             '<i class="fa fa-eye"></i> preview 2',                                       // Teks atau konten anchor
                                             [
                                                 'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
@@ -134,9 +141,9 @@
                                         echo "2. N/a";
                                     }?>
                             </div>
-                            <div class="mt-2">
+                            <!-- <div class="mt-2">
                                 <input type="file" id="fileUpload2" name="fileUpload2" class="form-control" placeholder="file upload" aria-label="file upload" accept=".pdf" onchange="previewFile(event, 'previewContainer2', 'fileName2')">
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Preview Container -->
                         <div id="previewContainer2" class="preview-container" style="display: none;">
@@ -146,7 +153,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="small mb-1" for="exampleFormControlInput1">CATATAN</label>
+                        <label class="medium mb-1 font-weight-bold text-primary" for="exampleFormControlInput1">CATATAN</label>
                         <textarea class="form-control" id="CATATAN" name="CATATAN" placeholder="CATATAN"><?= isset($CATATAN) ? $CATATAN : '' ?></textarea>
                         <!-- <input type="text" class="form-control" placeholder="catatan"  aria-label="text" aria-describedby="basic-addon2"> -->
                     </div>

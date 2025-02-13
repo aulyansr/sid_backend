@@ -31,8 +31,8 @@
 
                     <div class="mb-3">
                         <label class="small mb-1" for="NIK">NIK</label>
-                        <input type="text" class="form-control hanyaangka" data-maxlength="16" data-minlength="16" name="NIK" placeholder="NIK" value="<?= isset($NIK) ? $NIK : '' ?>" required aria-label="NIK" aria-describedby="basic-addon2">
-                        <div id="nikCounter" style="color: black;">0/16</div>
+                        <input type="text" class="form-control hanyaangka" id="NIK" data-maxlength="16" data-minlength="16" name="NIK" placeholder="NIK" value="<?= isset($NIK) ? $NIK : '' ?>" required aria-label="NIK" aria-describedby="basic-addon2">
+                        <div id="NIKCounter" style="color: black;">0/16</div>
                         <!-- <div class="input-group-append">
                             <button id="getBio" class="btn btn-success" type="button"> Cari..</button>
                         </div> -->
@@ -87,69 +87,61 @@
 <script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/jquery.dataTables.min.js"></script>
 <script src="/assets/js/admin/vendors/datatables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js"></script>
 
-<!-- Page level custom scripts -->
-<!-- <script src="/assets/js/admin/demo/datatables-pengguna.js"></script> -->
-
 <script>
-    // Define the JavaScript variable with the URL from PHP
-    var newkategorid = '/admin/kategori/new';
-
-    $(document).ready(function() {
-        validasiFormNik();
-        eventNik();
-    });
-
-
-    function validasiFormNik() {
-        var nik = $('.hanyaangka').val();
-        // alert(nik);
-        $('#nikCounter').text(nik.length + '/16');
-        $('#errorNIK').hide();
-        if (nik.length < 16) {
-            $('#errorNIK').text('NIK harus terdiri dari 16 angka.').show();
-            $('#submitBtn').prop('disabled', true);
-            return false;
-        } else if (nik.length === 16 && /^[0-9]+$/.test(nik)) {
-            $('#submitBtn').prop('disabled', false);
-            return true;
-        } else {
-            $('#errorNIK').text('NIK hanya boleh berisi angka.').show();
-            $('#submitBtn').prop('disabled', true);
-            return false;
-        }
-    }
-
-    $('#submitsatu').on('click', function () {
-        if (!/^\d{16}$/.test(NIK)) {
-                alert('NIK harus berupa angka dan memiliki tepat 16 karakter!');
-                return; // Hentikan proses jika tidak valid
+    $(document).ready(function () {
+        $('#submitsatu').prop('disabled', true); // Disable button awalnya
+        
+        // VALIDASI NIK HANYA BOLEH 16 KARAKTER
+        $('#NIK').on('input', function () {
+            let noValue = $(this).val();
+            
+            // Hanya angka diperbolehkan
+            let cleanedValue = noValue.replace(/\D/g, ''); 
+            // Batasi maksimal 10 angka
+            if (cleanedValue.length > 16) {
+                cleanedValue = cleanedValue.substring(0, 16);
             }
-    });
-
-    function eventNik() {
-        // $('.hanyaangka').on('input', function() {
-        //     var nik = $(this).val();
-        //     if (nik.length > 16 && nik.length < 16) {
-        //         $(this).val(nik.substring(0, 16));
-        //     }
-        //     validasiFormNik();
-        // });
-        $('.hanyaangka').on('input', function () {
-            var nik = $(this).val();
-
-            // Hapus karakter non-angka
-            nik = nik.replace(/\D/g, '');
-
-            // Batasi panjang maksimal 16 karakter
-            if (nik.length > 16) {
-                nik = nik.substring(0, 16);
+            $(this).val(cleanedValue);
+            
+            // Hitung panjang karakter
+            let length = cleanedValue.length;
+            $('#NIKCounter').text(length + "/16");
+            
+            // Validasi panjang 10 digit
+            if (length === 16) {
+                $('#errorNIK').text('');
+                $('#submitsatu').prop('disabled', false);
+            } else {
+                $('#errorNIK').text('NIK harus berisi 16 angka.');
+                $('#submitsatu').prop('disabled', true);
             }
-
-            $(this).val(nik); // Set nilai input
-
-            validasiFormNik(); // Panggil fungsi validasi
         });
 
-    }
+        // VALIDASI NO HP MAKSIMAL 20 KARAKTER
+        $('#NO_HP').on('input', function () {
+            let noValue = $(this).val();
+            
+            // Hanya angka diperbolehkan
+            let cleanedValue = noValue.replace(/\D/g, ''); 
+            // Batasi maksimal 10 angka
+            if (cleanedValue.length > 20) {
+                cleanedValue = cleanedValue.substring(0, 20);
+            }
+            $(this).val(cleanedValue);
+            
+            // Hitung panjang karakter
+            // let length = cleanedValue.length;
+            // $('#NIKCounter').text(length + "/16");
+            
+            // Validasi panjang 10 digit
+            // if (length === ) {
+            //     $('#errorNIK').text('');
+            //     $('#submitsatu').prop('disabled', false);
+            // } else {
+            //     $('#errorNIK').text('NIK harus berisi 16 angka.');
+            //     $('#submitsatu').prop('disabled', true);
+            // }
+        });
+    });
 </script>
 <?= $this->endSection(); ?>
