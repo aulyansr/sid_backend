@@ -39,9 +39,12 @@
                                 <td><?= $key['PROSES_BY']; ?></td>
                                 <td><?= $key['STATUS']; ?></td>
                                 <td>
-                                    <?php if (isset($key['FILE_URL']) && !empty($key['FILE_URL'])) {
+                                    
+                                    <?php 
+                                    $fileurlsatu = str_replace("/", "-", $key['FILE_URL']);
+                                    if (isset($fileurlsatu) && !empty($fileurlsatu)) {
                                        echo anchor_popup(
-                                            site_url('admin/preview/' . urlencode($key['FILE_URL'])), // URL preview
+                                            site_url('admin/preview/' . urlencode($fileurlsatu)), // URL preview
                                             '<i class="fa fa-file"></i> file 1',                    // Teks atau konten anchor
                                             [
                                                 'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
@@ -55,9 +58,11 @@
                                         echo "1. N/a";
                                     }?>
                                     
-                                    <?php if (!empty($key['FILE_URL2'])) {
+                                    <?php 
+                                    $fileurldua = str_replace("/", "-", $key['FILE_URL2']);
+                                    if (isset($fileurldua) && !empty($fileurldua)) {
                                         echo anchor_popup(
-                                            site_url('admin/preview/' . urlencode($key['FILE_URL2'])), // URL preview
+                                            site_url('admin/preview/' . urlencode($fileurldua)), // URL preview
                                             '<i class="fa fa-file"></i> file 2',                    // Teks atau konten anchor
                                             [
                                                 'class' => 'btn btn-sm btn-primary',                    // Tambahkan kelas CSS
