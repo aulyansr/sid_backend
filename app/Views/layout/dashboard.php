@@ -95,6 +95,7 @@ $desa = $desa->find(1);
                     <a class="nav-link" href="/admin/verifikasi-data-pemohon">
                         <i class="fas fa-fw fa-users"></i>
                         <span>Verifikasi Data</span>
+                        <span>Layanan kependudukan</span>
                     </a>
                 </li>
             <?php endif; ?>
@@ -109,7 +110,7 @@ $desa = $desa->find(1);
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/admin/layanandukcapil/new">
+                <a class="nav-link" href="<?php echo getAdminUrl('program');  ?>">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>Program Bantuan</span></a>
             </li>
@@ -371,18 +372,15 @@ $desa = $desa->find(1);
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/admin/users/edit/<?= isset(auth()->user()->id) ? esc(auth()->user()->id) : '-' ?>">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/admin/users/edit/<?= isset(auth()->user()->id) ? esc(auth()->user()->id) : '-' ?>">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Pengaturan Akun
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Riwayat Aktifitasdl
-                                </a>
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
