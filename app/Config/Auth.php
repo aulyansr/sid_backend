@@ -455,6 +455,7 @@ class Auth extends ShieldAuth
                     $session->set('desa_permalink_admin', $permalink);
                     $session->set('nama_villages', $desa['nama_desa']);
                     $session->set('desa_id', $desa['id']);
+                    $session->set('desa_kode', $desa['kode_desa']);
 
                     // Redirect to /{permalink}/dashboard
                     return "/{$permalink}/admin/dashboard";
