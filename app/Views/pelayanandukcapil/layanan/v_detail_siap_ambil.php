@@ -58,7 +58,30 @@
                                         <td><?= $value['NAMA_TERMOHON'];?></td>
                                         <td><?= $value['JENIS_DOC'];?></td>
                                         <!-- <td><?= $value['NO_DOC'];?></td> -->
-                                        <td><?= $value['STATUS'];?></td>
+                                        <td>
+                                            <?php
+                                            if ($value['STATUS'] == '-4') {
+                                                echo "DIKEMBALIKAN";
+                                            }elseif ($value['STATUS'] == '-3'){
+                                                echo "TOLAK";
+                                            }elseif ($value['STATUS'] == '-2'){
+                                                echo "PROSES DITOLAK";
+                                            }elseif ($value['STATUS'] == '-1'){
+                                                echo "VERIFIKASI DITOLAK";
+                                            }elseif ($value['STATUS'] == 0){
+                                                echo "BELUM VERIFIKASI";
+                                            }elseif ($value['STATUS'] == 1){
+                                                echo "SUDAH VERIFIKASI";
+                                            }elseif ($value['STATUS'] == 2){
+                                                echo "SUDAH DIPROSES";
+                                            }elseif ($value['STATUS'] == 3){
+                                                echo "SIAP AMBIL";
+                                            }elseif ($value['STATUS'] == 4){
+                                                echo "DIAMBIL";
+                                            }else {
+                                                echo "-";
+                                            };?>
+                                        </td>
                                         <td><?= $value['KET_AMBIL'];?></td>
 
 
