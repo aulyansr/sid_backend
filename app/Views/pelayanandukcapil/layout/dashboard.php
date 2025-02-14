@@ -40,11 +40,15 @@
             background-color: #f8f9fa;
         }
 
-        .breadcrumb-item.active > a {
-            color: black; /* Warna teks */
-            font-weight: bold; /* Tebal */
-            pointer-events: none; /* Nonaktifkan klik */
-            text-decoration: none; /* Hilangkan garis bawah */
+        .breadcrumb-item.active>a {
+            color: black;
+            /* Warna teks */
+            font-weight: bold;
+            /* Tebal */
+            pointer-events: none;
+            /* Nonaktifkan klik */
+            text-decoration: none;
+            /* Hilangkan garis bawah */
         }
     </style>
 
@@ -281,52 +285,52 @@ $desa = $desa->find(1);
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <!-- <span class = "badge badge-danger badge-counter">3+</span> -->
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Notifikasi
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-exclamation text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">2 November 2023 13:14</div>
-                                        Akses anda telah dipulihkan. Hubungi admin jika terdapat kendala
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">2 November 2023 13:14</div>
-                                        Perhatian! Mohon update password anda karena ada akses mencurigakan
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-exclamation text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">2 November 2023 13:14</div>
-                                        Template surat baru telah dirilis
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Lihat semua</a>
+                                <!-- <a class = "dropdown-item d-flex align-items-center" href = "#">
+            <div class    = "mr-3">
+            <div class    = "icon-circle bg-success">
+            <i   class    = "fas fa-exclamation text-white"></i>
+                </div>
+            </div>
+            <div>
+                <div class = "small text-gray-500">2 November 2023 13:14</div>
+                Akses anda telah dipulihkan. Hubungi admin jika terdapat kendala
+            </div>
+        </a>
+        <a   class = "dropdown-item d-flex align-items-center" href = "#">
+        <div class = "mr-3">
+        <div class = "icon-circle bg-warning">
+        <i   class = "fas fa-exclamation text-white"></i>
+                </div>
+            </div>
+            <div>
+                <div class = "small text-gray-500">2 November 2023 13:14</div>
+                Perhatian! Mohon update password anda karena ada akses mencurigakan
+            </div>
+        </a>
+        <a   class = "dropdown-item d-flex align-items-center" href = "#">
+        <div class = "mr-3">
+        <div class = "icon-circle bg-success">
+        <i   class = "fas fa-exclamation text-white"></i>
+                </div>
+            </div>
+            <div>
+                <div class = "small text-gray-500">2 November 2023 13:14</div>
+                Template surat baru telah dirilis
+            </div>
+        </a>
+        <a class = "dropdown-item text-center small text-gray-500" href = "#">Lihat semua</a> -->
                             </div>
                         </li>
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                        <li class="nav-item dropdown no-arrow mx-1 d-none">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
@@ -391,18 +395,15 @@ $desa = $desa->find(1);
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/admin/users/edit/<?= isset(auth()->user()->id) ? esc(auth()->user()->id) : '-' ?>">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/admin/users/edit/<?= isset(auth()->user()->id) ? esc(auth()->user()->id) : '-' ?>">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Pengaturan Akun
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Riwayat Aktifitas
-                                </a>
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -485,44 +486,44 @@ $desa = $desa->find(1);
         </div>
     </div>
     <!-- Modal -->
-     <!--star modal detail ambil -->
-     <div class="modal fade" id="showDetailSiapAmbil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!--star modal detail ambil -->
+    <div class="modal fade" id="showDetailSiapAmbil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="showDetailSiapAmbilLabel">Form pelayanan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>NO</th>
-                            <th>Tanggal Siap Ambil</th>
-                        </tr>
-                    </thead>
-                    <tbody id="data-detail-siap-ambil">
-                        <!-- Data akan ditambahkan di sini -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showDetailSiapAmbilLabel">Form pelayanan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NO</th>
+                                <th>Tanggal Siap Ambil</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-detail-siap-ambil">
+                            <!-- Data akan ditambahkan di sini -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
             </div>
         </div>
     </div>
-     <!--end modal detail ambil -->
+    <!--end modal detail ambil -->
     <!-- filter custom js peldukcapil-->
-      
+
     <!-- Bootstrap core JavaScript-->
     <!-- <script src="/assets/js/admin/vendors/jquery/jquery.min.js"></script> -->
     <!-- <script src="/assets/js/admin/vendors/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-     <!-- Memuat Bootstrap JS -->
+    <!-- Memuat Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -541,8 +542,8 @@ $desa = $desa->find(1);
     <!-- Sertakan pustaka jQuery dan jQuery UI -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="/assets/js/peldukcapil/filter.js"></script>   
-     
+    <script src="/assets/js/peldukcapil/filter.js"></script>
+
 
     <?php $this->renderSection('script'); ?>
 
