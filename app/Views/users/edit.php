@@ -82,22 +82,34 @@
                             <label class="small mb-1" for="inputGroup">User Group</label>
                             <br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <?php foreach ($groups as $key => $group) : ?>
-                                    <label class="btn btn-sm btn-outline-primary">
-                                        <input type="radio" name="group" value="<?= esc($key); ?>" id="group_<?= esc($key); ?>" <?= (old('group', $user->getGroups()[0]) == $key) ? 'checked' : ''; ?>> <?= esc($group['title']); ?>
-                                    </label>
+                                <?php foreach ($groups as $key => $group): ?>
+                                    <?php if ($key !== 'superadmin') :     // Sembunyikan superadmin 
+                                    ?>
+                                        <label class="btn btn-sm btn-outline-primary">
+                                            <input type="radio" name="group" value="<?= esc($key); ?>" id="group_<?= esc($key); ?>">
+                                            <?php
+                                            // Ubah label sesuai dengan kondisi
+                                            if ($key === 'op_desa') {
+                                                echo 'operator_web';
+                                            } elseif ($key === 'op_kabupaten') {
+                                                echo 'operator_layanan';
+                                            } else {
+                                                echo esc($group['title']);
+                                            }
+                                            ?>
+                                        </label>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
-
                             </div>
+
+
+                            <!-- Submit button -->
+                            <button class="btn btn-primary" type="submit">Update Pengguna</button>
+
                         </div>
-
-                        <!-- Submit button -->
-                        <button class="btn btn-primary" type="submit">Update Pengguna</button>
-
                     </div>
                 </div>
             </div>
-        </div>
     </form>
 </div>
 <?= $this->endSection(); ?>
