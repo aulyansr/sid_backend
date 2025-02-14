@@ -35,7 +35,11 @@
                                 <td><?= $key['TGL_PEND']; ?></td>
                                 <!-- <td><?= $key['CREATED_BY']; ?></td> -->
                                 <td><?= $key['PROSES_BY']; ?></td>
-                                <td><?= $key['FLAG_STATUS']; ?></td>
+                                <td><?php
+                                    if ($key['FLAG_STATUS'] == 3) {
+                                       echo "SIAP AMBIL";
+                                    } ; 
+                                    ?></td>
                                 <td>
                                     <a href="<?= site_url('admin/detail-siap-ambil/'.$NOPEND);?>" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i> detail</a>
                                     <!-- <a href="javascript:void(0)" id="detail-siap-ambil" data-url="<?= site_url("admin/detail-siap-ambil/".$NOPEND);?>" class="btn btn-sm btn-primary" title="Detail"><i class="fa fa-eye"></i> detail</a> -->
