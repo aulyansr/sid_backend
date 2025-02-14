@@ -21,7 +21,16 @@ class UserController extends BaseController
 
     public function index()
     {
-        $data['users'] = $this->userModel->findAll();
+        $currentUser = auth()->user();
+
+        if ($currentUser->inGroup('superadmin')) {
+            $data['users'] = $this->userModel->findAll();
+        } else {
+            $data['users'] = $this->userModel
+                ->where('users.desa_id', $currentUser->desa_id)
+                ->findAll();
+        }
+
         return view('users/index', $data);
     }
 
