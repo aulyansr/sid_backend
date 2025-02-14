@@ -65,6 +65,693 @@
                         </div>
 
 
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN BEPERGIAN / JALAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">05</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN PENGHASILAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">06</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR IZIN KERAMAIAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">07</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN DOMISILI USAHA</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">08</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN KEHILANGAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">09</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR AKTA KELAHIRAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN KELAHIRAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">11</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN BELUM MASUK DATABASE KEPENDUDUKAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KUASA AKTA KEMATIAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">13</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN KEMATIAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">14</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR AKTA KEMATIAN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR KIA</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">16</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN PENGANTAR JASARAHARJA</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">17</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PERNYATAAN AGAMA</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    SKTM UNTUK SEKOLAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">19</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    SKTM REKOMENDASI JAMKESOS DIY</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    SKTM</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    REKOMENDASI KEPESERTAAN JKN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">22</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN BELUM NIKAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PERNYATAAN JEJAKA</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">26</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    IZIN ORANGTUA</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">27</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN KEMATIAN SUAMI/ISTRI</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">28</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN NUMPANG NIKAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">29</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PERMOHONAN NIKAH DI LUAR BALAI NIKAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">30</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PERMOHONAN DISPENSASI NIKAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">31</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN WALI NIKAH V.1</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">32</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN WALI NIKAH V.2</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">33</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN WALI HAKIM V.1</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">34</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN IMUNISASI CATEN</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">35</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR PERMOHONAN KUTIPAN II SURAT NIKAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">36</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PERMOHONAN CERAI</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">37</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    KETERANGAN BELUM AKTA NIKAH</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">38</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PERNYATAAN KEBENARAN PASURTI</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">39</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    REKOMENDASI KEPESERTAAN DTKS</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR NIKAH PRIA (N1, N2, N4) 473</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">51</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-2 col-md-4 mb-4">
+                            <a href="#">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    PENGANTAR NIKAH WANITA (N1, N2, N4) 473</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">52</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="far fa-file-pdf fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="card-surat-keluar" role="tabpanel" aria-labelledby="card-surat-keluar-tab">
