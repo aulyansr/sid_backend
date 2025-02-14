@@ -81,8 +81,7 @@ $desa = $desa->find(1);
             </div>
 
             <!-- Nav Item - Tables -->
-
-            <?php if (auth()->user()->can('kelurahan.access')) : ?>
+            <?php if (auth()->user()->can('kelurahan.access') ||  (auth()->user()->inGroup('superadmin') || auth()->user()->inGroup('admin'))) : ?>
 
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo getAdminUrl('penduduk');  ?>">
@@ -150,7 +149,7 @@ $desa = $desa->find(1);
 
             <!-- Nav Item - Tables -->
 
-            <?php if (auth()->user()->inGroup('superadmin')) : ?>
+            <?php if (auth()->user()->inGroup('superadmin') || auth()->user()->inGroup('admin')) : ?>
                 <div class="sidebar-heading">
                     Setting
                 </div>
@@ -165,7 +164,9 @@ $desa = $desa->find(1);
 
                 <!-- Nav Item - Tables -->
 
+            <?php endif; ?>
 
+            <?php if (auth()->user()->inGroup('superadmin')) : ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/desa">
                         <i class="fas fa-cogs fa-sm fa-fw"></i>

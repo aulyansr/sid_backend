@@ -130,6 +130,15 @@ class AuthGroups extends ShieldAuthGroups
             'kelurahan.access.*'
         ],
 
+        'admin' => [
+            'articles.*',
+            'galleries.*',
+            'menus.*',
+            'config.*',
+            'users.*',
+            'kelurahan.access.*'
+        ],
+
 
     ];
 }
