@@ -102,14 +102,14 @@
                                 <?php endforeach; ?>
                             </div>
 
-
-                            <!-- Submit button -->
-                            <button class="btn btn-primary" type="submit">Update Pengguna</button>
-
                         </div>
+                        <!-- Submit button -->
+                        <button class="btn btn-primary" type="submit">Update Pengguna</button>
+
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 </div>
 <?= $this->endSection(); ?>
