@@ -288,4 +288,9 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('layanandukcapil/edit/(:segment)', 'PelayananDukcapil::edit/$1');
     $routes->post('layanandukcapil/update/(:segment)', 'PelayananDukcapil::update/$1');
     $routes->get('layanandukcapil/delete/(:segment)', 'PelayananDukcapil::delete/$1');
+
+    $routes->get('pemakaman', 'PelayananDukcapil::pemakaman');
+    $routes->get('pemakaman/add', 'PelayananDukcapil::add_pemakaman');
+    $routes->post('pemakaman/simpan', 'PelayananDukcapil::simpan_pemakaman');
+    $routes->get('pemakaman/cetak/(:any)', 'PelayananDukcapil::cetakpemakaman/$1');
 });
