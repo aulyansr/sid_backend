@@ -37,6 +37,7 @@ class UserController extends BaseController
     public function new()
     {
         $config = config('AuthGroups');
+        $data['list_desa'] = $this->desaModel->findAll();
         $data['groups'] = $config->groups;
         $data['desaList'] = $this->desaModel->findAll();
 
