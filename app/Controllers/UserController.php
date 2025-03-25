@@ -39,6 +39,7 @@ class UserController extends BaseController
         $config = config('AuthGroups');
         $data['groups'] = $config->groups;
         $data['desaList'] = $this->desaModel->findAll();
+        $data['list_desa'] = $this->desaModel->findAll();
 
         return view('users/new', $data);
     }

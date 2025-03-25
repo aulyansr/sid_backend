@@ -10,7 +10,7 @@ class MenuStaticSeeder extends Seeder
     public function run()
     {
         $desaModel = new DesaModel();
-        $desaList = $desaModel->findAll();
+        $desaList = $desaModel->where('id !=', 1)->findAll();
 
         // Path gambar default untuk artikel
         $defaultImagePath = 'public/uploads/default_image.png';

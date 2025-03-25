@@ -23,7 +23,10 @@
                             </tr>
                             <tr>
                                 <th>RT / RW</th>
-                                <td><?= esc($wilayah['rt']); ?> / <?= isset($rw) ? esc($rw['rw']) : 'RW tidak ditemukan'; ?></td>
+                                <td>
+    <?= isset($wilayah['rt']) ? esc($wilayah['rt']) : 'RT tidak ditemukan'; ?> / 
+    <?= isset($rw) ? esc($rw['rw']) : 'RW tidak ditemukan'; ?>
+</td>
                             </tr>
                             <tr>
                                 <th>Jenis Kelamin</th>

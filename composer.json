@@ -14,6 +14,8 @@
         "codeigniter4/framework": "^4.0",
         "codeigniter4/shield": "^1.1",
         "dompdf/dompdf": "^3.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "mpdf/mpdf": "^8.2",
         "phpoffice/phpword": "^1.2",
         "sawastacks/ci4-slugify": "^2.1",
         "tatter/relations": "^2.1"
