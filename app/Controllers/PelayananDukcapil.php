@@ -778,20 +778,20 @@ class PelayananDukcapil extends BaseController
     public function pemakaman()
     {
         //start ambil data getuser desa
-        // $id         = auth()->user()->desa_id;
-        // $dataDesa   = $this->desa->find($id);
-        // if (!empty($dataDesa)) {
-        //     $hasil = [
-        //         'kodeDesa' => $dataDesa['kode_desa'],
-        //         'namaDesa' => $dataDesa['nama_desa'], 
-        //     ];
-        // } else {
-        //     $hasil  = 'Data desa tidak ditemukan.';
-        // }
-        // $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
+        $id         = auth()->user()->desa_id;
+        $dataDesa   = $this->desa->find($id);
+        if (!empty($dataDesa)) {
+            $hasil = [
+                'kodeDesa' => $dataDesa['kode_desa'],
+                'namaDesa' => $dataDesa['nama_desa'], 
+            ];
+        } else {
+            $hasil  = 'Data desa tidak ditemukan.';
+        }
+        $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
         //end ambil data getuser desa
 
-        $dtPemakaman = "https://dev-smart.gunungkidulkab.go.id/api/getpemakaman";
+        $dtPemakaman = "https://dev-smart.gunungkidulkab.go.id/api/getpemakaman/$getUser";
         $client = \Config\Services::curlrequest();
 
         try {
