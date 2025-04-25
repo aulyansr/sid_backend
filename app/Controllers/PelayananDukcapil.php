@@ -45,47 +45,47 @@ class PelayananDukcapil extends BaseController
         //start ambil data getuser desa
         $id         = auth()->user()->desa_id;
         $dataDesa   = $this->desa->find($id);
-        
-        if ($id == null){
-            return $this->response->setJSON([
-                'status' => 400,
-                'message' => 'Akses ditolak',
-            ]);
-        }
 
-        if (!empty($dataDesa)) {
-            $hasil = [
-                'kodeDesa' => $dataDesa['kode_desa'],
-                'namaDesa' => $dataDesa['nama_desa'], 
-            ];
+        if ($id) {
+
+            if (!empty($dataDesa)) {
+                $hasil = [
+                    'kodeDesa' => $dataDesa['kode_desa'],
+                    'namaDesa' => $dataDesa['nama_desa'], 
+                ];
+            } else {
+                $hasil  = 'Data desa tidak ditemukan.';
+            }
+
+            $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
+            //end ambil data getuser desa
+
+            //start get data permohonan hari ini
+            $permohonanHariIni = "https://dev-smart.gunungkidulkab.go.id/api/permohonanhariini/$getUser";
+            $client = \Config\Services::curlrequest();
+
+            try {
+                $response = $client->get($permohonanHariIni);
+                $dataPermohonanHarIn = json_decode($response->getBody(), true);
+
+            } catch (\Exception $e) {
+                return $this->response->setJSON([
+                    'status' => 500,
+                    'message' => 'Error fetching data: ' . $e->getMessage(),
+                ]);
+            }
+            //end get data permohonan hari ini
+
+            $data['permHarIn']  = $dataPermohonanHarIn['data'] ?? [] ;
+            $data['kategoris']  = $this->kategori->findAll();
+            $data['activeTab']  = 'verifikasi-data';
+
+            return view('pelayanandukcapil/layanan/v_verifikasi_data', $data);
         } else {
-            $hasil  = 'Data desa tidak ditemukan.';
+    
+            session()->setFlashdata('error', 'Anda tidak mempunyai akses di halaman ini.');
+            return redirect()->to(base_url('/admin/dashboard'));
         }
-
-        $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
-        //end ambil data getuser desa
-
-        //start get data permohonan hari ini
-        $permohonanHariIni = "https://dev-smart.gunungkidulkab.go.id/api/permohonanhariini/$getUser";
-        $client = \Config\Services::curlrequest();
-
-        try {
-            $response = $client->get($permohonanHariIni);
-            $dataPermohonanHarIn = json_decode($response->getBody(), true);
-
-        } catch (\Exception $e) {
-            return $this->response->setJSON([
-                'status' => 500,
-                'message' => 'Error fetching data: ' . $e->getMessage(),
-            ]);
-        }
-        //end get data permohonan hari ini
-
-        $data['permHarIn']  = $dataPermohonanHarIn['data'] ?? [] ;
-        $data['kategoris']  = $this->kategori->findAll();
-        $data['activeTab']  = 'verifikasi-data';
-
-        return view('pelayanandukcapil/layanan/v_verifikasi_data', $data);
     }
 
     // proses insert form 
