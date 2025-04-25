@@ -45,6 +45,14 @@ class PelayananDukcapil extends BaseController
         //start ambil data getuser desa
         $id         = auth()->user()->desa_id;
         $dataDesa   = $this->desa->find($id);
+        
+        if ($id == null){
+            return $this->response->setJSON([
+                'status' => 400,
+                'message' => 'Akses ditolak',
+            ]);
+        }
+
         if (!empty($dataDesa)) {
             $hasil = [
                 'kodeDesa' => $dataDesa['kode_desa'],
