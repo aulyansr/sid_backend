@@ -19,13 +19,13 @@
                             <input class="form-control" id="inputNama" name="nama_desa" type="text" placeholder="Nama Desa" value="<?= old('nama_desa', isset($desa) ? esc($desa['nama_desa']) : ''); ?>" required>
                         </div>
                             <label class="small mb-1" for="inputKode">Kode Desa</label>
-                            <input class="form-control" id="inputKode" name="nama_desa" type="text" placeholder="Kode Desa" value="<?= old('kode_desa', isset($desa) ? esc($desa['kode_desa']) : ''); ?>" required>
+                            <input class="form-control" id="inputKode" name="kode_desa" type="text" placeholder="Kode Desa" value="<?= old('kode_desa', isset($desa) ? esc($desa['kode_desa']) : ''); ?>" required>
                         </div>
 
                         <!-- Form Group (Permalink) -->
                         <div class="col-md-6 mb-3">
                             <label class="small mb-1" for="inputPermalink">Permalink</label>
-                            <input class="form-control" id="inputPermalink" name="permalinks" type="text" placeholder="Permalink" value="<?= old('permalink', isset($desa) ? esc($desa['permalink']) : ''); ?>" required>
+                            <input class="form-control" id="inputPermalink" name="permalink" type="text" placeholder="Permalink" value="<?= old('permalink', isset($desa) ? esc($desa['permalink']) : ''); ?>" required>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="small mb-1" for="inputPermalink">Tema Warna</label>
