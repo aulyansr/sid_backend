@@ -100,7 +100,7 @@ class SuratController extends BaseController
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
 
         $desaModel = new ConfigModel();
-        $desa =   $desaModel->where('desa_id', auth()->user()->desa_id)->first();
+        $desa =   $desaModel->where('desa_id', $surat['desa_id'])->first();
 
         // Replace placeholders with actual data
         $templateProcessor->setValue('nama_kabupaten', $desa['nama_kabupaten']);
@@ -117,6 +117,7 @@ class SuratController extends BaseController
         $templateProcessor->setValue('nama', $penduduk['nama']);
         $templateProcessor->setValue('nik', $penduduk['nik']);
         $templateProcessor->setValue('tempat_lahir', $penduduk['tempatlahir']);
+        $templateProcessor->setValue('tanggal_lahir', $penduduk['tanggallahir']);
         $templateProcessor->setValue('sex', $penduduk['sex_nama']);
         $templateProcessor->setValue('pekerjaan', $penduduk['pekerjaan_nama']);
         $templateProcessor->setValue('status_kawin', $penduduk['kawin_nama']);
