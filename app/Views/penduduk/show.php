@@ -39,63 +39,67 @@
                             </tr>
                             <tr>
                                 <th>Pendidikan dalam KK</th>
-                                <td><?= esc($penduduk['pendidikan_nama']); ?></td>
+                                <td><?= esc($penduduk['pendidikan_kk_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Pendidikan sedang ditempuh</th>
-                                <td><?= esc($penduduk['pendidikan_nama']); ?></td>
+                                <td><?= esc($penduduk['pendidikan_sdg_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Pekerjaan</th>
-                                <td><?= esc($penduduk['pekerjaan_nama']); ?></td>
+                                <td><?= esc($penduduk['pekerjaan_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Status Kawin</th>
-                                <td><?= esc($penduduk['kawin_nama']); ?></td>
+                                <td><?= esc($penduduk['kawin_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Warga Negara</th>
-                                <td><?= esc($penduduk['warganegara_nama']); ?></td>
+                                <td><?= esc($penduduk['warganegara_nama'] ?? 'Tidak ada data'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Golongan Darah</th>
+                                <td><?= esc($penduduk['golongan_darah_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Dokumen Paspor</th>
-                                <td><?= esc($penduduk['dokumen_pasport']); ?></td>
+                                <td><?= esc($penduduk['dokumen_pasport'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Dokumen KITAS</th>
-                                <td><?= esc($penduduk['dokumen_kitas']); ?></td>
+                                <td><?= esc($penduduk['dokumen_kitas'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Alamat Sebelumnya</th>
-                                <td><?= esc($penduduk['alamat_sebelumnya']); ?></td>
+                                <td><?= esc($penduduk['alamat_sebelumnya'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Alamat Sekarang</th>
-                                <td><?= esc($penduduk['alamat_sekarang']); ?></td>
+                                <td><?= esc($penduduk['alamat_sekarang'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Akta Perkawinan</th>
-                                <td><?= esc($penduduk['akta_perkawinan']); ?></td>
+                                <td><?= esc($penduduk['akta_perkawinan'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Tanggal Perkawinan</th>
-                                <td><?= esc($penduduk['tanggalperkawinan']); ?></td>
+                                <td><?= $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : 'Tidak ada data'; ?></td>
                             </tr>
                             <tr>
                                 <th>Akta Perceraian</th>
-                                <td><?= esc($penduduk['akta_perceraian']); ?></td>
+                                <td><?= esc($penduduk['akta_perceraian'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Tanggal Perceraian</th>
-                                <td><?= esc($penduduk['tanggalperceraian']); ?></td>
+                                <td><?= $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : 'Tidak ada data'; ?></td>
                             </tr>
                             <tr>
                                 <th>Disabilitas</th>
-                                <td><?= esc($penduduk['cacat_nama']); ?></td>
+                                <td><?= esc($penduduk['cacat_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>Status</th>
-                                <td><?= esc($penduduk['status']); ?></td>
+                                <td><?= esc($penduduk['status_nama'] ?? 'Tidak ada data'); ?></td>
                             </tr>
                             <tr>
                                 <th>NIK Ayah</th>

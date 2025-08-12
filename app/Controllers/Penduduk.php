@@ -217,6 +217,22 @@ class Penduduk extends BaseController
 
         $data['penduduk'] = $this->pendudukModel->find($id);
 
+        // Get current RT/RW/Dusun data for the penduduk
+        $currentWilayah = $this->wilayahModel->where('id', $data['penduduk']['id_cluster'])->first();
+        if ($currentWilayah) {
+            $currentRw = $this->wilayahModel->where('id', $currentWilayah['parent'])->first();
+            if ($currentRw) {
+                $currentDusun = $this->wilayahModel->where('id', $currentRw['parent'])->first();
+
+                // Get RW options for current dusun
+                $data['currentRwList'] = $this->wilayahModel->where('parent', $currentDusun['id'])->findAll();
+                $data['currentRwId'] = $currentRw['id'];
+                $data['currentDusunId'] = $currentDusun['id'];
+
+                // Get RT options for current RW
+                $data['currentRtList'] = $this->wilayahModel->where('parent', $currentRw['id'])->findAll();
+            }
+        }
 
         $data['sexList']           = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
         $data['pendidikanList']    = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();

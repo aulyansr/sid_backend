@@ -36,7 +36,7 @@ class MenuStaticSeeder extends Seeder
                     'gambar'     => $defaultImagePath,
                     'enabled'    => 1,
                     'tgl_upload' => date('Y-m-d H:i:s'),
-                    'id_kategori'=> 1,
+                    'id_kategori' => 1,
                     'headline'   => 1,
                     'desa_id'    => $desa['id'],
                     'id_user'    => 1,
@@ -47,7 +47,7 @@ class MenuStaticSeeder extends Seeder
                     'gambar'     => $defaultImagePath,
                     'enabled'    => 1,
                     'tgl_upload' => date('Y-m-d H:i:s'),
-                    'id_kategori'=> 1,
+                    'id_kategori' => 1,
                     'headline'   => 1,
                     'desa_id'    => $desa['id'],
                     'id_user'    => 1,
@@ -58,7 +58,7 @@ class MenuStaticSeeder extends Seeder
                     'gambar'     => $defaultImagePath,
                     'enabled'    => 1,
                     'tgl_upload' => date('Y-m-d H:i:s'),
-                    'id_kategori'=> 1,
+                    'id_kategori' => 1,
                     'headline'   => 1,
                     'desa_id'    => $desa['id'],
                     'id_user'    => 1,
@@ -128,7 +128,7 @@ class MenuStaticSeeder extends Seeder
                     'gambar'     => $defaultImagePath,
                     'enabled'    => 1,
                     'tgl_upload' => date('Y-m-d H:i:s'),
-                    'id_kategori'=> 1,
+                    'id_kategori' => 1,
                     'headline'   => 1,
                     'desa_id'    => $desa['id'],
                     'id_user'    => 1,
@@ -139,7 +139,7 @@ class MenuStaticSeeder extends Seeder
                     'gambar'     => $defaultImagePath,
                     'enabled'    => 1,
                     'tgl_upload' => date('Y-m-d H:i:s'),
-                    'id_kategori'=> 1,
+                    'id_kategori' => 1,
                     'headline'   => 1,
                     'desa_id'    => $desa['id'],
                     'id_user'    => 1,
@@ -180,157 +180,156 @@ class MenuStaticSeeder extends Seeder
                 $this->db->table('menu')->insert($menu);
             }
             // Lembaga Masyarakat
-$this->db->table('menu')->insert([
-    'nama'      => 'Lembaga Masyarakat',
-    'link'      => '#',
-    'tipe'      => 1,
-    'link_tipe' => 1,
-    'enabled'   => 1,
-    'desa_id'   => $desa['id'],
-]);
+            $this->db->table('menu')->insert([
+                'nama'      => 'Lembaga Masyarakat',
+                'link'      => '#',
+                'tipe'      => 1,
+                'link_tipe' => 1,
+                'enabled'   => 1,
+                'desa_id'   => $desa['id'],
+            ]);
 
-$lembagaMasyarakatId = $this->db->insertID(); // ID menu "Lembaga Masyarakat"
+            $lembagaMasyarakatId = $this->db->insertID(); // ID menu "Lembaga Masyarakat"
 
-// Artikel terkait "Lembaga Masyarakat"
-$articles = [
-    [
-        'judul'      => 'KARANG TARUNA',
-        'isi'        => 'Informasi mengenai Karang Taruna di ' . $desa['nama_desa'],
-        'gambar'     => $defaultImagePath,
-        'enabled'    => 1,
-        'tgl_upload' => date('Y-m-d H:i:s'),
-        'id_kategori'=> 1,
-        'headline'   => 1,
-        'desa_id'    => $desa['id'],
-        'id_user'    => 1,
-    ],
-    [
-        'judul'      => 'LPMD',
-        'isi'        => 'Informasi mengenai LPMD di ' . $desa['nama_desa'],
-        'gambar'     => $defaultImagePath,
-        'enabled'    => 1,
-        'tgl_upload' => date('Y-m-d H:i:s'),
-        'id_kategori'=> 1,
-        'headline'   => 1,
-        'desa_id'    => $desa['id'],
-        'id_user'    => 1,
-    ],
-    [
-        'judul'      => 'BPD',
-        'isi'        => 'Informasi mengenai BPD di ' . $desa['nama_desa'],
-        'gambar'     => $defaultImagePath,
-        'enabled'    => 1,
-        'tgl_upload' => date('Y-m-d H:i:s'),
-        'id_kategori'=> 1,
-        'headline'   => 1,
-        'desa_id'    => $desa['id'],
-        'id_user'    => 1,
-    ],
-    [
-        'judul'      => 'PKK DESA',
-        'isi'        => 'Informasi mengenai PKK Desa di ' . $desa['nama_desa'],
-        'gambar'     => $defaultImagePath,
-        'enabled'    => 1,
-        'tgl_upload' => date('Y-m-d H:i:s'),
-        'id_kategori'=> 1,
-        'headline'   => 1,
-        'desa_id'    => $desa['id'],
-        'id_user'    => 1,
-    ],
-    [
-        'judul'      => 'LPMP KERNEN',
-        'isi'        => 'Informasi mengenai LPMP Kernen di ' . $desa['nama_desa'],
-        'gambar'     => $defaultImagePath,
-        'enabled'    => 1,
-        'tgl_upload' => date('Y-m-d H:i:s'),
-        'id_kategori'=> 1,
-        'headline'   => 1,
-        'desa_id'    => $desa['id'],
-        'id_user'    => 1,
-    ],
-    [
-        'judul'      => 'RT',
-        'isi'        => 'Informasi mengenai RT di ' . $desa['nama_desa'],
-        'gambar'     => $defaultImagePath,
-        'enabled'    => 1,
-        'tgl_upload' => date('Y-m-d H:i:s'),
-        'id_kategori'=> 1,
-        'headline'   => 1,
-        'desa_id'    => $desa['id'],
-        'id_user'    => 1,
-    ],
-];
+            // Artikel terkait "Lembaga Masyarakat"
+            $articles = [
+                [
+                    'judul'      => 'KARANG TARUNA',
+                    'isi'        => 'Informasi mengenai Karang Taruna di ' . $desa['nama_desa'],
+                    'gambar'     => $defaultImagePath,
+                    'enabled'    => 1,
+                    'tgl_upload' => date('Y-m-d H:i:s'),
+                    'id_kategori' => 1,
+                    'headline'   => 1,
+                    'desa_id'    => $desa['id'],
+                    'id_user'    => 1,
+                ],
+                [
+                    'judul'      => 'LPMD',
+                    'isi'        => 'Informasi mengenai LPMD di ' . $desa['nama_desa'],
+                    'gambar'     => $defaultImagePath,
+                    'enabled'    => 1,
+                    'tgl_upload' => date('Y-m-d H:i:s'),
+                    'id_kategori' => 1,
+                    'headline'   => 1,
+                    'desa_id'    => $desa['id'],
+                    'id_user'    => 1,
+                ],
+                [
+                    'judul'      => 'BPD',
+                    'isi'        => 'Informasi mengenai BPD di ' . $desa['nama_desa'],
+                    'gambar'     => $defaultImagePath,
+                    'enabled'    => 1,
+                    'tgl_upload' => date('Y-m-d H:i:s'),
+                    'id_kategori' => 1,
+                    'headline'   => 1,
+                    'desa_id'    => $desa['id'],
+                    'id_user'    => 1,
+                ],
+                [
+                    'judul'      => 'PKK DESA',
+                    'isi'        => 'Informasi mengenai PKK Desa di ' . $desa['nama_desa'],
+                    'gambar'     => $defaultImagePath,
+                    'enabled'    => 1,
+                    'tgl_upload' => date('Y-m-d H:i:s'),
+                    'id_kategori' => 1,
+                    'headline'   => 1,
+                    'desa_id'    => $desa['id'],
+                    'id_user'    => 1,
+                ],
+                [
+                    'judul'      => 'LPMP KERNEN',
+                    'isi'        => 'Informasi mengenai LPMP Kernen di ' . $desa['nama_desa'],
+                    'gambar'     => $defaultImagePath,
+                    'enabled'    => 1,
+                    'tgl_upload' => date('Y-m-d H:i:s'),
+                    'id_kategori' => 1,
+                    'headline'   => 1,
+                    'desa_id'    => $desa['id'],
+                    'id_user'    => 1,
+                ],
+                [
+                    'judul'      => 'RT',
+                    'isi'        => 'Informasi mengenai RT di ' . $desa['nama_desa'],
+                    'gambar'     => $defaultImagePath,
+                    'enabled'    => 1,
+                    'tgl_upload' => date('Y-m-d H:i:s'),
+                    'id_kategori' => 1,
+                    'headline'   => 1,
+                    'desa_id'    => $desa['id'],
+                    'id_user'    => 1,
+                ],
+            ];
 
-// Simpan artikel dan dapatkan ID-nya
-$articleIds = [];
-foreach ($articles as $article) {
-    $this->db->table('artikel')->insert($article);
-    $articleIds[$article['judul']] = $this->db->insertID();
-}
+            // Simpan artikel dan dapatkan ID-nya
+            $articleIds = [];
+            foreach ($articles as $article) {
+                $this->db->table('artikel')->insert($article);
+                $articleIds[$article['judul']] = $this->db->insertID();
+            }
 
-// Tambahkan menu untuk masing-masing artikel
-$menus = [
-    [
-        'nama'      => 'KARANG TARUNA',
-        'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['KARANG TARUNA']),
-        'link_tipe' => 0,
-        'tipe'      => 0,
-        'enabled'   => 1,
-        'desa_id'   => $desa['id'],
-        'parrent'   => $lembagaMasyarakatId, // Hubungkan dengan menu "Lembaga Masyarakat"
-    ],
-    [
-        'nama'      => 'LPMD',
-        'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['LPMD']),
-        'link_tipe' => 0,
-        'tipe'      => 0,
-        'enabled'   => 1,
-        'desa_id'   => $desa['id'],
-        'parrent'   => $lembagaMasyarakatId,
-    ],
-    [
-        'nama'      => 'BPD',
-        'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['BPD']),
-        'link_tipe' => 0,
-        'tipe'      => 0,
-        'enabled'   => 1,
-        'desa_id'   => $desa['id'],
-        'parrent'   => $lembagaMasyarakatId,
-    ],
-    [
-        'nama'      => 'PKK DESA',
-        'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['PKK DESA']),
-        'link_tipe' => 0,
-        'tipe'      => 0,
-        'enabled'   => 1,
-        'desa_id'   => $desa['id'],
-        'parrent'   => $lembagaMasyarakatId,
-    ],
-    [
-        'nama'      => 'LPMP KERNEN',
-        'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['LPMP KERNEN']),
-        'link_tipe' => 0,
-        'tipe'      => 0,
-        'enabled'   => 1,
-        'desa_id'   => $desa['id'],
-        'parrent'   => $lembagaMasyarakatId,
-    ],
-    [
-        'nama'      => 'RT',
-        'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['RT']),
-        'link_tipe' => 0,
-        'tipe'      => 0,
-        'enabled'   => 1,
-        'desa_id'   => $desa['id'],
-        'parrent'   => $lembagaMasyarakatId,
-    ],
-];
+            // Tambahkan menu untuk masing-masing artikel
+            $menus = [
+                [
+                    'nama'      => 'KARANG TARUNA',
+                    'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['KARANG TARUNA']),
+                    'link_tipe' => 0,
+                    'tipe'      => 0,
+                    'enabled'   => 1,
+                    'desa_id'   => $desa['id'],
+                    'parrent'   => $lembagaMasyarakatId, // Hubungkan dengan menu "Lembaga Masyarakat"
+                ],
+                [
+                    'nama'      => 'LPMD',
+                    'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['LPMD']),
+                    'link_tipe' => 0,
+                    'tipe'      => 0,
+                    'enabled'   => 1,
+                    'desa_id'   => $desa['id'],
+                    'parrent'   => $lembagaMasyarakatId,
+                ],
+                [
+                    'nama'      => 'BPD',
+                    'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['BPD']),
+                    'link_tipe' => 0,
+                    'tipe'      => 0,
+                    'enabled'   => 1,
+                    'desa_id'   => $desa['id'],
+                    'parrent'   => $lembagaMasyarakatId,
+                ],
+                [
+                    'nama'      => 'PKK DESA',
+                    'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['PKK DESA']),
+                    'link_tipe' => 0,
+                    'tipe'      => 0,
+                    'enabled'   => 1,
+                    'desa_id'   => $desa['id'],
+                    'parrent'   => $lembagaMasyarakatId,
+                ],
+                [
+                    'nama'      => 'LPMP KERNEN',
+                    'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['LPMP KERNEN']),
+                    'link_tipe' => 0,
+                    'tipe'      => 0,
+                    'enabled'   => 1,
+                    'desa_id'   => $desa['id'],
+                    'parrent'   => $lembagaMasyarakatId,
+                ],
+                [
+                    'nama'      => 'RT',
+                    'link'      => base_url($desa['permalink'] . '/artikel/' . $articleIds['RT']),
+                    'link_tipe' => 0,
+                    'tipe'      => 0,
+                    'enabled'   => 1,
+                    'desa_id'   => $desa['id'],
+                    'parrent'   => $lembagaMasyarakatId,
+                ],
+            ];
 
-// Insert the menu items into the 'menu' table
-foreach ($menus as $menu) {
-    $this->db->table('menu')->insert($menu);
-}
-            
+            // Insert the menu items into the 'menu' table
+            foreach ($menus as $menu) {
+                $this->db->table('menu')->insert($menu);
+            }
         }
     }
 }

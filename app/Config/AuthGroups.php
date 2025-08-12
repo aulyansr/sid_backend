@@ -76,6 +76,8 @@ class AuthGroups extends ShieldAuthGroups
         'users.update' => 'Dapat memperbarui User',
         'users.delete' => 'Dapat menghapus User',
         'users.permission' => 'Dapat mengatur izin User',
+        // Role management (restricted)
+        'users.roles' => 'Dapat mengubah peran User',
 
         // CRUD operations for Articles
         'articles.access' => 'Akses Artikel',
@@ -118,6 +120,7 @@ class AuthGroups extends ShieldAuthGroups
             'menus.*',
             'config.*',
             'users.*',
+            'users.roles',
             'kelurahan.access.*'
         ],
 

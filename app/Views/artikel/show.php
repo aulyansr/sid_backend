@@ -23,11 +23,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="single-post-meta-links">
-                        <a href="#!"><i class="fab fa-twitter fa-fw"></i></a>
-                        <a href="#!"><i class="fab fa-facebook-f fa-fw"></i></a>
-                        <a href="#!"><i class="fas fa-bookmark fa-fw"></i></a>
-                    </div> -->
                 </div>
 
                 <img class="img-fluid mb-2 rounded" src="<?= base_url($artikel['gambar']); ?>" />
@@ -54,8 +49,6 @@
                             </div>
                         <?php endif; ?>
                     </div>
-
-
 
                     <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])): ?>
                         <p>Dokumen : </p>

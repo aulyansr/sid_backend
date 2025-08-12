@@ -6,7 +6,8 @@ use App\Controllers\BaseController;
 use App\Models\UserModel;
 use App\Models\DesaModel;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Exceptions\ShieldException;
+// use CodeIgniter\Shield\Exceptions\ShieldException;
+use CodeIgniter\HTTP\IncomingRequest;
 
 class UserController extends BaseController
 {
@@ -36,6 +37,7 @@ class UserController extends BaseController
 
     public function new()
     {
+        /** @var \Config\AuthGroups $config */
         $config = config('AuthGroups');
         $data['groups'] = $config->groups;
         $data['desaList'] = $this->desaModel->findAll();
@@ -46,6 +48,8 @@ class UserController extends BaseController
     public function store()
     {
         $users = auth()->getProvider();
+        /** @var IncomingRequest $request */
+        $request = service('request');
 
         $validation = \Config\Services::validation();
         $validation->setRules([
@@ -64,24 +68,49 @@ class UserController extends BaseController
             ],
         ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
+        if (!$validation->withRequest($request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         // Handle file upload
-        $image = $this->request->getFile('foto');
+        $image = $request->getFile('foto');
         $newName = $image->getRandomName();
         $image->move('uploads', $newName);
         $fotoPath = 'uploads/' . $newName;
 
         $data = [
-            'username' => $this->request->getVar('username'),
-            'email'    => $this->request->getVar('email'),
-            'nama'     => $this->request->getVar('nama'),
-            'password' => $this->request->getVar('password'),
+            'username' => $request->getVar('username'),
+            'email'    => $request->getVar('email'),
+            'nama'     => $request->getVar('nama'),
+            'password' => $request->getVar('password'),
             'foto'     => $fotoPath,
-            'desa_id'  => $this->request->getVar('desa_id') ?: 0,
         ];
+
+        $currentUser = auth()->user();
+
+        // Handle desa_id: superadmin can set any desa_id, others are locked to their own
+        if (!$currentUser->inGroup('superadmin')) {
+            $data['desa_id'] = (int) ($currentUser->desa_id ?? 0);
+        } else {
+            // Superadmin can set desa_id or leave it null (access to all)
+            $data['desa_id'] = $request->getVar('desa_id') ? (int) $request->getVar('desa_id') : null;
+        }
+
+        // Validate requested role and permission to assign it
+        $requestedGroup = (string) $request->getVar('group');
+        /** @var \Config\AuthGroups $config */
+        $config = config('AuthGroups');
+        if (!array_key_exists($requestedGroup, $config->groups)) {
+            return redirect()->back()->withInput()->with('error', 'Grup tidak valid.');
+        }
+        // Only users with users.roles permission can assign roles
+        if (!$currentUser->can('users.roles')) {
+            return redirect()->back()->withInput()->with('error', 'Anda tidak memiliki izin untuk mengatur peran.');
+        }
+        // Prevent assigning superadmin unless actor is superadmin
+        if ($requestedGroup === 'superadmin' && !$currentUser->inGroup('superadmin')) {
+            return redirect()->back()->withInput()->with('error', 'Tidak dapat menetapkan peran superadmin.');
+        }
 
         try {
             // Create and save the user
@@ -90,9 +119,10 @@ class UserController extends BaseController
                 $savedUser = $users->findById($users->getInsertID());
 
                 // Add the user to the specified group
-                $savedUser->addGroup($this->request->getVar('group'));
+                $savedUser->syncGroups($requestedGroup);
 
                 // Assign "Articles" and "Galleries" permissions
+                /** @var \Config\AuthGroups $config */
                 $config = config('AuthGroups');
                 $permissionsConfig = $config->permissions;
 
@@ -112,13 +142,14 @@ class UserController extends BaseController
             } else {
                 return redirect()->back()->withInput()->with('error', 'Failed to save the user.');
             }
-        } catch (ShieldException $e) {
+        } catch (\Throwable $e) {
             return redirect()->back()->withInput()->with('error', "Error during user creation: " . $e->getMessage());
         }
     }
 
     public function edit($id)
     {
+        /** @var \Config\AuthGroups $config */
         $config         = config('AuthGroups');
         $data['user']   = $this->userModel->find($id);
         $data['groups'] = $config->groups;
@@ -129,7 +160,9 @@ class UserController extends BaseController
 
     public function update()
     {
-        $id    = $this->request->getPost('id');
+        /** @var IncomingRequest $request */
+        $request = service('request');
+        $id    = $request->getPost('id');
         $users = auth()->getProvider();
 
         try {
@@ -140,7 +173,7 @@ class UserController extends BaseController
             }
 
             // Handle file upload
-            $image = $this->request->getFile('foto');
+            $image = $request->getFile('foto');
             if ($image && $image->isValid() && !$image->hasMoved()) {
                 $validation = \Config\Services::validation();
                 $validation->setRules([
@@ -152,7 +185,7 @@ class UserController extends BaseController
                     ],
                 ]);
 
-                if (!$validation->withRequest($this->request)->run()) {
+                if (!$validation->withRequest($request)->run()) {
                     throw new \Exception(implode(', ', $validation->getErrors()));
                 }
 
@@ -162,36 +195,39 @@ class UserController extends BaseController
             }
 
             // Periksa apakah ada input password baru
-            $password     = $this->request->getPost('password');
-            $existingUser = auth()->user()->fill([
-                'password' => $this->request->getPost('password')
-            ]);
+            $newPassword = (string) $request->getPost('password');
+            if ($newPassword !== '') {
+                $targetShieldUser = $users->findById($id);
+                if (!$targetShieldUser) {
+                    throw new \Exception('User tidak ditemukan untuk pembaruan sandi.');
+                }
+                $targetShieldUser->fill(['password' => $newPassword]);
+                $users->save($targetShieldUser);
+            }
 
             $data = [
-                'username' => $this->request->getPost('username'),
-                'email'    => $this->request->getPost('email'),
-                'nama'     => $this->request->getPost('nama'),
-                'desa_id'  => $this->request->getVar('desa_id') ?: null
+                'username' => $request->getPost('username'),
+                'email'    => $request->getPost('email'),
+                'nama'     => $request->getPost('nama'),
             ];
+
+            // Handle desa_id: superadmin can set any desa_id, others are locked to their own
+            $currentUser = auth()->user();
+            if ($currentUser->inGroup('superadmin')) {
+                // Superadmin can set any desa_id or leave it null (access to all)
+                $data['desa_id'] = $request->getVar('desa_id') ? (int) $request->getVar('desa_id') : null;
+            } else {
+                // Lock to current user's desa
+                $data['desa_id'] = (int) ($currentUser->desa_id ?? 0);
+            }
 
             if (isset($fotoPath)) {
                 $data['foto'] = $fotoPath;
             }
-            $users->save($existingUser);
-
             // Update user data
             if (!$this->userModel->update($id, $data)) {
                 throw new \Exception('Gagal memperbarui data pengguna.');
             }
-
-
-            // Update user group
-            $user = $users->findById($id);
-            if (!$user) {
-                throw new \Exception('User tidak ditemukan untuk sinkronisasi grup.');
-            }
-
-            $user->syncGroups($this->request->getPost('group'));
 
             session()->setFlashdata('message', 'User updated successfully.');
             return redirect()->to('/admin/users');
@@ -214,7 +250,7 @@ class UserController extends BaseController
 
     public function permission($id)
     {
-
+        /** @var \Config\AuthGroups $config */
         $config = config('AuthGroups');
         $data['user'] = $this->userModel->find($id);
         $data['permissions'] = $config->permissions;
@@ -225,13 +261,62 @@ class UserController extends BaseController
 
     public function add_permission($id)
     {
-
+        /** @var IncomingRequest $request */
+        $request = service('request');
         $user = $this->userModel->find($id);
-        $permission = $this->request->getPost('permissions') ?? [];
+        $permission = $request->getPost('permissions') ?? [];
         $user->syncPermissions(...$permission);
 
 
         // Redirect back with a success message
         return redirect()->to('/admin/users');
+    }
+
+    public function changeRole($id)
+    {
+        /** @var IncomingRequest $request */
+        $request = service('request');
+
+        $currentUser = auth()->user();
+        // Double-check permission on server-side
+        if (!$currentUser->can('users.roles')) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah peran.');
+        }
+
+        $targetUser = $this->userModel->find($id);
+        if (!$targetUser) {
+            return redirect()->back()->with('error', 'User tidak ditemukan.');
+        }
+
+        $requestedGroup = (string) $request->getPost('group');
+        /** @var \Config\AuthGroups $config */
+        $config = config('AuthGroups');
+        if (!array_key_exists($requestedGroup, $config->groups)) {
+            return redirect()->back()->with('error', 'Grup tidak valid.');
+        }
+
+        // Prevent changing own role unless superadmin
+        if ((int) $currentUser->id === (int) $targetUser->id && !$currentUser->inGroup('superadmin')) {
+            return redirect()->back()->with('error', 'Tidak dapat mengubah peran akun sendiri.');
+        }
+
+        // Prevent assigning/removing superadmin unless actor is superadmin
+        if ($requestedGroup === 'superadmin' && !$currentUser->inGroup('superadmin')) {
+            return redirect()->back()->with('error', 'Tidak dapat menetapkan peran superadmin.');
+        }
+
+        try {
+            $shieldProvider = auth()->getProvider();
+            $shieldUser = $shieldProvider->findById($id);
+            if (!$shieldUser) {
+                throw new \RuntimeException('User Shield tidak ditemukan.');
+            }
+            $shieldUser->syncGroups($requestedGroup);
+
+            session()->setFlashdata('message', 'Peran pengguna berhasil diperbarui.');
+            return redirect()->to('/admin/users');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Gagal memperbarui peran: ' . $e->getMessage());
+        }
     }
 }

@@ -267,7 +267,7 @@
 
                                 <?php else: ?>
 
-                                    <input type="hidden" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
+                                    <input type="" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
 
                                 <?php endif; ?>
 

@@ -28,12 +28,10 @@
                                     <input class="form-control" id="inputNIK" name="nik" type="text" placeholder="NIK" value="<?= old('nik', isset($penduduk) ? esc($penduduk['nik']) : ''); ?>" required>
                                 </div>
 
-
-
-                                <!-- Form Group (Nomor RTS) -->
+                                <!-- Form Group (Akta Kelahiran) -->
                                 <div class="col-md-12 mb-3">
-                                    <label class="small mb-1" for="inputRTS">Akta Kelahiran</label>
-                                    <input class="form-control" id="inputRTS" name="akta_lahir" type="text" placeholder="Nomor Akta Kelahiran" value="<?= old('penduduk_rts', isset($penduduk) ? esc($penduduk['akta_lahir']) : ''); ?>">
+                                    <label class="small mb-1" for="inputAktaLahir">Akta Kelahiran</label>
+                                    <input class="form-control" id="inputAktaLahir" name="akta_lahir" type="text" placeholder="Nomor Akta Kelahiran" value="<?= old('akta_lahir', isset($penduduk) ? esc($penduduk['akta_lahir']) : ''); ?>">
                                 </div>
 
                                 <!-- Form Group (Gender) -->
@@ -87,11 +85,11 @@
                                 </div>
 
                                 <div class="col-md-12 mb-3">
-                                    <label class="small mb-1" for="inputPendidikan">Pendidikan sedang ditempuh</label>
-                                    <select class="form-control select2" id="inputPendidikan" name="pendidikan_sedang_id">
+                                    <label class="small mb-1" for="inputPendidikanSedang">Pendidikan sedang ditempuh</label>
+                                    <select class="form-control select2" id="inputPendidikanSedang" name="pendidikan_id">
                                         <option value="">Pilih Pendidikan</option>
                                         <?php foreach ($pendidikanList as $pendidikan): ?>
-                                            <option value="<?= esc($pendidikan['id']); ?>" <?= (old('pendidikan_sedang_id', isset($penduduk) ? esc($penduduk['pendidikan_sedang_id']) : '') == esc($pendidikan['id'])) ? 'selected' : ''; ?>>
+                                            <option value="<?= esc($pendidikan['id']); ?>" <?= (old('pendidikan_id', isset($penduduk) ? esc($penduduk['pendidikan_id']) : '') == esc($pendidikan['id'])) ? 'selected' : ''; ?>>
                                                 <?= esc($pendidikan['nama']); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -142,6 +140,19 @@
                                         <?php foreach ($warganegaraList as $warganegara): ?>
                                             <option value="<?= esc($warganegara['id']); ?>" <?= (old('warganegara_id', isset($penduduk) ? esc($penduduk['warganegara_id']) : '') == esc($warganegara['id'])) ? 'selected' : ''; ?>>
                                                 <?= esc($warganegara['nama']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <!-- Form Group (Golongan Darah) -->
+                                <div class="col-md-12 mb-3">
+                                    <label class="small mb-1" for="inputGolonganDarah">Golongan Darah</label>
+                                    <select class="form-control select2" id="inputGolonganDarah" name="golongan_darah_id">
+                                        <option value="">Pilih Golongan Darah</option>
+                                        <?php foreach ($golongandarahList as $goldar): ?>
+                                            <option value="<?= esc($goldar['id']); ?>" <?= (old('golongan_darah_id', isset($penduduk) ? esc($penduduk['golongan_darah_id']) : '') == esc($goldar['id'])) ? 'selected' : ''; ?>>
+                                                <?= esc($goldar['nama']); ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -229,13 +240,13 @@
                                     <label class="small mb-1 d-block">Status Kehamilan</label>
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                                        <label class="btn btn-outline-primary <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '1') == '1' ? 'active' : ''; ?>">
-                                            <input type="radio" name="hamil" value="1" <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '1') == '1' ? 'checked' : ''; ?>>
+                                        <label class="btn btn-outline-primary <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '0') == '0' ? 'active' : ''; ?>">
+                                            <input type="radio" name="hamil" value="0" <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '0') == '0' ? 'checked' : ''; ?>>
                                             Tidak Hamil
                                         </label>
 
-                                        <label class="btn btn-outline-primary <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '2') == '2' ? 'active' : ''; ?>">
-                                            <input type="radio" name="hamil" value="2" <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '2') == '2' ? 'checked' : ''; ?>>
+                                        <label class="btn btn-outline-primary <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '1') == '1' ? 'active' : ''; ?>">
+                                            <input type="radio" name="hamil" value="1" <?= old('hamil', isset($penduduk) ? esc($penduduk['hamil']) : '1') == '1' ? 'checked' : ''; ?>>
                                             Hamil
                                         </label>
 
@@ -266,7 +277,7 @@
                                     <select class="form-control" id="inputDusun" name="penduduk_dusun" required>
                                         <option value="">Pilih Dusun</option>
                                         <?php foreach ($dusunList as $dusun): ?>
-                                            <option value="<?= esc($dusun['id']); ?>">
+                                            <option value="<?= esc($dusun['id']); ?>" <?= (isset($penduduk['id_cluster']) && $dusun['id'] == $currentDusunId) ? 'selected' : ''; ?>>
                                                 <?= esc($dusun['dusun']); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -276,16 +287,30 @@
                                 <!-- Form Group (RW) -->
                                 <div class="col-md-12 mb-3">
                                     <label class="small mb-1" for="inputRW">RW</label>
-                                    <select class="form-control" id="inputRW" name="penduduk_rw" required disabled>
+                                    <select class="form-control" id="inputRW" name="penduduk_rw" required>
                                         <option value="">Pilih RW</option>
+                                        <?php if (isset($currentRwList) && !empty($currentRwList)): ?>
+                                            <?php foreach ($currentRwList as $rw): ?>
+                                                <option value="<?= esc($rw['id']); ?>" <?= (isset($penduduk['id_cluster']) && $rw['id'] == $currentRwId) ? 'selected' : ''; ?>>
+                                                    <?= esc($rw['rw']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </select>
                                 </div>
 
                                 <!-- Form Group (RT) -->
                                 <div class="col-md-12 mb-3">
                                     <label class="small mb-1" for="inputRT">RT</label>
-                                    <select class="form-control" id="inputRT" name="id_cluster" required disabled>
+                                    <select class="form-control" id="inputRT" name="id_cluster" required>
                                         <option value="">Pilih RT</option>
+                                        <?php if (isset($currentRtList) && !empty($currentRtList)): ?>
+                                            <?php foreach ($currentRtList as $rt): ?>
+                                                <option value="<?= esc($rt['id']); ?>" <?= (isset($penduduk['id_cluster']) && $rt['id'] == $penduduk['id_cluster']) ? 'selected' : ''; ?>>
+                                                    <?= esc($rt['rt']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </select>
                                 </div>
                             </div>
@@ -312,6 +337,21 @@
 </script>
 
 <script>
+    // Store current values for comparison
+    const currentDusunId = <?= isset($currentDusunId) ? $currentDusunId : 'null' ?>;
+    const currentRwId = <?= isset($currentRwId) ? $currentRwId : 'null' ?>;
+    const currentRtId = <?= isset($penduduk['id_cluster']) ? $penduduk['id_cluster'] : 'null' ?>;
+
+    // Initialize dropdowns on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (currentDusunId) {
+            loadRWOptions(currentDusunId, currentRwId);
+        }
+        if (currentRwId) {
+            loadRTOptions(currentRwId, currentRtId);
+        }
+    });
+
     document.getElementById('inputDusun').addEventListener('change', function() {
         const dusunId = this.value;
         const rwSelect = document.getElementById('inputRW');
@@ -320,19 +360,9 @@
         // Clear existing options
         rwSelect.innerHTML = '<option value="">Pilih RW</option>';
         rtSelect.innerHTML = '<option value="">Pilih RT</option>';
-        rtSelect.disabled = true; // Disable RT until RW is selected
 
         if (dusunId) {
-            fetch(`/admin/ajax/getRW/${dusunId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(rw => {
-                        rwSelect.innerHTML += `<option value="${rw.id}">${rw.rw}</option>`;
-                    });
-                    rwSelect.disabled = false; // Enable RW select
-                });
-        } else {
-            rwSelect.disabled = true; // Disable RW if no Dusun is selected
+            loadRWOptions(dusunId);
         }
     });
 
@@ -342,20 +372,56 @@
 
         // Clear existing options
         rtSelect.innerHTML = '<option value="">Pilih RT</option>';
-        rtSelect.disabled = true; // Disable RT until RW is selected
 
         if (rwId) {
-            fetch(`/admin/ajax/getRT/${rwId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(rt => {
-                        rtSelect.innerHTML += `<option value="${rt.id}">${rt.rt}</option>`;
-                    });
-                    rtSelect.disabled = false; // Enable RT select
-                });
-        } else {
-            rtSelect.disabled = true; // Disable RT if no RW is selected
+            loadRTOptions(rwId);
         }
     });
+
+    function loadRWOptions(dusunId, selectedRwId = null) {
+        const rwSelect = document.getElementById('inputRW');
+        const rtSelect = document.getElementById('inputRT');
+
+        // Clear RT options when RW changes
+        rtSelect.innerHTML = '<option value="">Pilih RT</option>';
+
+        fetch(`/admin/ajax/getRW/${dusunId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(rw => {
+                    const option = document.createElement('option');
+                    option.value = rw.id;
+                    option.textContent = rw.rw;
+                    if (selectedRwId && rw.id == selectedRwId) {
+                        option.selected = true;
+                    }
+                    rwSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading RW options:', error);
+            });
+    }
+
+    function loadRTOptions(rwId, selectedRtId = null) {
+        const rtSelect = document.getElementById('inputRT');
+
+        fetch(`/admin/ajax/getRT/${rwId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(rt => {
+                    const option = document.createElement('option');
+                    option.value = rt.id;
+                    option.textContent = rt.rt;
+                    if (selectedRtId && rt.id == selectedRtId) {
+                        option.selected = true;
+                    }
+                    rtSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading RT options:', error);
+            });
+    }
 </script>
 <?= $this->endSection(); ?>
