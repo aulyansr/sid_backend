@@ -185,11 +185,11 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('dokumen/update/(:segment)', 'DokumenController::update/$1');
     $routes->get('dokumen/delete/(:segment)', 'DokumenController::delete/$1');
 
-    $routes->get('surat', 'SuratController::index');
-    $routes->get('surat/create/(:any)', 'SuratController::create/$1');
-    $routes->post('surat/store', 'SuratController::store');
-    $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2');
-    $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1');
+    $routes->get('surat', 'SuratController::index', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/create/(:any)', 'SuratController::create/$1', ['filter' => 'permission:kelurahan.access']);
+    $routes->post('surat/store', 'SuratController::store', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1', ['filter' => 'permission:kelurahan.access']);
 
     $routes->get('komentar', 'KomentarController::index');
     $routes->get('komentar/create', 'KomentarController::create');
