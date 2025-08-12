@@ -1,9 +1,9 @@
 <?= $this->extend('layout/dashboard'); ?>
 
 <?= $this->section('content'); ?>
-<div class="container-fluid">
+<div class="container-fluid"> x
     <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($analisisIndikator) ? 'Edit Analisis Indikatator' : 'Tambah Analisis Indikatator'; ?></h1>
-    <form action="<?= isset($analisisIndikator) ? site_url('/admin/analisis-indikators') : site_url('/admin/analisis-indikators/'); ?>" method="post">
+    <form action="<?= isset($analisisIndikator) ? site_url('/admin/analisis-indikators') : site_url('/admin/analisis-indikators'); ?>" method="post">
         <?= csrf_field(); ?>
         <input type="hidden" name="id_master" value="<?= esc($id_master); ?>">
         <input type="hidden" name="is_statistik" value="<?= old('is_statistik', isset($analisisIndikator) ? $analisisIndikator->is_statistik : '1'); ?>">

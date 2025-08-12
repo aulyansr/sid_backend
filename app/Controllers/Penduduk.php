@@ -158,6 +158,20 @@ class Penduduk extends BaseController
         $postData                    = $this->request->getPost();
         $postData['dokumen_pasport'] = !empty($postData['dokumen_pasport']) ? $postData['dokumen_pasport'] : null;
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
+$postData['id_rtm']   = !empty($postData['id_rtm']) ? $postData['dokumen_kitas'] : 0;
+$postData['rtm_level']   = !empty($postData['id_rtm']) ? $postData['rtm_level'] : 0;
+$postData['pendidikan_id']   = !empty($postData['pendidikan_sedang_id']) ? $postData['pendidikan_sedang_id'] : 0;
+$postData['foto']   = !empty($postData['foto']) ? $postData['foto'] : "a";
+$postData['golongan_darah_id']   = !empty($postData['golongan_darah_id']) ? $postData['golongan_darah_id'] : 0;
+$postData['status_dasar']   = !empty($postData['status_dasar']) ? $postData['status_dasar'] : 0;
+$postData['sakit_menahun_id']   = !empty($postData['sakit_menahun_id']) ? $postData['sakit_menahun_id'] : 0;
+$postData['jamkesmas']   = !empty($postData['jamkesmas']) ? $postData['jamkesmas'] : 0;
+$postData['akta_perkawinan']   = !empty($postData['akta_perkawinan']) ? $postData['akta_perkawinan'] : "aa";
+$postData['tanggalperkawinan'] = !empty($postData['tanggalperkawinan']) ? 
+    $postData['tanggalperkawinan'] : date('Y-m-d');
+
+$postData['akta_perceraian']   = !empty($postData['akta_perceraian']) ? $postData['akta_perceraian'] : 'aa';
+$postData['tanggalperceraian']   = !empty($postData['tanggalperceraian']) ? $postData['tanggalperceraian'] : '1973-08-08';
 
         $currentUser = auth()->user();
 

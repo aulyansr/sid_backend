@@ -12,16 +12,16 @@
         <input type="hidden" name="id_periode" value="<?= esc($periode['id']); ?>">
 
         <div class="row justify-content-center">
-            <div class="col-xl-6">
+            <div class="col-xl-9">
                 <div class="card mb-4">
                     <div class="card-header">Form Pendataan
                         <?= esc($analisis_master['nama']); ?>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-3 justify-content-center">
+                        <div class="row my-3 justify-content-center">
                             <?php foreach ($analisisCategories as $category): ?>
                                 <div class="col-md-12">
-                                    <h2>
+                                    <h2 class="mt-3 mb-3">
                                         <?= esc($category['kategori']); ?>
                                     </h2>
                                     <hr style="border: 1px solid #e6e6e6">
@@ -33,7 +33,7 @@
                                 <?php foreach ($indikator_items as $indikator): ?>
                                     <div class="col-md-12">
                                         <div class="d-block pb-2 pt-2" style="border-bottom:1px solid">
-                                            <div class="row g-3">
+                                            <div class="row g-3 align-items-center">
                                                 <div class="col-6">
                                                     <div class="d-flex align-items-start">
                                                         <div class="mr-2">

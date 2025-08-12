@@ -45,39 +45,47 @@ class PelayananDukcapil extends BaseController
         //start ambil data getuser desa
         $id         = auth()->user()->desa_id;
         $dataDesa   = $this->desa->find($id);
-        if (!empty($dataDesa)) {
-            $hasil = [
-                'kodeDesa' => $dataDesa['kode_desa'],
-                'namaDesa' => $dataDesa['nama_desa'], 
-            ];
+
+        if ($id) {
+
+            if (!empty($dataDesa)) {
+                $hasil = [
+                    'kodeDesa' => $dataDesa['kode_desa'],
+                    'namaDesa' => $dataDesa['nama_desa'], 
+                ];
+            } else {
+                $hasil  = 'Data desa tidak ditemukan.';
+            }
+
+            $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
+            //end ambil data getuser desa
+
+            //start get data permohonan hari ini
+            $permohonanHariIni = "https://dev-smart.gunungkidulkab.go.id/api/permohonanhariini/$getUser";
+            $client = \Config\Services::curlrequest();
+
+            try {
+                $response = $client->get($permohonanHariIni);
+                $dataPermohonanHarIn = json_decode($response->getBody(), true);
+
+            } catch (\Exception $e) {
+                return $this->response->setJSON([
+                    'status' => 500,
+                    'message' => 'Error fetching data: ' . $e->getMessage(),
+                ]);
+            }
+            //end get data permohonan hari ini
+
+            $data['permHarIn']  = $dataPermohonanHarIn['data'] ?? [] ;
+            $data['kategoris']  = $this->kategori->findAll();
+            $data['activeTab']  = 'verifikasi-data';
+
+            return view('pelayanandukcapil/layanan/v_verifikasi_data', $data);
         } else {
-            $hasil  = 'Data desa tidak ditemukan.';
+    
+            session()->setFlashdata('error', 'Anda tidak mempunyai akses di halaman ini.');
+            return redirect()->to(base_url('/admin/dashboard'));
         }
-
-        $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
-        //end ambil data getuser desa
-
-        //start get data permohonan hari ini
-        $permohonanHariIni = "https://dev-smart.gunungkidulkab.go.id/api/permohonanhariini/$getUser";
-        $client = \Config\Services::curlrequest();
-
-        try {
-            $response = $client->get($permohonanHariIni);
-            $dataPermohonanHarIn = json_decode($response->getBody(), true);
-
-        } catch (\Exception $e) {
-            return $this->response->setJSON([
-                'status' => 500,
-                'message' => 'Error fetching data: ' . $e->getMessage(),
-            ]);
-        }
-        //end get data permohonan hari ini
-
-        $data['permHarIn']  = $dataPermohonanHarIn['data'] ?? [] ;
-        $data['kategoris']  = $this->kategori->findAll();
-        $data['activeTab']  = 'verifikasi-data';
-
-        return view('pelayanandukcapil/layanan/v_verifikasi_data', $data);
     }
 
     // proses insert form 
@@ -442,10 +450,12 @@ class PelayananDukcapil extends BaseController
 
         } catch (\Exception $e) {
             // Tangani error
-            return $this->response->setJSON([
-                'status' => 500,
-                'message' => 'Error fetching data: ' . $e->getMessage(),
-            ]);
+            // return $this->response->setJSON([
+            //     'status' => 500,
+            //     'message' => 'Error fetching data: ' . $e->getMessage(),
+            // ]);
+            session()->setFlashdata('error', 'Data belum ada');
+            redirect('admin/verifikasi-data-pemohon');
         }
 
         $data['dtSiapAmbil']  = $dataSiapAmbil['data'] ?? [] ;
@@ -771,5 +781,187 @@ class PelayananDukcapil extends BaseController
 		$mpdf->WriteHTML($html);
 		$this->response->setHeader('Content-Type', 'application/pdf');
 		$mpdf->Output('arjun.pdf','I');
+    }
+
+    public function pemakaman()
+    {
+        //start ambil data getuser desa
+        $id         = auth()->user()->desa_id;
+        $dataDesa   = $this->desa->find($id);
+        if (!empty($dataDesa)) {
+            $hasil = [
+                'kodeDesa' => $dataDesa['kode_desa'],
+                'namaDesa' => $dataDesa['nama_desa'], 
+            ];
+        } else {
+            $hasil  = 'Data desa tidak ditemukan.';
+        }
+        $getUser    = $dataDesa['kode_desa'].$dataDesa['nama_desa'];
+        //end ambil data getuser desa
+
+        $dtPemakaman = "https://dev-smart.gunungkidulkab.go.id/api/getpemakaman/$getUser";
+        $client = \Config\Services::curlrequest();
+
+        try {
+            // Kirim permintaan GET ke API
+            $response = $client->get($dtPemakaman);
+
+            // Ambil respons JSON dan ubah menjadi array
+            $dataPemakaman = json_decode($response->getBody(), true);
+
+        } catch (\Exception $e) {
+            // Tangani error
+            return $this->response->setJSON([
+                'status' => 500,
+                'message' => 'Error fetching data: ' . $e->getMessage(),
+            ]);
+        }
+
+        $data['dataPemakaman']    = $dataPemakaman['data'] ?? [] ;
+
+        // dd($data);
+        $data['activeTab']  = 'pemakaman';
+        return view('pelayanandukcapil/layanan/v_data_pemakaman', $data);
+    }  
+
+    public function add_pemakaman()
+    {
+        $data['activeTab']  = 'pemakaman';
+        return view('pelayanandukcapil/layanan/v_add_pemakaman', $data);
+    }   
+    
+    public function simpan_pemakaman()
+    {   
+        $id         = auth()->user()->desa_id;
+        $dataDesa   = $this->desa
+        // ->select('nama_desa,kode_desa,no_kecamatan,nama_kecamatan')
+        ->join('kecamatan', 'kecamatan.no_kecamatan = desa.no_kecamatan')
+        ->where('desa.id', auth()->user()->desa_id)
+        ->get()
+        ->getResult();
+    
+        if (!empty($dataDesa)) {
+            $hasil = [
+                'kodeDesa' => $dataDesa[0]->kode_desa,
+                'namaDesa' => $dataDesa[0]->nama_desa, 
+                'noKec'    => $dataDesa[0]->no_kecamatan, 
+                'namaKec'  => $dataDesa[0]->nama_kecamatan, 
+            ];
+        } else {
+            $hasil = 'Data desa tidak ditemukan.';
+        }
+        
+        $dataRow = [
+            'NIK'               => $this->request->getPost('NIK'),
+            'NAMA_LGKP'         => $this->request->getPost('NAMA_MENINGGAL'),
+            'TMPT_LAHIR'        => $this->request->getPost('TEMPAT_LAHIR'),
+            'TGL_LAHIR'         => $this->request->getPost('TGL_LAHIR'),
+            'TMPT_MENINGGAL'    => $this->request->getPost('TEMPAT_MENINGGAL'),
+            'TGL_MENINGGAL'     => $this->request->getPost('TGL_MENINGGAL'),
+            'TGL_PEMAKAMAN'     => $this->request->getPost('TGL_PEMAKAMAN'),
+            'LOKASI_MAKAM'      => $this->request->getPost('LOKASI_MAKAM'),
+            'NIK_PELAPOR'       => $this->request->getPost('NIK_PELAPOR'),
+            'NAMA_PELAPOR'      => $this->request->getPost('NAMA_PELAPOR'),
+            'NAMA_KELUARGA'     => $this->request->getPost('NAMA_KELUARGA'),
+            'NO_HP'             => $this->request->getPost('NO_HP'),
+            'KETERANGAN'        => $this->request->getPost('KETERANGAN'),
+            'NO_KEL'            => session()->get('desa_kode'),
+            'NO_KEC'            => $hasil['noKec'],
+            'CREATED_BY'        => $hasil['kodeDesa'].$hasil['namaDesa']
+        ];   
+
+
+        // print_r($dataRow).exit();
+        // $formData = $this->request->getPost('vrf');
+        $multipartData = [];
+        // Tambahkan setiap item data ke dalam array `multipart`
+        foreach ($dataRow as $name => $contents) {
+            $multipartData[] = [
+                'name'     => $name,
+                'contents' => $contents
+            ];
+        }
+        // dd($multipartData);
+
+        try {
+            // Buat klien Guzzle
+            $client = new Client();
+
+            // Kirim permintaan POST
+            $response = $client->post('https://dev-smart.gunungkidulkab.go.id/api/simpanpemakaman', [
+                'multipart' => $multipartData
+            ]);
+
+            // Tampilkan respons dari server
+            $status = $response->getBody()->getContents();
+
+            // print_r($status).exit();
+
+            $data = json_decode($status, true);
+            if ($data['status'] == 'success') {
+                session()->setFlashdata('message', 'Berhasil disimpan');
+                return redirect()->route('admin/pemakaman');
+                
+                return $this->respond([
+                    'status' => 'success',
+                    'message' => 'Data berhasil disimpan.',
+                    // 'file_name' => $newNameSatu,
+                ], 200);
+            } else {
+                return $data['status'];
+            }
+        } catch (RequestException $e) {
+            // Tangkap error
+            if ($e->hasResponse()) {
+                return 'Error Response: ' . $e->getResponse()->getBody()->getContents();
+            }
+            return 'Request Error: ' . $e->getMessage();
+        }
+    }
+    
+    public function cetakpemakaman()
+    {
+        $mpdf = new \Mpdf\Mpdf(
+            ['format' => [297,210],
+            'margin_left'=>5,
+            'margin_right'=>5,
+            'margin_top'=>2,
+            'margin_bottom'=>0,
+            'margin_header'=>0,
+            'margin_footer'=>0
+        ]
+        );
+
+        // start
+        $no = $this->request->getUri()->getSegment(4);
+        // $param              = str_replace("-", "/", $no);
+        $client = \Config\Services::curlrequest();
+
+        $master = "https://dev-smart.gunungkidulkab.go.id/api/cetakpemakaman/$no";
+
+        try {
+            // Kirim permintaan GET ke API
+            $response = $client->get($master);
+
+            // Ambil respons JSON dan ubah menjadi array
+            $dataMaster = json_decode($response->getBody(), true);
+
+        } catch (\Exception $e) {
+            // Tangani error
+            return $this->response->setJSON([
+                'status'    => 500,
+                'message'   => 'Error fetching data: ' . $e->getMessage(),
+            ]);
+        }
+
+
+        //  dd($dataDetail);
+        $data['master']  = $dataMaster['data'] ?? [] ;
+        // dd($data);
+        $html  = view('pelayanandukcapil/layanan/pdf_berita', $data);
+        
+		$mpdf->WriteHTML($html);
+		$this->response->setHeader('Content-Type', 'application/pdf');
+		$mpdf->Output('bukupokokpemakaman.pdf','I');
     }
 }

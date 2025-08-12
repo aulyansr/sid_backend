@@ -88,9 +88,7 @@ class TwebPenduduk extends Model
         'jamkesmas'             => 'permit_empty|alpha_numeric|max_length[50]',
         'akta_lahir'            => 'permit_empty|string|max_length[50]',
         'akta_perkawinan'       => 'permit_empty|string|max_length[50]',
-        'tanggalperkawinan'     => 'permit_empty|valid_date[Y-m-d]',
-        'akta_perceraian'       => 'permit_empty|string|max_length[50]',
-        'tanggalperceraian'     => 'permit_empty|valid_date[Y-m-d]',
+  
         'desa_id'               => 'required|integer',
     ];
 

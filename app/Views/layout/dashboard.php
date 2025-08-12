@@ -398,7 +398,7 @@ $desa = $desa->find(1);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <?php if (session('error') !== null) : ?>
-                        <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                        <div class="alert alert-danger" role="alert"><?= print_r(session('error')) ?></div>
                     <?php elseif (session('errors') !== null) : ?>
                         <div class="alert alert-danger" role="alert">
                             <?php if (is_array(session('errors'))) : ?>

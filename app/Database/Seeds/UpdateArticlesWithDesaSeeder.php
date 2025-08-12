@@ -20,7 +20,7 @@ class UpdateArticlesWithDesaSeeder extends Seeder
         if ($desa) {
             // Update all articles with the first desa
             $this->db->table('artikel')
-                ->set('desa_id', $desa['id'])
+                ->set('desa_id', 1)
                 ->update();
             echo "All articles have been updated to the first desa.\n";
         } else {

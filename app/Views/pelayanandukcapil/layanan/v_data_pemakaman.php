@@ -4,64 +4,43 @@
 
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Permohonan Pelayanan</h1>
+    <h1 class="h3 mb-2 text-gray-800">Buku Pokok Pemakaman</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header border-bottom">
             <?= $this->include('pelayanandukcapil/partials/tabs', ['activeTab' => $activeTab]); ?>
         </div>
         <div class="card-body">
+            <a href="<?= site_url('admin/pemakaman/add');?>" class="btn btn-primary mb-3">Tambah</a>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped compact" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped compact" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Aksi</th>
-
-                            <th>Nama</th>
-                            <th>Status</th>
+                            <th>#</th>
+                            <th>NOMER</th>
+                            <th>NIK</th>
+                            <th>NAMA</th>
+                            <th>TGL MENINGGAL</th>
+                            <th>LOKASI</th>
+                            <th>AKSI</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>No</th>
-                            <th>Aksi</th>
-
-                            <th>Nama</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
-                        <?php foreach ($kategoris as $index => $kategori) : ?>
+                        <?php $i = 1; foreach ($dataPemakaman as $key): ?>
                             <tr>
-                                <td align="center"><?= esc($kategori['urut']); ?></td>
+                                <td align="center"><?= $i++;?></td>
+                                <td><?= $key['NOMER']; ?></td>
+                                <td><?= $key['NIK']; ?></td>
+                                <td><?= $key['NAMA_LGKP']; ?></td>
+                                <td><?= $key['TGL_MENINGGAL']; ?></td>
+                                <td><?= $key['LOKASI_MAKAM']; ?></td>
                                 <td>
-                                    <div class="uibutton-group">
-                                        <a href="/admin/kategori/edit/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-warning" title="Ubah Data">
-                                            <i class="fa fa-edit"></i> Ubah
-                                        </a>
-                                        <a href="/admin/kategori/delete/<?= esc($kategori['id']); ?>" class="btn btn-sm btn-danger" title="Hapus Data">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </a>
-
-                                    </div>
+                                    <a href="<?= site_url('admin/pemakaman/cetak/'.$key['NOMER']);?>" class="btn btn-sm btn-success"><i class="fa fa-print"></i> Cetak</a>
                                 </td>
-
-                                <td><?= esc($kategori['kategori']); ?></td>
-                                <td>
-                                    <?php if ($kategori['enabled']) : ?>
-                                        <span class="badge badge-success">Active</span>
-                                    <?php else : ?>
-                                        <span class="badge badge-danger">Not Active</span>
-                                    <?php endif; ?>
-                                </td>
-
-
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
