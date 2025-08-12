@@ -7,6 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 service('auth')->routes($routes);
 
+// Override login POST to enforce uniform responses
+$routes->post('login', 'Auth\CustomLoginController::login');
+
 $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);

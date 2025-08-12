@@ -483,6 +483,8 @@ $desa = $desa->find(1);
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-FWTcH9jyoXgQX7mFqQ3o6HcRrQ3smv5oOe0vV6UeY9CQP2C8N9x0o5F2j3j3kC8D" crossorigin="anonymous"></script>
+
 
     <?php $this->renderSection('script'); ?>
 

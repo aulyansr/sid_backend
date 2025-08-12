@@ -1,9 +1,9 @@
 /*!
-    * Start Bootstrap - SB UI Kit Pro v2.0.5 (https://shop.startbootstrap.com/product/sb-ui-kit-pro)
-    * Copyright 2013-2023 Start Bootstrap
-    * Licensed under SEE_LICENSE (https://github.com/BlackrockDigital/sb-ui-kit-pro/blob/master/LICENSE)
-    */
-    window.addEventListener('DOMContentLoaded', event => {
+ * Start Bootstrap - SB UI Kit Pro v2.0.5 (https://shop.startbootstrap.com/product/sb-ui-kit-pro)
+ * Copyright 2013-2023 Start Bootstrap
+ * Licensed under SEE_LICENSE (https://github.com/BlackrockDigital/sb-ui-kit-pro/blob/master/LICENSE)
+ */
+window.addEventListener('DOMContentLoaded', event => {
     // Activate feather
     feather.replace();
 
@@ -30,7 +30,7 @@
 
     // Collapse Navbar
     // Add styling fallback for when a transparent background .navbar-marketing is scrolled
-    var navbarCollapse = function() {
+    var navbarCollapse = function () {
         const navbarMarketingTransparentFixed = document.body.querySelector('.navbar-marketing.bg-transparent.fixed-top');
         if (!navbarMarketingTransparentFixed) {
             return;
@@ -48,3 +48,32 @@
     document.addEventListener('scroll', navbarCollapse);
 
 });
+
+// Contextual sanitization utilities for frontend
+(function () {
+    function hasDOMPurify() {
+        return typeof DOMPurify !== 'undefined' && DOMPurify && typeof DOMPurify.sanitize === 'function';
+    }
+
+    window.Sanitize = {
+        html: function (input) {
+            if (hasDOMPurify()) {
+                return DOMPurify.sanitize(String(input));
+            }
+            var div = document.createElement('div');
+            div.innerText = String(input);
+            return div.innerHTML;
+        },
+        attr: function (input) {
+            // Attributes should not allow quotes or angle brackets
+            var v = String(input).replace(/["'<>]/g, '');
+            return v;
+        },
+        url: function (input) {
+            // Basic allow-list for protocols
+            var v = String(input).trim();
+            if (!/^https?:\/\//i.test(v) && !/^\//.test(v)) return '#';
+            return v;
+        }
+    };
+})();

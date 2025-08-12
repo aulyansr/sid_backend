@@ -284,6 +284,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="/assets/js/public/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-FWTcH9jyoXgQX7mFqQ3o6HcRrQ3smv5oOe0vV6UeY9CQP2C8N9x0o5F2j3j3kC8D" crossorigin="anonymous"></script>
     <?php $this->renderSection('script'); ?>
 </body>
 
