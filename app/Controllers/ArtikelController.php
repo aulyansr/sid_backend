@@ -49,7 +49,7 @@ class ArtikelController extends BaseController
     public function store()
     {
 
-        $image = $this->request->getFile('gambar');
+        $image = service('request')->getFile('gambar');
 
         $validation = \Config\Services::validation();
 
@@ -131,7 +131,7 @@ class ArtikelController extends BaseController
         $additionalImagePaths = [];
 
         foreach ($additionalImages as $key) {
-            $additionalImage = $this->request->getFile($key);
+            $additionalImage = service('request')->getFile($key);
             if ($additionalImage && $additionalImage->isValid()) {
                 $newName = $additionalImage->getRandomName();
                 $additionalImage->move($uploadPath, $newName);
@@ -141,21 +141,22 @@ class ArtikelController extends BaseController
             }
         }
 
+        $currentUser = auth()->user();
         $data = [
             'gambar'       => $gambarpath,
-            'isi'          => $this->request->getVar('isi'),
-            'enabled'      => $this->request->getVar('enabled'),
-            'tgl_upload'   => $this->request->getVar('tgl_upload'),
-            'id_kategori'  => $this->request->getVar('id_kategori'),
-            'id_user'      => $this->request->getVar('id_user'),
-            'judul'        => $this->request->getVar('judul'),
-            'headline'     => $this->request->getVar('headline') ? 1 : 0,
+            'isi'          => service('request')->getVar('isi'),
+            'enabled'      => service('request')->getVar('enabled'),
+            'tgl_upload'   => service('request')->getVar('tgl_upload'),
+            'id_kategori'  => service('request')->getVar('id_kategori'),
+            'id_user'      => service('request')->getVar('id_user'),
+            'judul'        => service('request')->getVar('judul'),
+            'headline'     => service('request')->getVar('headline') ? 1 : 0,
             'gambar1'      => $additionalImagePaths['gambar1'],
             'gambar2'      => $additionalImagePaths['gambar2'],
             'gambar3'      => $additionalImagePaths['gambar3'],
-            'dokumen'      => $this->request->getVar('dokumen'),
-            'link_dokumen' => $this->request->getVar('link_dokumen'),
-            'desa_id' => $this->request->getPost('desa_id'),
+            'dokumen'      => service('request')->getVar('dokumen'),
+            'link_dokumen' => service('request')->getVar('link_dokumen'),
+            'desa_id' => service('request')->getPost('desa_id'),
         ];
 
         if ($this->artikelModel->save($data)) {
@@ -169,6 +170,16 @@ class ArtikelController extends BaseController
     public function show($id)
     {
         $data['artikel'] = $this->artikelModel->find($id);
+        if (!$data['artikel']) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
+        }
+
+        // Only check desa_id if user is logged in and not superadmin
+        $currentUser = auth()->user();
+        if ($currentUser && !$currentUser->inGroup('superadmin') && (int) $data['artikel']['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
+        }
+
         $data['user'] =  $this->user->find($data['artikel']['id_user']);
         $data['kategori'] =  $this->kategori->find($data['artikel']['id_kategori']);
         $data['comments'] = $this->komentar
@@ -179,27 +190,28 @@ class ArtikelController extends BaseController
         if (isset($data['artikel']['tgl_upload'])) {
             $data['artikel']['tgl_upload'] = Time::parse($data['artikel']['tgl_upload']);
         }
-        if (!$data['artikel']) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
-        }
         return view('artikel/show', $data);
     }
 
     public function edit($id)
     {
         $data['artikel']   = $this->artikelModel->find($id);
-        $desaModel         = new DesaModel();
-        $data['kategoris'] = $this->kategori->findAll();
-        $data['list_desa'] = $desaModel->findAll();
         if (!$data['artikel']) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
         }
+        $currentUser = auth()->user();
+        if (!$currentUser->inGroup('superadmin') && (int) $data['artikel']['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel not found');
+        }
+        $desaModel         = new DesaModel();
+        $data['kategoris'] = $this->kategori->findAll();
+        $data['list_desa'] = $desaModel->findAll();
         return view('artikel/edit', $data);
     }
 
     public function update($id)
     {
-        $image = $this->request->getFile('gambar');
+        $image = service('request')->getFile('gambar');
         $validation = \Config\Services::validation();
 
         $validationRules = [
@@ -254,6 +266,10 @@ class ArtikelController extends BaseController
         if (!$artikel) {
             return redirect()->back()->with('error', 'Artikel not found.');
         }
+        $currentUser = auth()->user();
+        if (!$currentUser->inGroup('superadmin') && (int) $artikel['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            return redirect()->back()->with('error', 'Akses ditolak.');
+        }
 
         $uploadPath = 'uploads/artikel/' . $id;
 
@@ -279,7 +295,7 @@ class ArtikelController extends BaseController
         $additionalImagePaths = [];
 
         foreach ($additionalImages as $key) {
-            $additionalImage = $this->request->getFile($key);
+            $additionalImage = service('request')->getFile($key);
             if ($additionalImage && $additionalImage->isValid()) {
                 $newName = $additionalImage->getRandomName();
                 $additionalImage->move($uploadPath, $newName);
@@ -291,19 +307,19 @@ class ArtikelController extends BaseController
 
         $data = [
             'gambar'       => $gambarpath,
-            'isi'          => $this->request->getPost('isi'),
-            'enabled'      => $this->request->getPost('enabled'),
-            'tgl_upload'   => $this->request->getPost('tgl_upload'),
-            'id_kategori'  => $this->request->getPost('id_kategori'),
-            'id_user'      => $this->request->getPost('id_user'),
-            'judul'        => $this->request->getPost('judul'),
-            'headline'     => $this->request->getPost('headline') ? 1 : 0,
+            'isi'          => service('request')->getPost('isi'),
+            'enabled'      => service('request')->getPost('enabled'),
+            'tgl_upload'   => service('request')->getPost('tgl_upload'),
+            'id_kategori'  => service('request')->getPost('id_kategori'),
+            'id_user'      => service('request')->getPost('id_user'),
+            'judul'        => service('request')->getPost('judul'),
+            'headline'     => service('request')->getPost('headline') ? 1 : 0,
             'gambar1'      => $additionalImagePaths['gambar1'],
             'gambar2'      => $additionalImagePaths['gambar2'],
             'gambar3'      => $additionalImagePaths['gambar3'],
-            'dokumen'      => $this->request->getPost('dokumen'),
-            'link_dokumen' => $this->request->getPost('link_dokumen'),
-            'desa_id' => $this->request->getPost('desa_id'),
+            'dokumen'      => service('request')->getPost('dokumen'),
+            'link_dokumen' => service('request')->getPost('link_dokumen'),
+            'desa_id' => $currentUser->inGroup('superadmin') ? service('request')->getPost('desa_id') : ($currentUser->desa_id ?? null),
         ];
 
         if ($this->artikelModel->update($id, $data)) {
@@ -316,6 +332,14 @@ class ArtikelController extends BaseController
 
     public function delete($id)
     {
+        $artikel = $this->artikelModel->find($id);
+        if (!$artikel) {
+            return redirect()->to('/admin/artikel')->with('error', 'Artikel not found.');
+        }
+        $currentUser = auth()->user();
+        if (!$currentUser->inGroup('superadmin') && (int) $artikel['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            return redirect()->to('/admin/artikel')->with('error', 'Akses ditolak.');
+        }
         if ($this->artikelModel->delete($id)) {
             return redirect()->to('/admin/artikel')->with('message', 'Artikel deleted successfully.');
         } else {

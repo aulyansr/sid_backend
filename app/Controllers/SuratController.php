@@ -27,7 +27,12 @@ class SuratController extends BaseController
 
     public function index()
     {
-        $data['surat_keluar'] = $this->suratModel->findAll();
+        $currentUser = auth()->user();
+        if ($currentUser->inGroup('superadmin')) {
+            $data['surat_keluar'] = $this->suratModel->findAll();
+        } else {
+            $data['surat_keluar'] = $this->suratModel->where('desa_id', $currentUser->desa_id)->findAll();
+        }
         return view('surat/index', $data);
     }
 
@@ -45,13 +50,15 @@ class SuratController extends BaseController
 
     public function store()
     {
+        $currentUser = auth()->user();
         // Get data from request
         $data = [
             'nomor_surat' => $this->request->getPost('nomor_surat'),
             'nama' => $this->request->getPost('nik'),
             'nik' => $this->request->getPost('nik'),
             'jenis_surat' => $this->request->getPost('jenis_surat'),
-            'desa_id' => $this->request->getPost('desa_id'),
+            // Force desa_id based on current user (non-superadmin)
+            'desa_id' => $currentUser->inGroup('superadmin') ? $this->request->getPost('desa_id') : $currentUser->desa_id,
             'keperluan' => $this->request->getPost('keperluan'),
         ];
 
@@ -75,6 +82,13 @@ class SuratController extends BaseController
     public function export($id, $format)
     {
         $surat = $this->suratModel->find($id);
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan');
+        }
+        $currentUser = auth()->user();
+        if (! $currentUser->inGroup('superadmin') && (int) $surat['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            return redirect()->back()->with('error', 'Akses ditolak.');
+        }
 
         if ($format == 'word') {
             return $this->exportWord($surat);
@@ -151,6 +165,15 @@ class SuratController extends BaseController
 
     public function delete($id)
     {
+        $surat = $this->suratModel->find($id);
+        if (!$surat) {
+            return redirect()->to('/admin/surat')->with('error', 'Surat tidak ditemukan.');
+        }
+        $currentUser = auth()->user();
+        if (! $currentUser->inGroup('superadmin') && (int) $surat['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            return redirect()->to('/admin/surat')->with('error', 'Akses ditolak.');
+        }
+
         if ($this->suratModel->delete($id)) {
             return redirect()->to('/admin/surat')->with('message', 'Surat deleted successfully.');
         } else {
