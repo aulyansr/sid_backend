@@ -248,6 +248,20 @@ class Penduduk extends BaseController
             }
         }
 
+        // Initialize variables to prevent undefined variable errors
+        if (!isset($data['currentDusunId'])) {
+            $data['currentDusunId'] = null;
+        }
+        if (!isset($data['currentRwId'])) {
+            $data['currentRwId'] = null;
+        }
+        if (!isset($data['currentRwList'])) {
+            $data['currentRwList'] = [];
+        }
+        if (!isset($data['currentRtList'])) {
+            $data['currentRtList'] = [];
+        }
+
         $data['sexList']           = $this->db->table('tweb_penduduk_sex')->get()->getResultArray();
         $data['pendidikanList']    = $this->db->table('tweb_penduduk_pendidikan')->get()->getResultArray();
         $data['agamaList']         = $this->db->table('tweb_penduduk_agama')->get()->getResultArray();
@@ -271,10 +285,32 @@ class Penduduk extends BaseController
 
         $postData = $this->request->getPost();
 
-
+        // Sanitize data to prevent empty string errors for bigint columns
         $postData['dokumen_pasport'] = !empty($postData['dokumen_pasport']) ? $postData['dokumen_pasport'] : null;
         $postData['dokumen_kitas']   = !empty($postData['dokumen_kitas']) ? $postData['dokumen_kitas'] : null;
-
+        $postData['id_rtm']          = !empty($postData['id_rtm']) ? $postData['id_rtm'] : 0;
+        $postData['rtm_level']       = !empty($postData['rtm_level']) ? $postData['rtm_level'] : 0;
+        $postData['pendidikan_id']   = !empty($postData['pendidikan_id']) ? $postData['pendidikan_id'] : 0;
+        $postData['pendidikan_kk_id'] = !empty($postData['pendidikan_kk_id']) ? $postData['pendidikan_kk_id'] : 0;
+        $postData['agama_id']        = !empty($postData['agama_id']) ? $postData['agama_id'] : 0;
+        $postData['pekerjaan_id']    = !empty($postData['pekerjaan_id']) ? $postData['pekerjaan_id'] : 0;
+        $postData['warganegara_id']  = !empty($postData['warganegara_id']) ? $postData['warganegara_id'] : 0;
+        $postData['foto']            = !empty($postData['foto']) ? $postData['foto'] : "a";
+        $postData['golongan_darah_id'] = !empty($postData['golongan_darah_id']) ? $postData['golongan_darah_id'] : 0;
+        $postData['status_dasar']    = !empty($postData['status_dasar']) ? $postData['status_dasar'] : 0;
+        $postData['sakit_menahun_id'] = !empty($postData['sakit_menahun_id']) ? $postData['sakit_menahun_id'] : 0;
+        $postData['jamkesmas']       = !empty($postData['jamkesmas']) ? $postData['jamkesmas'] : 0;
+        $postData['cacat_id']        = !empty($postData['cacat_id']) ? $postData['cacat_id'] : 0;
+        $postData['desa_id']         = !empty($postData['desa_id']) ? $postData['desa_id'] : 0;
+        $postData['sex']             = !empty($postData['sex']) ? $postData['sex'] : 0;
+        $postData['status_kawin']    = !empty($postData['status_kawin']) ? $postData['status_kawin'] : 0;
+        $postData['kk_level']        = !empty($postData['kk_level']) ? $postData['kk_level'] : 0;
+        $postData['hamil']           = !empty($postData['hamil']) ? $postData['hamil'] : 0;
+        $postData['status']          = !empty($postData['status']) ? $postData['status'] : 0;
+        $postData['akta_perkawinan'] = !empty($postData['akta_perkawinan']) ? $postData['akta_perkawinan'] : "aa";
+        $postData['tanggalperkawinan'] = !empty($postData['tanggalperkawinan']) ? $postData['tanggalperkawinan'] : date('Y-m-d');
+        $postData['akta_perceraian'] = !empty($postData['akta_perceraian']) ? $postData['akta_perceraian'] : 'aa';
+        $postData['tanggalperceraian'] = !empty($postData['tanggalperceraian']) ? $postData['tanggalperceraian'] : '1973-08-08';
 
         if ($this->pendudukModel->update($id, $postData)) {
             return redirect()->to('/admin/penduduk')->with('success', 'Data has been updated successfully.');

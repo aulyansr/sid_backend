@@ -277,7 +277,7 @@
                                     <select class="form-control" id="inputDusun" name="penduduk_dusun" required>
                                         <option value="">Pilih Dusun</option>
                                         <?php foreach ($dusunList as $dusun): ?>
-                                            <option value="<?= esc($dusun['id']); ?>" <?= (isset($penduduk['id_cluster']) && $dusun['id'] == $currentDusunId) ? 'selected' : ''; ?>>
+                                            <option value="<?= esc($dusun['id']); ?>" <?= (isset($penduduk['id_cluster']) && isset($currentDusunId) && $dusun['id'] == $currentDusunId) ? 'selected' : ''; ?>>
                                                 <?= esc($dusun['dusun']); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -291,7 +291,7 @@
                                         <option value="">Pilih RW</option>
                                         <?php if (isset($currentRwList) && !empty($currentRwList)): ?>
                                             <?php foreach ($currentRwList as $rw): ?>
-                                                <option value="<?= esc($rw['id']); ?>" <?= (isset($penduduk['id_cluster']) && $rw['id'] == $currentRwId) ? 'selected' : ''; ?>>
+                                                <option value="<?= esc($rw['id']); ?>" <?= (isset($penduduk['id_cluster']) && isset($currentRwId) && $rw['id'] == $currentRwId) ? 'selected' : ''; ?>>
                                                     <?= esc($rw['rw']); ?>
                                                 </option>
                                             <?php endforeach; ?>

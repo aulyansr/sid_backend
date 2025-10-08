@@ -290,7 +290,17 @@ class Desa extends BaseController
 
     public function delete($id)
     {
+        // // Delete related records first to maintain data integrity
+        // $this->db->table('config')->where('desa_id', $id)->delete();
+        // $this->db->table('artikel')->where('desa_id', $id)->delete();
+        // $this->db->table('menu')->where('desa_id', $id)->delete();
+        // $this->db->table('gallery')->where('desa_id', $id)->delete();
+        // $this->db->table('gambar_gallery')->where('desa_id', $id)->delete();
+        // $this->db->table('komentar')->where('desa_id', $id)->delete();
+
+        // Finally delete the desa record
         $this->desaModel->delete($id);
-        return redirect()->to('/desa');
+
+        return redirect()->to('/admin/desa')->with('success', 'Desa berhasil dihapus.');
     }
 }
