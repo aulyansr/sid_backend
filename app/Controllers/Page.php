@@ -33,13 +33,12 @@ class Page extends BaseController
         $session = session();
         $session->remove('desa_permalink');
         $data['villages'] = $this->desaModel->orderBy('id')->findAll();
-
         return view('pages/select_desa', $data);
     }
 
     public function desa($segment)
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
 
         if (!$village) {
             // Handle the case where no village is found (e.g., show 404 page)
@@ -109,14 +108,14 @@ class Page extends BaseController
     public function statistik_pendidikan_kk($segment)
 
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
         $data['pendidikanSummary'] = $this->pendudukModel->where('desa_id', $village['id'])->getPendidikanSummary();
 
         return view('pages/statistik_pendidikan_kk', $data);
     }
     public function statistik_pendidikan_tempuh($segment)
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
         $data['pendidikanSummary'] = $this->pendudukModel->where('desa_id', $village['id'])->getPendidikanSummary();
 
         return view('pages/statistik_pendidikan_tempuh', $data);
@@ -124,7 +123,7 @@ class Page extends BaseController
 
     public function statistik_pekerjaan($segment)
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
         $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getPekerjaan();
 
         return view('pages/statistik_pekerjaan', $data);
@@ -132,7 +131,7 @@ class Page extends BaseController
 
     public function statistik_kelompok_umur($segment)
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
         $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getKelompokUmur();
 
         return view('pages/statistik_kelompok_umur', $data);
@@ -140,7 +139,7 @@ class Page extends BaseController
 
     public function statistik_jenis_kelamin($segment)
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
         $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getJenkel();
 
         return view('pages/statistik_jenis_kelamin', $data);
@@ -148,7 +147,7 @@ class Page extends BaseController
 
     public function statistik_agama($segment)
     {
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
         $data['summary'] = $this->pendudukModel->where('desa_id', $village['id'])->getAgama();
 
         return view('pages/statistik_agama', $data);
@@ -157,7 +156,7 @@ class Page extends BaseController
     public function page_category($segment, $id)
     {
         $data['category'] = $this->kategori->find($id);
-        $village = $this->desaModel->where('permalink', $segment)->first();
+        $village = $this->desaModel->get_desa_with_config()->where('desa.permalink', $segment)->first();
 
         if (!$village) {
             // Handle the case where no village is found (e.g., show 404 page)

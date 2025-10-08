@@ -31,7 +31,7 @@ use CodeIgniter\I18n\Time;
                                     </h1>
                                 </a>
                                 <p>
-                                    <?= esc(substr(strip_tags($headline['isi']), 0, 250)) . (strlen($headline['isi']) > 250 ? '...' : ''); ?>
+                                    <?= esc(substr(str_replace(["\n", "\r", "\\n"], ' ', html_entity_decode(strip_tags($headline['isi']))), 0, 250)) . (strlen(str_replace(["\n", "\r", "\\n"], ' ', html_entity_decode(strip_tags($headline['isi'])))) > 250 ? '...' : ''); ?>
                                 </p>
                                 <div class="flex-text align-self-center d-flex justify-content-between">
                                     <a class="text-arrow-icon small" href="/<?= $village['permalink']; ?>/<?= route_to('detail_article_path', $headline['id']); ?>">
@@ -61,15 +61,15 @@ use CodeIgniter\I18n\Time;
         <!-- list artikel -->
         <div class="col-lg-7 col-xl-8">
             <?php foreach ($artikels as $index => $artikel) : ?>
-                <div class="d-flex">
-                    <div class="flex-grow-1">
+                <div class="row">
+                    <div class="col-md-8">
                         <a class="text-dark" href="/<?= $village['permalink']; ?>/<?= route_to('detail_article_path', $artikel['id']); ?>">
                             <h5 class="mt-0">
                                 <?= $artikel['judul']; ?>
                             </h5>
                         </a>
                         <p>
-                            <?= esc(substr(strip_tags($artikel['isi']), 0, 250)) . (strlen($artikel['isi']) > 250 ? '...' : ''); ?>
+                            <?= esc(substr(str_replace(["\n", "\r", "\\n"], ' ', html_entity_decode(strip_tags($artikel['isi']))), 0, 250)) . (strlen(str_replace(["\n", "\r", "\\n"], ' ', html_entity_decode(strip_tags($artikel['isi'])))) > 250 ? '...' : ''); ?>
                         </p>
                         <p class="timestamps text-sm">
                             <small><?= Time::parse($artikel['tgl_upload'])->humanize(); ?></small>
@@ -80,7 +80,7 @@ use CodeIgniter\I18n\Time;
                             <i data-feather="arrow-right"></i>
                         </a>
                     </div>
-                    <div class="flex-shrink-0 ms-4">
+                    <div class="col-md-4">
                         <?php
                         $originalImagePath = esc($artikel['gambar']);
                         $thumbnailImagePath = str_replace(basename($originalImagePath), 'thumb_' . basename($originalImagePath), $originalImagePath);
@@ -227,3 +227,5 @@ use CodeIgniter\I18n\Time;
 </div>
 
 <?= $this->endSection(); ?>
+ 
+ 

@@ -62,7 +62,7 @@ abstract class BaseController extends Controller
         $this->configModel = new ConfigModel();
 
         $uriSegment = $request->getUri()->getSegment(1);
-        $village    = $this->desaModel->where('permalink', $uriSegment)->get_desa_with_config()->first();
+        $village    = $this->desaModel->get_desa_with_config()->where('desa.permalink', $uriSegment)->first();
         if ($village) {
             $config = $this->configModel->where('desa_id', $village['id'])->first();
 

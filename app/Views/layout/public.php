@@ -87,7 +87,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
                         <div class="logo d-flex justify-content-center p-3">
                             <div class="logo">
                                 <a href=" <?= base_url() ?> ">
-                                    <img src="<?= base_url(esc($config['logo'])); ?>" alt="Gunung Kidul" height="90">
+                                    <img src="<?= base_url('gunung_kidul.png'); ?>" alt="Gunung Kidul" height="90">
                                 </a>
                             </div>
 
@@ -95,8 +95,8 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                 <h4 class="">Kalurahan <?= isset($village['nama_desa']) ? $village['nama_desa'] : (isset($config['nama_desa']) ? $config['nama_desa'] : ''); ?> </h4>
 
                                 <p class="lh-1">
-                                    <small class="lh-1">Kapanewon <?= $village['nama_kecamatan']; ?></small><br>
-                                    <small class="lh-1">Kabupaten <?= $config['nama_kabupaten']; ?></small>
+                                    <small class="lh-1">Kapanewon <?= $village['nama_kecamatan'] ?></small><br>
+                                    <small class="lh-1">Kabupaten Gunung Kidul</small>
                                 </p>
                             </div>
                         </div>

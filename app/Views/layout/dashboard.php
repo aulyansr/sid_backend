@@ -50,7 +50,7 @@ $desa = $desa->find(1);
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
                 <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
-                    <img src="<?= base_url(esc($desa['logo'])); ?>" height="50px" alt="Logo Gunungkidul">
+                    <img src="<?= base_url('gunung_kidul.png'); ?>" height="50px" alt="Logo Gunungkidul">
                 </div>
                 <div class="mx-3 text-sm align-left">
                     <small>SID Gunungkidul</small>
