@@ -88,10 +88,73 @@ class SuratController extends BaseController
     private function exportWord($surat)
     {
         helper('url');
-        $desa = $this->configModel->find(1);
-        if ($surat['jenis_surat'] == "ket_catatan_kriminal") {
-            $templatePath = 'assets/template/template_skck.docx';
+        $desa = $this->configModel->find($surat['desa_id']);
+        $templates = [
+            "template_skck" => "template_skck.docx",
+            "surat_ket_rekom_dtks" => "surat_ket_rekom_dtks.docx",
+            "surat_permohonan_duplikat_kelahiran" => "surat_permohonan_duplikat_kelahiran.docx",
+            "surat_pengantar_nikah_wanita_473" => "surat_pengantar_nikah_wanita_473.docx",
+            "surat_ket_imunisasi_caten" => "surat_ket_imunisasi_caten.docx",
+            "surat_ket_beda_nama" => "surat_ket_beda_nama.docx",
+            "surat_validasi_bapel_jamkesos" => "surat_validasi_bapel_jamkesos.docx",
+            "surat_pengantar_isbat_n3_473" => "surat_pengantar_isbat_n3_473.docx",
+            "surat_pengantar_nikah_Laki-laki_kristen" => "surat_pengantar_nikah_Laki-laki_kristen.docx",
+            "surat_izin_orangtua" => "surat_izin_orangtua.docx",
+            "surat_f204" => "surat_f204.docx",
+            "surat_ket_kurang_mampu" => "surat_ket_kurang_mampu.docx",
+            "surat_tanpa_ikatan" => "surat_tanpa_ikatan.docx",
+            "surat_ket_nikah" => "surat_ket_nikah.docx",
+            "surat_ket_blm_masuk_database" => "surat_ket_blm_masuk_database.docx",
+            "surat_ket_kia" => "surat_ket_kia.docx",
+            "surat_ket_kematian_n6_473" => "surat_ket_kematian_n6_473.docx",
+            "surat_batal_pindah" => "surat_batal_pindah.docx",
+            "surat_f106" => "surat_f106.docx",
+            "surat_pengantar_kip" => "surat_pengantar_kip.docx",
+            "surat_ket_domisili_usaha" => "surat_ket_domisili_usaha.docx",
+            "surat_keterangan_harga_tanah" => "surat_keterangan_harga_tanah.docx",
+            "surat_sktm_jamkes_diy" => "surat_sktm_jamkes_diy.docx",
+            "surat_f203" => "surat_f203.docx",
+            "surat_izin_orangtua_n5_473" => "surat_izin_orangtua_n5_473.docx",
+            "surat_wali" => "surat_wali.docx",
+            "surat_permohonan_cerai" => "surat_permohonan_cerai.docx",
+            "surat_izin_acara" => "surat_izin_acara.docx",
+            "surat_f107" => "surat_f107.docx",
+            "surat_jalan" => "surat_jalan.docx",
+            "surat_ket_pergi_kawin" => "surat_ket_pergi_kawin.docx",
+            "surat_ket_rekom_jamkes" => "surat_ket_rekom_jamkes.docx",
+            "surat_ket_pengantar" => "surat_ket_pengantar.docx",
+            "surat_pengantar_nikah_pria_473" => "surat_pengantar_nikah_pria_473.docx",
+            "surat_pengantar_nikah_kristen" => "surat_pengantar_nikah_kristen.docx",
+            "surat_pengantar_jasaraharja" => "surat_pengantar_jasaraharja.docx",
+            "surat_ket_belum_nikah" => "surat_ket_belum_nikah.docx",
+            "surat_f104" => "surat_f104.docx",
+            "surat_f105" => "surat_f105.docx",
+            "surat_pernyataan_keberadaan_pasutri" => "surat_pernyataan_keberadaan_pasutri.docx",
+            "surat_ket_kematian_suami_istri" => "surat_ket_kematian_suami_istri.docx",
+            "surat_permohonan_dispensasi_nikah" => "surat_permohonan_dispensasi_nikah.docx",
+            "surat_pernyataan_agama" => "surat_pernyataan_agama.docx",
+            "surat_izin_keramaian" => "surat_izin_keramaian.docx",
+            "surat_ahli_waris" => "surat_ahli_waris.docx",
+            "surat_permohonan_akta" => "surat_permohonan_akta.docx",
+            "surat_f102" => "surat_f102.docx",
+            "surat_permohonan_duplikat_kematian" => "surat_permohonan_duplikat_kematian.docx",
+            "surat_pernyataan_jejaka" => "surat_pernyataan_jejaka.docx",
+            "surat_ket_numpang_nikah" => "surat_ket_numpang_nikah.docx",
+            "surat_keterangan_domisili" => "surat_keterangan_domisili.docx",
+            "surat_ket_catatan_kriminal" => "surat_ket_catatan_kriminal.docx",
+            "surat_ket_belum_akta_nikah" => "surat_ket_belum_akta_nikah.docx",
+            "surat_wali_2" => "surat_wali_2.docx",
+            "surat_ket_penduduk" => "surat_ket_penduduk.docx",
+            "surat_ket_kehilangan" => "surat_ket_kehilangan.docx",
+            "surat_wali_hakim" => "surat_wali_hakim.docx",
+            "surat_permohonan_duplikat_surat_nikah" => "surat_permohonan_duplikat_surat_nikah.docx",
+        ];
+
+        $jenis = $surat['jenis_surat'];
+        if (isset($templates[$jenis])) {
+            $templatePath = 'assets/template/' . $templates[$jenis];
         } else {
+            // Default template if jenis_surat is not found in the list
             $templatePath = 'assets/template/template_keterangan.docx';
         }
         $penduduk = $this->pendudukModel->getAllAttributes()->where('nik', $surat['nik'])->first();
