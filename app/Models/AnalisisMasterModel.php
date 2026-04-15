@@ -109,6 +109,7 @@ class AnalisisMasterModel extends Model
                 ->join('analisis_respon_hasil', 'analisis_respon_hasil.id_subjek = tweb_penduduk.nik', 'left')
                 ->where('analisis_respon_hasil.id_master', $id_master)
                 ->orWhere('analisis_respon_hasil.id_subjek IS NULL')
+		->limit(1000)
                 ->get()->getResultArray();
         } elseif ($subject_type == 2) {
             // For subject_type 2, join with the 'tweb_keluarga' table

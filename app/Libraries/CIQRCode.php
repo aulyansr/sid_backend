@@ -3,8 +3,7 @@
 namespace App\Libraries;
 
 // Load library phpqrcode
-require_once APPPATH . 'Libraries\phpqrcode.php';
-
+require_once APPPATH . 'Libraries/phpqrcode.php'; //saya ubah di server dari \ ke /
 class CIQRCode
 {
     public function generate($params = [])

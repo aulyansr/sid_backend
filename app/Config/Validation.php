@@ -102,6 +102,11 @@ class Validation extends BaseConfig
                 . '|max_size[image,1000]'
                 . '|max_dims[image,4000,4000]',
         ],
+
+        'desa_id' => [
+            'label' => 'Auth.desa_id',
+            'rules' => ['required']
+        ],
     ];
 
     public $login = [

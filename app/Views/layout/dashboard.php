@@ -50,7 +50,7 @@ $desa = $desa->find(1);
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
                 <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
-                    <img src="<?= base_url(esc($desa['logo'])); ?>" height="50px" alt="Logo Gunungkidul">
+                    <img src="<?= base_url('gunung_kidul.png'); ?>" height="50px" alt="Logo Gunungkidul">
                 </div>
                 <div class="mx-3 text-sm align-left">
                     <small>SID Gunungkidul</small>
@@ -398,7 +398,7 @@ $desa = $desa->find(1);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <?php if (session('error') !== null) : ?>
-                        <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                        <div class="alert alert-danger" role="alert"><?= print_r(session('error')) ?></div>
                     <?php elseif (session('errors') !== null) : ?>
                         <div class="alert alert-danger" role="alert">
                             <?php if (is_array(session('errors'))) : ?>
@@ -482,6 +482,8 @@ $desa = $desa->find(1);
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-FWTcH9jyoXgQX7mFqQ3o6HcRrQ3smv5oOe0vV6UeY9CQP2C8N9x0o5F2j3j3kC8D" crossorigin="anonymous"></script>
 
 
     <?php $this->renderSection('script'); ?>

@@ -4,7 +4,7 @@
 <div class="container px-5">
     <div class="row gx-5 justify-content-center">
         <div class="col-lg-10 col-xl-8">
-            <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href="<?= route_to('detail_category_path', $kategori['id']) ?>"><?= $kategori['kategori']; ?></a>
+            <a class="badge badge-marketing bg-primary-soft rounded-pill text-primary mb-3" href=""><?= $kategori['kategori']  ??  '' ; ?></a>
             <div class="single-post">
                 <h1>
                     <?= $artikel['judul']; ?>
@@ -16,18 +16,13 @@
                         <div class="single-post-meta-details">
                             <div class="single-post-meta-details-name">
 
-                                <?= $user->full_name ?>
+                                <?= $user->full_name ?? 'SIDA' ?>
                             </div>
                             <div class="single-post-meta-details-date">
                                 <?= $artikel['tgl_upload']->humanize(); ?>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="single-post-meta-links">
-                        <a href="#!"><i class="fab fa-twitter fa-fw"></i></a>
-                        <a href="#!"><i class="fab fa-facebook-f fa-fw"></i></a>
-                        <a href="#!"><i class="fas fa-bookmark fa-fw"></i></a>
-                    </div> -->
                 </div>
 
                 <img class="img-fluid mb-2 rounded" src="<?= base_url($artikel['gambar']); ?>" />
@@ -54,8 +49,6 @@
                             </div>
                         <?php endif; ?>
                     </div>
-
-
 
                     <?php if (!empty($artikel['link_dokumen']) && !empty($artikel['dokumen'])): ?>
                         <p>Dokumen : </p>

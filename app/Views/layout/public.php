@@ -87,7 +87,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
                         <div class="logo d-flex justify-content-center p-3">
                             <div class="logo">
                                 <a href=" <?= base_url() ?> ">
-                                    <img src="<?= base_url(esc($config['logo'])); ?>" alt="Gunung Kidul" height="90">
+                                    <img src="<?= base_url('gunung_kidul.png'); ?>" alt="Gunung Kidul" height="90">
                                 </a>
                             </div>
 
@@ -95,8 +95,8 @@ $theme = $village['theme_color'] ?? '#00ba94';
                                 <h4 class="">Kalurahan <?= isset($village['nama_desa']) ? $village['nama_desa'] : (isset($config['nama_desa']) ? $config['nama_desa'] : ''); ?> </h4>
 
                                 <p class="lh-1">
-                                    <small class="lh-1">Kapanewon <?= $village['nama_kecamatan']; ?></small><br>
-                                    <small class="lh-1">Kabupaten <?= $config['nama_kabupaten']; ?></small>
+                                    <small class="lh-1">Kapanewon <?= $village['nama_kecamatan'] ?></small><br>
+                                    <small class="lh-1">Kabupaten Gunung Kidul</small>
                                 </p>
                             </div>
                         </div>
@@ -284,6 +284,7 @@ $theme = $village['theme_color'] ?? '#00ba94';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="/assets/js/public/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-FWTcH9jyoXgQX7mFqQ3o6HcRrQ3smv5oOe0vV6UeY9CQP2C8N9x0o5F2j3j3kC8D" crossorigin="anonymous"></script>
     <?php $this->renderSection('script'); ?>
 </body>
 

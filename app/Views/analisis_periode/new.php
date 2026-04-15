@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($analisisPeriodeModel) ? 'Edit Analisis Kategori' : 'Tambah Analisis Kategori'; ?></h1>
-    <form action="<?= isset($analisisPeriodeModel) ? site_url('/admin/analisis-periode') : site_url('/admin/analisis-periode/'); ?>" method="post">
+    <form action="<?= isset($analisisPeriodeModel) ? site_url('/admin/analisis-periode') : site_url('/admin/analisis-periode'); ?>" method="post">
         <?= csrf_field(); ?>
         <input type="hidden" name="id_master" value="<?= esc($id_master); ?>">
         <div class="row justify-content-center">

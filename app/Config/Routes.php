@@ -7,6 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 service('auth')->routes($routes);
 
+// Override login POST to enforce uniform responses
+$routes->post('login', 'Auth\CustomLoginController::login');
+
 $routes->get('/', 'Page::index');
 $routes->get('page/index', 'Page::index');
 $routes->get('admin', 'Dashboard::index', ['filter' => 'session']);
@@ -89,6 +92,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('users/store', 'UserController::store', ['filter' => 'permission:users.create']);
     $routes->get('users/edit/(:segment)', 'UserController::edit/$1', ['as' => 'edit_user_path', 'filter' => 'permission:users.update']);
     $routes->post('users/update', 'UserController::update', ['filter' => 'permission:users.update']);
+    $routes->post('users/change-role/(:segment)', 'UserController::changeRole/$1', ['as' => 'user_change_role', 'filter' => 'permission:users.roles']);
     $routes->get('users/delete/(:segment)', 'UserController::delete/$1', ['as' => 'delete_user_path', 'filter' => 'permission:users.delete']);
     $routes->get('users/permissions/(:segment)', 'UserController::permission/$1', ['as' => 'user_permission_view', 'filter' => 'permission:users.permission']);
     $routes->post('users/add-permission/(:segment)', 'UserController::add_permission/$1', ['as' => 'user_permission_add', 'filter' => 'permission:users.permission']);
@@ -184,11 +188,11 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->post('dokumen/update/(:segment)', 'DokumenController::update/$1');
     $routes->get('dokumen/delete/(:segment)', 'DokumenController::delete/$1');
 
-    $routes->get('surat', 'SuratController::index');
-    $routes->get('surat/create/(:any)', 'SuratController::create/$1');
-    $routes->post('surat/store', 'SuratController::store');
-    $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2');
-    $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1');
+    $routes->get('surat', 'SuratController::index', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/create/(:any)', 'SuratController::create/$1', ['filter' => 'permission:kelurahan.access']);
+    $routes->post('surat/store', 'SuratController::store', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1', ['filter' => 'permission:kelurahan.access']);
 
     $routes->get('komentar', 'KomentarController::index');
     $routes->get('komentar/create', 'KomentarController::create');

@@ -63,46 +63,24 @@
                                 <input class="form-control" id="inputPasswordConfirmation" name="password_confirmation" type="password" placeholder="Confirm Password">
                             </div>
 
-                            <div class="col-md-12 mb-3">
-                                <label class="small mb-1" for="inputdesa">Pilih Desa</label>
-                                <select class="form-control select2" id="inputdesa" name="desa_id">
-                                    <option value="">Pilih</option>
-                                    <?php foreach ($desaList as $desa): ?>
-                                        <option value="<?= esc($desa['id']); ?>" <?= (old('desa_id', isset($user) ? esc($user->desa_id) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
-                                            <?= esc($desa['nama_desa']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                            <?php if (auth()->user()->inGroup('superadmin')): ?>
+                                <div class="col-md-12 mb-3">
+                                    <label class="small mb-1" for="inputdesa">Pilih Desa (Opsional - Kosongkan untuk akses semua desa)</label>
+                                    <select class="form-control select2" id="inputdesa" name="desa_id">
+                                        <option value="">Akses Semua Desa</option>
+                                        <?php foreach ($desaList as $desa): ?>
+                                            <option value="<?= esc($desa['id']); ?>" <?= (old('desa_id', isset($user) ? esc($user->desa_id) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                                <?= esc($desa['nama_desa']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php else: ?>
+                                <input type="hidden" name="desa_id" value="<?= auth()->user()->desa_id; ?>">
+                            <?php endif; ?>
 
                         </div>
 
-                        <!-- Form Group (user group) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputGroup">User Group</label>
-                            <br>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <?php foreach ($groups as $key => $group): ?>
-                                    <?php if ($key !== 'superadmin') :     // Sembunyikan superadmin 
-                                    ?>
-                                        <label class="btn btn-sm btn-outline-primary">
-                                            <input type="radio" name="group" value="<?= esc($key); ?>" id="group_<?= esc($key); ?>">
-                                            <?php
-                                            // Ubah label sesuai dengan kondisi
-                                            if ($key === 'op_desa') {
-                                                echo 'operator_web';
-                                            } elseif ($key === 'op_kabupaten') {
-                                                echo 'operator_layanan';
-                                            } else {
-                                                echo esc($group['title']);
-                                            }
-                                            ?>
-                                        </label>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </div>
-
-                        </div>
                         <!-- Submit button -->
                         <button class="btn btn-primary" type="submit">Update Pengguna</button>
 
@@ -111,6 +89,44 @@
             </div>
         </div>
     </form>
+
+    <?php if (auth()->user()->can('users.roles')): ?>
+        <form action="<?= site_url('/admin/users/change-role/' . esc($user->id)); ?>" method="post" class="mt-3">
+            <?= csrf_field(); ?>
+            <div class="row justify-content-center">
+                <div class="col-xl-8">
+                    <div class="card mb-4">
+                        <div class="card-header">Ubah Peran</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputGroup">User Group</label>
+                                <br>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <?php foreach ($groups as $key => $group): ?>
+                                        <?php if ($key !== 'superadmin' || auth()->user()->inGroup('superadmin')): ?>
+                                            <label class="btn btn-sm btn-outline-primary">
+                                                <input type="radio" name="group" value="<?= esc($key); ?>" id="group_<?= esc($key); ?>">
+                                                <?php
+                                                if ($key === 'op_desa') {
+                                                    echo 'operator_web';
+                                                } elseif ($key === 'op_kabupaten') {
+                                                    echo 'operator_layanan';
+                                                } else {
+                                                    echo esc($group['title']);
+                                                }
+                                                ?>
+                                            </label>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <button class="btn btn-warning" type="submit">Simpan Peran</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
 </div>
 <?= $this->endSection(); ?>
 <?= $this->section('script'); ?>

@@ -2,9 +2,9 @@
 
 <?= $this->section('content'); ?>
 <div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($analisisKategori) ? 'Edit Analisis Kategori' : 'Tambah Analisis Kategori'; ?></h1>
-    <form action="<?= isset($analisisKategori) ? site_url('/admin/analisis_master') : site_url('/admin/analisis-kategori/'); ?>" method="post">
-        <?= csrf_field(); ?>
+    <h1 class="h3 mb-2 text-gray-800 text-center"><?= isset($analisisKategori) ? 'Edit Analisis Kategori' : 'Tambah Analisis Kategori'; ?> x</h1>
+    <form action="<?= site_url('/admin/analisis-kategori'); ?>" method="post">
+        
         <input type="hidden" name="id_master" value="<?= esc($id_master); ?>">
         <input type="hidden" name="kategori_kode" value="<?= old('nama', isset($analisisKategori) ? $analisisKategori->kategori_kode : ''); ?>">
         <div class="row justify-content-center">

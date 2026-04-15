@@ -88,9 +88,7 @@ class TwebPenduduk extends Model
         'jamkesmas'             => 'permit_empty|alpha_numeric|max_length[50]',
         'akta_lahir'            => 'permit_empty|string|max_length[50]',
         'akta_perkawinan'       => 'permit_empty|string|max_length[50]',
-        'tanggalperkawinan'     => 'permit_empty|valid_date[Y-m-d]',
-        'akta_perceraian'       => 'permit_empty|string|max_length[50]',
-        'tanggalperceraian'     => 'permit_empty|valid_date[Y-m-d]',
+  
         'desa_id'               => 'required|integer',
     ];
 
@@ -98,7 +96,8 @@ class TwebPenduduk extends Model
     {
         return $this->select('tweb_penduduk.*, 
                           tweb_penduduk_sex.nama AS sex_nama, 
-                          tweb_penduduk_pendidikan.nama AS pendidikan_nama, 
+                          tweb_penduduk_pendidikan_kk.nama AS pendidikan_kk_nama, 
+                          tweb_penduduk_pendidikan_sdg.nama AS pendidikan_sdg_nama, 
                           tweb_penduduk_agama.nama AS agama_nama, 
                           tweb_penduduk_pekerjaan.nama AS pekerjaan_nama, 
                           tweb_penduduk_kawin.nama AS kawin_nama, 
@@ -107,8 +106,10 @@ class TwebPenduduk extends Model
                           tweb_golongan_darah.nama AS golongan_darah_nama, 
                           tweb_penduduk_status.nama AS status_nama, 
                           tweb_cacat.nama AS cacat_nama')
+            
             ->join('tweb_penduduk_sex', 'tweb_penduduk.sex = tweb_penduduk_sex.id', 'left')
-            ->join('tweb_penduduk_pendidikan', 'tweb_penduduk.pendidikan_kk_id = tweb_penduduk_pendidikan.id', 'left')
+            ->join('tweb_penduduk_pendidikan AS tweb_penduduk_pendidikan_kk', 'tweb_penduduk.pendidikan_kk_id = tweb_penduduk_pendidikan_kk.id', 'left')
+            ->join('tweb_penduduk_pendidikan AS tweb_penduduk_pendidikan_sdg', 'tweb_penduduk.pendidikan_id = tweb_penduduk_pendidikan_sdg.id', 'left')
             ->join('tweb_penduduk_agama', 'tweb_penduduk.agama_id = tweb_penduduk_agama.id', 'left')
             ->join('tweb_penduduk_pekerjaan', 'tweb_penduduk.pekerjaan_id = tweb_penduduk_pekerjaan.id', 'left')
             ->join('tweb_penduduk_kawin', 'tweb_penduduk.status_kawin = tweb_penduduk_kawin.id', 'left')

@@ -79,8 +79,8 @@ class Database extends Config
     public array $default = [
         'DSN'        => '',
         'hostname'   => 'localhost',
-        'username'   => 'root',
-        'password'   => 'root',
+        'username'   => 'dimas',
+        'password'   => 'password',
         'database'   => 'ci4',
         'schema'     => 'public',
         'DBDriver'   => 'Postgre',

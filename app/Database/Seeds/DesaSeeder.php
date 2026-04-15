@@ -9,7 +9,7 @@ class DesaSeeder extends Seeder
     public function run()
     {
 
-        $this->db->query('TRUNCATE desa CASCADE');
+        
         $data = [
 
             ['kode_desa' => '2013', 'nama_desa' => 'NGLERI', 'no_kecamatan' => '3', 'permalink' => 'ngleri'],

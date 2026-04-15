@@ -57,7 +57,17 @@ class ProgramController extends BaseController
 
     public function show($id)
     {
-        $data['programModel'] = $this->programModel->find($id);
+        $currentUser = auth()->user();
+        $program = $this->programModel->find($id);
+        if (!$program) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Program tidak ditemukan');
+        }
+        if (!$currentUser->inGroup('superadmin') && (int) $program['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+            // Hide existence to prevent enumeration
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Program tidak ditemukan');
+        }
+
+        $data['programModel'] = $program;
         $data['participants'] = $this->programPesertaModel
             ->getPenduduks()
             ->where('program_peserta.program_id', $id)

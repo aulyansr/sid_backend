@@ -61,11 +61,11 @@
                             <?php if (auth()->user()->inGroup('superadmin')): ?>
 
                                 <div class="col-md-12 mb-3">
-                                    <label class="small mb-1" for="inputDesa">Nama Desa</label>
+                                    <label class="small mb-1" for="inputDesa">Nama Desa (Opsional - Kosongkan untuk akses semua desa)</label>
                                     <select class="form-control select2" id="inputDesa" name="desa_id">
-                                        <option value="">Pilih Desa</option>
-                                        <?php foreach ($list_desa as $desa): ?>
-                                            <option value="<?= esc($desa['id']); ?>" <?= (old('id', isset($desa) ? esc($desa['id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
+                                        <option value="">Akses Semua Desa</option>
+                                        <?php foreach ($desaList as $desa): ?>
+                                            <option value="<?= esc($desa['id']); ?>" <?= (old('desa_id', isset($desa) ? esc($desa['id']) : '') == esc($desa['id'])) ? 'selected' : ''; ?>>
                                                 <?= esc($desa['nama_desa']); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -80,32 +80,31 @@
 
                         </div>
 
-                        <!-- Form Group (user group) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputGroup">User Group</label>
-                            <br>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <?php foreach ($groups as $key => $group): ?>
-                                    <?php if ($key !== 'superadmin') :     // Sembunyikan superadmin 
-                                    ?>
-                                        <label class="btn btn-sm btn-outline-primary">
-                                            <input type="radio" name="group" value="<?= esc($key); ?>" id="group_<?= esc($key); ?>">
-                                            <?php
-                                            // Ubah label sesuai dengan kondisi
-                                            if ($key === 'op_desa') {
-                                                echo 'operator_web';
-                                            } elseif ($key === 'op_kabupaten') {
-                                                echo 'operator_layanan';
-                                            } else {
-                                                echo esc($group['title']);
-                                            }
-                                            ?>
-                                        </label>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </div>
+                        <?php if (auth()->user()->can('users.roles')): ?>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputGroup">User Group</label>
+                                <br>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <?php foreach ($groups as $key => $group): ?>
+                                        <?php if ($key !== 'superadmin' || auth()->user()->inGroup('superadmin')): ?>
+                                            <label class="btn btn-sm btn-outline-primary">
+                                                <input type="radio" name="group" value="<?= esc($key); ?>" id="group_<?= esc($key); ?>">
+                                                <?php
+                                                if ($key === 'op_desa') {
+                                                    echo 'operator_web';
+                                                } elseif ($key === 'op_kabupaten') {
+                                                    echo 'operator_layanan';
+                                                } else {
+                                                    echo esc($group['title']);
+                                                }
+                                                ?>
+                                            </label>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
 
-                        </div>
+                            </div>
+                        <?php endif; ?>
 
                         <!-- Submit button -->
                         <button class="btn btn-primary" type="submit">Update Pengguna</button>
