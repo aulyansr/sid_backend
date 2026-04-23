@@ -180,8 +180,8 @@ class SuratController extends BaseController
         $desa =   $desaModel->where('desa_id', $surat['desa_id'])->first();
 
         // Replace placeholders with actual data
-        $templateProcessor->setValue('nama_kabupaten', $desa['nama_kabupaten']);
-        $templateProcessor->setValue('NAMA_KABUPATEN', $desa['nama_kabupaten']);
+        //$templateProcessor->setValue('nama_kabupaten', $desa['nama_kabupaten']);
+        //$templateProcessor->setValue('NAMA_KABUPATEN', $desa['nama_kabupaten']);
         $templateProcessor->setValue('nama_kecamatan', $desa['nama_kecamatan']);
         $templateProcessor->setValue('NAMA_KECAMATAN', $desa['nama_kecamatan']);
         $templateProcessor->setValue('NAMA_DESA', $desa['nama_desa']);
@@ -198,7 +198,7 @@ class SuratController extends BaseController
         $templateProcessor->setValue('sex', $penduduk['sex_nama']);
         $templateProcessor->setValue('pekerjaan', $penduduk['pekerjaan_nama']);
         $templateProcessor->setValue('status_kawin', $penduduk['kawin_nama']);
-        $templateProcessor->setValue('pendidikan', $penduduk['pendidikan_nama']);
+        //$templateProcessor->setValue('pendidikan', $penduduk['pendidikan_nama']);
         $templateProcessor->setValue('agama', $penduduk['agama_nama']);
         $templateProcessor->setValue('alamat_sekarang', $penduduk['alamat_sekarang']);
         $templateProcessor->setValue('keperluan', $surat['keperluan']);
