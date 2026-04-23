@@ -166,10 +166,10 @@ class SuratController extends BaseController
 
         $jenis = $surat['jenis_surat'];
         if (isset($templates[$jenis])) {
-            $templatePath = 'assets/template/' . $templates[$jenis];
+            $templatePath = 'assets/template/docx/' . $templates[$jenis];
         } else {
             // Default template if jenis_surat is not found in the list
-            $templatePath = 'assets/template/template_keterangan.docx';
+            $templatePath = 'assets/template/docx/template_keterangan.docx';
         }
         $penduduk = $this->pendudukModel->getAllAttributes()->where('nik', $surat['nik'])->first();
 
