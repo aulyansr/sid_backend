@@ -191,6 +191,7 @@ $routes->group('admin', ['filter' => 'session'],  function ($routes) {
     $routes->get('surat', 'SuratController::index', ['filter' => 'permission:kelurahan.access']);
     $routes->get('surat/create/(:any)', 'SuratController::create/$1', ['filter' => 'permission:kelurahan.access']);
     $routes->post('surat/store', 'SuratController::store', ['filter' => 'permission:kelurahan.access']);
+    $routes->get('surat/cetak/(:num)', 'SuratController::cetak/$1', ['filter' => 'permission:kelurahan.access']);
     $routes->get('surat/export/(:num)/(:segment)', 'SuratController::export/$1/$2', ['filter' => 'permission:kelurahan.access']);
     $routes->get('surat/delete/(:segment)', 'SuratController::delete/$1', ['filter' => 'permission:kelurahan.access']);
 

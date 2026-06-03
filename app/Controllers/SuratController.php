@@ -72,139 +72,70 @@ class SuratController extends BaseController
         $surat = $this->suratModel->find($id);
 
         // Export the surat to Word
-        $this->exportWord($surat);
-
-        // Redirect to a different page
-        return redirect()->to('admin/surat');
+        return $this->exportWord($surat);
     }
 
 
     public function export($id, $format)
     {
-        $surat = $this->suratModel->find($id);
-        if (!$surat) {
+        $context = $this->getSuratContext($id);
+        if (! $context) {
             return redirect()->back()->with('error', 'Surat tidak ditemukan');
         }
-        $currentUser = auth()->user();
-        if (! $currentUser->inGroup('superadmin') && (int) $surat['desa_id'] !== (int) ($currentUser->desa_id ?? 0)) {
+
+        if (! $this->canAccessSurat($context['surat'])) {
             return redirect()->back()->with('error', 'Akses ditolak.');
         }
 
         if ($format == 'word') {
-            return $this->exportWord($surat);
+            return $this->exportWord($context['surat']);
         } elseif ($format == 'pdf') {
-            return $this->exportPDF($surat);
+            return $this->exportPDF($context);
         }
 
         return redirect()->back()->with('error', 'Format tidak valid');
     }
 
+    public function cetak($id)
+    {
+        $context = $this->getSuratContext($id);
+        if (! $context) {
+            return redirect()->back()->with('error', 'Surat tidak ditemukan');
+        }
+
+        if (! $this->canAccessSurat($context['surat'])) {
+            return redirect()->back()->with('error', 'Akses ditolak.');
+        }
+
+        return $this->exportPDF($context);
+    }
+
     private function exportWord($surat)
     {
         helper('url');
-        $desa = $this->configModel->find($surat['desa_id']);
-        $templates = [
-            "template_skck" => "template_skck.docx",
-            "surat_ket_rekom_dtks" => "surat_ket_rekom_dtks.docx",
-            "surat_permohonan_duplikat_kelahiran" => "surat_permohonan_duplikat_kelahiran.docx",
-            "surat_pengantar_nikah_wanita_473" => "surat_pengantar_nikah_wanita_473.docx",
-            "surat_ket_imunisasi_caten" => "surat_ket_imunisasi_caten.docx",
-            "surat_ket_beda_nama" => "surat_ket_beda_nama.docx",
-            "surat_validasi_bapel_jamkesos" => "surat_validasi_bapel_jamkesos.docx",
-            "surat_pengantar_isbat_n3_473" => "surat_pengantar_isbat_n3_473.docx",
-            "surat_pengantar_nikah_Laki-laki_kristen" => "surat_pengantar_nikah_Laki-laki_kristen.docx",
-            "surat_izin_orangtua" => "surat_izin_orangtua.docx",
-            "surat_f204" => "surat_f204.docx",
-            "surat_ket_kurang_mampu" => "surat_ket_kurang_mampu.docx",
-            "surat_tanpa_ikatan" => "surat_tanpa_ikatan.docx",
-            "surat_ket_nikah" => "surat_ket_nikah.docx",
-            "surat_ket_blm_masuk_database" => "surat_ket_blm_masuk_database.docx",
-            "surat_ket_kia" => "surat_ket_kia.docx",
-            "surat_ket_kematian_n6_473" => "surat_ket_kematian_n6_473.docx",
-            "surat_batal_pindah" => "surat_batal_pindah.docx",
-            "surat_f106" => "surat_f106.docx",
-            "surat_pengantar_kip" => "surat_pengantar_kip.docx",
-            "surat_ket_domisili_usaha" => "surat_ket_domisili_usaha.docx",
-            "surat_keterangan_harga_tanah" => "surat_keterangan_harga_tanah.docx",
-            "surat_sktm_jamkes_diy" => "surat_sktm_jamkes_diy.docx",
-            "surat_f203" => "surat_f203.docx",
-            "surat_izin_orangtua_n5_473" => "surat_izin_orangtua_n5_473.docx",
-            "surat_wali" => "surat_wali.docx",
-            "surat_permohonan_cerai" => "surat_permohonan_cerai.docx",
-            "surat_izin_acara" => "surat_izin_acara.docx",
-            "surat_f107" => "surat_f107.docx",
-            "surat_jalan" => "surat_jalan.docx",
-            "surat_ket_pergi_kawin" => "surat_ket_pergi_kawin.docx",
-            "surat_ket_rekom_jamkes" => "surat_ket_rekom_jamkes.docx",
-            "surat_ket_pengantar" => "surat_ket_pengantar.docx",
-            "surat_pengantar_nikah_pria_473" => "surat_pengantar_nikah_pria_473.docx",
-            "surat_pengantar_nikah_kristen" => "surat_pengantar_nikah_kristen.docx",
-            "surat_pengantar_jasaraharja" => "surat_pengantar_jasaraharja.docx",
-            "surat_ket_belum_nikah" => "surat_ket_belum_nikah.docx",
-            "surat_f104" => "surat_f104.docx",
-            "surat_f105" => "surat_f105.docx",
-            "surat_pernyataan_keberadaan_pasutri" => "surat_pernyataan_keberadaan_pasutri.docx",
-            "surat_ket_kematian_suami_istri" => "surat_ket_kematian_suami_istri.docx",
-            "surat_permohonan_dispensasi_nikah" => "surat_permohonan_dispensasi_nikah.docx",
-            "surat_pernyataan_agama" => "surat_pernyataan_agama.docx",
-            "surat_izin_keramaian" => "surat_izin_keramaian.docx",
-            "surat_ahli_waris" => "surat_ahli_waris.docx",
-            "surat_permohonan_akta" => "surat_permohonan_akta.docx",
-            "surat_f102" => "surat_f102.docx",
-            "surat_permohonan_duplikat_kematian" => "surat_permohonan_duplikat_kematian.docx",
-            "surat_pernyataan_jejaka" => "surat_pernyataan_jejaka.docx",
-            "surat_ket_numpang_nikah" => "surat_ket_numpang_nikah.docx",
-            "surat_keterangan_domisili" => "surat_keterangan_domisili.docx",
-            "surat_ket_catatan_kriminal" => "surat_ket_catatan_kriminal.docx",
-            "surat_ket_belum_akta_nikah" => "surat_ket_belum_akta_nikah.docx",
-            "surat_wali_2" => "surat_wali_2.docx",
-            "surat_ket_penduduk" => "surat_ket_penduduk.docx",
-            "surat_ket_kehilangan" => "surat_ket_kehilangan.docx",
-            "surat_wali_hakim" => "surat_wali_hakim.docx",
-            "surat_permohonan_duplikat_surat_nikah" => "surat_permohonan_duplikat_surat_nikah.docx",
-        ];
+        $jenis = (string) ($surat['jenis_surat'] ?? '');
+        $templatePath = $this->getTemplatePath($this->getTemplateFilename($jenis));
 
-        $jenis = $surat['jenis_surat'];
-        if (isset($templates[$jenis])) {
-            $templatePath = 'assets/template/docx/' . $templates[$jenis];
-        } else {
-            // Default template if jenis_surat is not found in the list
-            $templatePath = 'assets/template/docx/template_keterangan.docx';
+        if (! is_file($templatePath)) {
+            return redirect()->back()->with('error', 'Template surat tidak ditemukan.');
         }
-        $penduduk = $this->pendudukModel->getAllAttributes()->where('nik', $surat['nik'])->first();
 
-        $phpWord           = \PhpOffice\PhpWord\IOFactory::load($templatePath);
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
 
         $desaModel = new ConfigModel();
         $desa =   $desaModel->where('desa_id', $surat['desa_id'])->first();
+        if (! $desa) {
+            $desa = $desaModel->find($surat['desa_id']);
+        }
+        $penduduk = $this->getPendudukSurat($surat['nik']);
 
-        // Replace placeholders with actual data
-        //$templateProcessor->setValue('nama_kabupaten', $desa['nama_kabupaten']);
-        //$templateProcessor->setValue('NAMA_KABUPATEN', $desa['nama_kabupaten']);
-        $templateProcessor->setValue('nama_kecamatan', $desa['nama_kecamatan']);
-        $templateProcessor->setValue('NAMA_KECAMATAN', $desa['nama_kecamatan']);
-        $templateProcessor->setValue('NAMA_DESA', $desa['nama_desa']);
-        $templateProcessor->setValue('nama_desa', $desa['nama_desa']);
-        $templateProcessor->setValue('alamat_kantor', $desa['alamat_kantor']);
-        $templateProcessor->setValue('email', $desa['email_desa']);
-        $templateProcessor->setValue('web', base_url());
-        $templateProcessor->setValue('nomorsurat', $surat['nomor_surat']);
-        $templateProcessor->setValue('nomor_surat', $surat['nomor_surat']);
-        $templateProcessor->setValue('nama', $penduduk['nama']);
-        $templateProcessor->setValue('nik', $penduduk['nik']);
-        $templateProcessor->setValue('tempat_lahir', $penduduk['tempatlahir']);
-        $templateProcessor->setValue('tanggal_lahir', $penduduk['tanggallahir']);
-        $templateProcessor->setValue('sex', $penduduk['sex_nama']);
-        $templateProcessor->setValue('pekerjaan', $penduduk['pekerjaan_nama']);
-        $templateProcessor->setValue('status_kawin', $penduduk['kawin_nama']);
-        //$templateProcessor->setValue('pendidikan', $penduduk['pendidikan_nama']);
-        $templateProcessor->setValue('agama', $penduduk['agama_nama']);
-        $templateProcessor->setValue('alamat_sekarang', $penduduk['alamat_sekarang']);
-        $templateProcessor->setValue('keperluan', $surat['keperluan']);
-        $templateProcessor->setValue('tanggal', formatDateIndonesian(date('Y-m-d')));
-        $templateProcessor->setValue('nama_kades', $desa['nama_kepala_desa']);
-        $filename = 'Surat_' . $surat['jenis_surat'] . '_' . $surat['nik'] . '.docx';
+        $templateValues = $this->getTemplateValues($surat, $penduduk ?? [], $desa ?? []);
+
+        foreach ($templateProcessor->getVariables() as $placeholder) {
+            $templateProcessor->setValue($placeholder, $this->resolveTemplateValue($placeholder, $templateValues));
+        }
+
+        $filename = 'Surat_' . $jenis . '_' . ($surat['nik'] ?? '') . '.docx';
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
 
@@ -213,18 +144,224 @@ class SuratController extends BaseController
         return redirect()->to('admin/surat');
     }
 
+    private function getTemplatePath(string $filename): string
+    {
+        $paths = [
+            FCPATH . 'assets/template/docx/' . $filename,
+            FCPATH . 'assets/template/' . $filename,
+            ROOTPATH . 'public/assets/template/docx/' . $filename,
+            ROOTPATH . 'public/assets/template/' . $filename,
+        ];
 
-    private function exportPDF($surat)
+        foreach ($paths as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
+        }
+
+        return $paths[0];
+    }
+
+    private function getTemplateFilename(string $jenisSurat): string
+    {
+        if ($jenisSurat === '' || $jenisSurat === 'default') {
+            return 'template_keterangan.docx';
+        }
+
+        if (! preg_match('/^[A-Za-z0-9_-]+$/', $jenisSurat)) {
+            return '';
+        }
+
+        $filename = basename($jenisSurat) . '.docx';
+
+        if (is_file($this->getTemplatePath($filename))) {
+            return $filename;
+        }
+
+        return $filename;
+    }
+
+    private function getTemplateValues(array $surat, array $penduduk, array $desa): array
+    {
+        $tanggalSurat = formatDateIndonesian(date('Y-m-d'));
+        $ttl = trim(($penduduk['tempatlahir'] ?? '') . ', ' . ($penduduk['tanggallahir'] ?? ''), ' ,');
+        $pendidikan = $penduduk['pendidikan_sdg_nama']
+            ?? $penduduk['pendidikan_kk_nama']
+            ?? '';
+
+        $values = [
+            'NOMOR_SURAT' => $surat['nomor_surat'] ?? '',
+            'nomor_surat' => $surat['nomor_surat'] ?? '',
+            'nomorsurat' => $surat['nomor_surat'] ?? '',
+            'NAMA' => $penduduk['nama'] ?? '',
+            'nama' => $penduduk['nama'] ?? '',
+            'NO_KTP' => $penduduk['nik'] ?? ($surat['nik'] ?? ''),
+            'NIK' => $penduduk['nik'] ?? ($surat['nik'] ?? ''),
+            'nik' => $penduduk['nik'] ?? ($surat['nik'] ?? ''),
+            'NO_KK' => $penduduk['no_kk'] ?? '',
+            'TTL' => $ttl,
+            'ttl' => $ttl,
+            'TEMPATLAHIR' => $penduduk['tempatlahir'] ?? '',
+            'tempat_lahir' => $penduduk['tempatlahir'] ?? '',
+            'TGLLAHIR' => $penduduk['tanggallahir'] ?? '',
+            'TGL_LAHIR' => $penduduk['tanggallahir'] ?? '',
+            'tanggal_lahir' => $penduduk['tanggallahir'] ?? '',
+            'SEX' => $penduduk['sex_nama'] ?? '',
+            'sex' => $penduduk['sex_nama'] ?? '',
+            'PEKERJAAN' => $penduduk['pekerjaan_nama'] ?? '',
+            'pekerjaan' => $penduduk['pekerjaan_nama'] ?? '',
+            'STATUS_KAWIN' => $penduduk['kawin_nama'] ?? '',
+            'status_kawin' => $penduduk['kawin_nama'] ?? '',
+            'PENDIDIKAN' => $pendidikan,
+            'pendidikan' => $pendidikan,
+            'AGAMA' => $penduduk['agama_nama'] ?? '',
+            'agama' => $penduduk['agama_nama'] ?? '',
+            'ALAMAT' => $penduduk['alamat_sekarang'] ?? '',
+            'ALAMAT_SEKARANG' => $penduduk['alamat_sekarang'] ?? '',
+            'alamat' => $penduduk['alamat_sekarang'] ?? '',
+            'alamat_sekarang' => $penduduk['alamat_sekarang'] ?? '',
+            'KEPERLUAN' => $surat['keperluan'] ?? '',
+            'keperluan' => $surat['keperluan'] ?? '',
+            'KETERANGAN' => $surat['keperluan'] ?? '',
+            'TUJUAN' => $surat['keperluan'] ?? '',
+            'TGL_SURAT' => $tanggalSurat,
+            'tanggal' => $tanggalSurat,
+            'TAHUN' => date('Y'),
+            'tahun' => date('Y'),
+            'NAMA_DES' => $desa['nama_desa'] ?? '',
+            'NAMA_DESA' => $desa['nama_desa'] ?? '',
+            'nama_des' => $desa['nama_desa'] ?? '',
+            'nama_desa' => $desa['nama_desa'] ?? '',
+            'NAMA_DESA_JAWA' => $desa['nama_desa'] ?? '',
+            'NAMA_KEC' => $desa['nama_kecamatan'] ?? '',
+            'NAMA_KECAMATAN' => $desa['nama_kecamatan'] ?? '',
+            'nama_kec' => $desa['nama_kecamatan'] ?? '',
+            'nama_kecamatan' => $desa['nama_kecamatan'] ?? '',
+            'NAMA_KAB' => $desa['nama_kabupaten'] ?? '',
+            'NAMA_KABUPATEN' => $desa['nama_kabupaten'] ?? '',
+            'nama_kab' => $desa['nama_kabupaten'] ?? '',
+            'nama_kabupaten' => $desa['nama_kabupaten'] ?? '',
+            'KODE_DESA' => $desa['kode_desa'] ?? '',
+            'ALAMAT_DES' => $desa['alamat_kantor'] ?? '',
+            'alamat_kantor' => $desa['alamat_kantor'] ?? '',
+            'ALAMAT_MAIL' => $desa['email_desa'] ?? '',
+            'email' => $desa['email_desa'] ?? '',
+            'web' => base_url(),
+            'NAMA_PAMONG' => $desa['nama_kepala_desa'] ?? '',
+            'NAMA_KADES' => $desa['nama_kepala_desa'] ?? '',
+            'nama_kades' => $desa['nama_kepala_desa'] ?? '',
+            'NIP_PAMONG' => $desa['nip_kepala_desa'] ?? '',
+            'nip_pamong' => $desa['nip_kepala_desa'] ?? '',
+            'JABATAN' => 'Kepala Desa',
+            'jabatan' => 'Kepala Desa',
+            'NAMA_KEPALA_CAMAT' => $desa['nama_kepala_camat'] ?? '',
+            'NIP_KEPALA_CAMAT' => $desa['nip_kepala_camat'] ?? '',
+            'NAMA_AYAH' => $penduduk['nama_ayah'] ?? '',
+            'AYAH_NAMA' => $penduduk['nama_ayah'] ?? '',
+            'AYAH_NIK' => $penduduk['ayah_nik'] ?? '',
+            'NAMA_IBU' => $penduduk['nama_ibu'] ?? '',
+            'IBU_NAMA' => $penduduk['nama_ibu'] ?? '',
+            'IBU_NIK' => $penduduk['ibu_nik'] ?? '',
+            'WARGA_NEGARA' => $penduduk['warganegara_nama'] ?? '',
+            'USIA' => $this->getAge($penduduk['tanggallahir'] ?? null),
+        ];
+
+        return array_map(static fn($value) => (string) $value, $values);
+    }
+
+    private function resolveTemplateValue(string $placeholder, array $values): string
+    {
+        if (array_key_exists($placeholder, $values)) {
+            return $values[$placeholder];
+        }
+
+        $upperPlaceholder = strtoupper($placeholder);
+        if (array_key_exists($upperPlaceholder, $values)) {
+            return $values[$upperPlaceholder];
+        }
+
+        $lowerPlaceholder = strtolower($placeholder);
+        if (array_key_exists($lowerPlaceholder, $values)) {
+            return $values[$lowerPlaceholder];
+        }
+
+        $postValue = $this->request->getPost($placeholder)
+            ?? $this->request->getPost($upperPlaceholder)
+            ?? $this->request->getPost($lowerPlaceholder);
+
+        if ($postValue !== null) {
+            return (string) $postValue;
+        }
+
+        return '';
+    }
+
+    private function getAge(?string $birthDate): string
+    {
+        if (! $birthDate) {
+            return '';
+        }
+
+        try {
+            return (string) (new \DateTime($birthDate))->diff(new \DateTime())->y;
+        } catch (\Exception $e) {
+            return '';
+        }
+    }
+
+
+    private function exportPDF(array $context)
     {
         $dompdf = new Dompdf();
-        $html = view('surat/pdf_template', ['surat' => $surat]);
+        $html = view('surat/pdf_template', $context);
 
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $dompdf->stream('Surat_' . $surat['jenis_surat'] . '.pdf');
+        $surat = $context['surat'];
+        $dompdf->stream('Surat_' . $surat['jenis_surat'] . '_' . $surat['nik'] . '.pdf', ['Attachment' => false]);
         exit;
+    }
+
+    private function getSuratContext($id): ?array
+    {
+        $surat = $this->suratModel->find($id);
+        if (! $surat) {
+            return null;
+        }
+
+        $desa = $this->configModel->where('desa_id', $surat['desa_id'])->first();
+        if (! $desa) {
+            $desa = $this->configModel->find($surat['desa_id']);
+        }
+
+        $penduduk = $this->getPendudukSurat($surat['nik']);
+
+        return [
+            'surat' => $surat,
+            'desa' => $desa ?? [],
+            'penduduk' => $penduduk ?? [],
+            'tanggal' => formatDateIndonesian(date('Y-m-d')),
+        ];
+    }
+
+    private function canAccessSurat(array $surat): bool
+    {
+        $currentUser = auth()->user();
+
+        return $currentUser->inGroup('superadmin')
+            || (int) $surat['desa_id'] === (int) ($currentUser->desa_id ?? 0);
+    }
+
+    private function getPendudukSurat(string $nik): ?array
+    {
+        return $this->pendudukModel
+            ->getAllAttributes()
+            ->select('tweb_keluarga.no_kk AS no_kk')
+            ->join('tweb_keluarga', 'tweb_penduduk.id_kk = tweb_keluarga.id', 'left')
+            ->where('tweb_penduduk.nik', $nik)
+            ->first();
     }
 
     public function delete($id)

@@ -245,6 +245,9 @@
                                         <?php foreach ($surat_keluar as $surat) : ?>
                                             <tr>
                                                 <td>
+                                                    <a href="<?= site_url('admin/surat/cetak/' . $surat['id']); ?>" class="btn btn-sm btn-success" target="_blank">
+                                                        <i class="fa fa-print"></i> Cetak PDF
+                                                    </a>
                                                     <a href="<?= site_url('admin/surat/export/' . $surat['id'] . '/' . 'word'); ?>" class="btn btn-primary">Ekspor ke Word</a>
                                                     <a href="<?= site_url('/admin/surat/delete/' . esc($surat['id'])); ?>" class="btn btn-sm btn-danger" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus surat ini?');">
                                                         <i class="fa fa-trash"></i> Hapus
