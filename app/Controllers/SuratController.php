@@ -33,6 +33,8 @@ class SuratController extends BaseController
         } else {
             $data['surat_keluar'] = $this->suratModel->where('desa_id', $currentUser->desa_id)->findAll();
         }
+        $data['template_surat'] = $this->getAvailableTemplates();
+
         return view('surat/index', $data);
     }
 
@@ -130,6 +132,7 @@ class SuratController extends BaseController
         $penduduk = $this->getPendudukSurat($surat['nik']);
 
         $templateValues = $this->getTemplateValues($surat, $penduduk ?? [], $desa ?? []);
+        $templateValues = $this->withTemplatePlaceholderDefaults($templateProcessor->getVariables(), $templateValues);
 
         foreach ($templateProcessor->getVariables() as $placeholder) {
             $templateProcessor->setValue($placeholder, $this->resolveTemplateValue($placeholder, $templateValues));
@@ -160,6 +163,48 @@ class SuratController extends BaseController
         }
 
         return $paths[0];
+    }
+
+    private function getAvailableTemplates(): array
+    {
+        $templates = [];
+        $paths = [
+            FCPATH . 'assets/template/docx/*.docx',
+            FCPATH . 'assets/template/*.docx',
+            ROOTPATH . 'public/assets/template/docx/*.docx',
+            ROOTPATH . 'public/assets/template/*.docx',
+        ];
+
+        foreach ($paths as $path) {
+            foreach (glob($path) ?: [] as $file) {
+                $key = pathinfo($file, PATHINFO_FILENAME);
+                $templates[$key] ??= [
+                    'jenis_surat' => $key,
+                    'nama' => $this->formatTemplateName($key),
+                ];
+            }
+        }
+
+        uasort($templates, static fn($a, $b) => strcasecmp($a['nama'], $b['nama']));
+
+        return array_values($templates);
+    }
+
+    private function formatTemplateName(string $template): string
+    {
+        if ($template === 'template_keterangan') {
+            return 'Keterangan';
+        }
+
+        if (str_starts_with($template, 'template_')) {
+            $template = substr($template, strlen('template_'));
+        }
+
+        if (str_starts_with($template, 'surat_')) {
+            $template = substr($template, strlen('surat_'));
+        }
+
+        return ucwords(str_replace(['_', '-'], ' ', $template));
     }
 
     private function getTemplateFilename(string $jenisSurat): string
@@ -258,13 +303,44 @@ class SuratController extends BaseController
             'NIP_KEPALA_CAMAT' => $desa['nip_kepala_camat'] ?? '',
             'NAMA_AYAH' => $penduduk['nama_ayah'] ?? '',
             'AYAH_NAMA' => $penduduk['nama_ayah'] ?? '',
+            'AYAH_NAMA_AYAH' => $penduduk['nama_ayah'] ?? '',
             'AYAH_NIK' => $penduduk['ayah_nik'] ?? '',
+            'AYAH_AGAMA' => $penduduk['agama_nama'] ?? '',
+            'AYAH_ALAMAT' => $penduduk['alamat_sekarang'] ?? '',
+            'AYAH_PEKERJAAN' => $penduduk['pekerjaan_nama'] ?? '',
+            'AYAH_PENDIDIKAN' => $pendidikan,
+            'AYAH_SEX' => $penduduk['sex_nama'] ?? '',
+            'AYAH_STATUS_KAWIN' => $penduduk['kawin_nama'] ?? '',
+            'AYAH_TTL' => $ttl,
+            'AYAH_USIA' => $this->getAge($penduduk['tanggallahir'] ?? null),
+            'AYAH_WARGA_NEGARA' => $penduduk['warganegara_nama'] ?? '',
             'NAMA_IBU' => $penduduk['nama_ibu'] ?? '',
             'IBU_NAMA' => $penduduk['nama_ibu'] ?? '',
+            'IBU_NAMA_AYAH' => $penduduk['nama_ayah'] ?? '',
             'IBU_NIK' => $penduduk['ibu_nik'] ?? '',
+            'IBU_AGAMA' => $penduduk['agama_nama'] ?? '',
+            'IBU_ALAMAT' => $penduduk['alamat_sekarang'] ?? '',
+            'IBU_PEKERJAAN' => $penduduk['pekerjaan_nama'] ?? '',
+            'IBU_SEX' => $penduduk['sex_nama'] ?? '',
+            'IBU_TTL' => $ttl,
+            'IBU_USIA' => $this->getAge($penduduk['tanggallahir'] ?? null),
+            'IBU_WARGA_NEGARA' => $penduduk['warganegara_nama'] ?? '',
             'WARGA_NEGARA' => $penduduk['warganegara_nama'] ?? '',
             'USIA' => $this->getAge($penduduk['tanggallahir'] ?? null),
         ];
+
+        return array_map(static fn($value) => (string) $value, $values);
+    }
+
+    private function withTemplatePlaceholderDefaults(array $placeholders, array $values): array
+    {
+        foreach ($placeholders as $placeholder) {
+            if (array_key_exists($placeholder, $values)) {
+                continue;
+            }
+
+            $values[$placeholder] = $this->resolveTemplateValue($placeholder, $values);
+        }
 
         return array_map(static fn($value) => (string) $value, $values);
     }
