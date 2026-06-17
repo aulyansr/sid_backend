@@ -131,18 +131,44 @@ class SuratController extends BaseController
         }
         $penduduk = $this->getPendudukSurat($surat['nik']);
 
+        $templatePlaceholders = $templateProcessor->getVariables();
         $templateValues = $this->getTemplateValues($surat, $penduduk ?? [], $desa ?? []);
-        $templateValues = $this->withTemplatePlaceholderDefaults($templateProcessor->getVariables(), $templateValues);
+        $templateValues = $this->withTemplatePlaceholderDefaults($templatePlaceholders, $templateValues);
 
-        foreach ($templateProcessor->getVariables() as $placeholder) {
+        foreach ($this->getTemplatePlaceholdersForRender($templatePlaceholders) as $placeholder) {
             $templateProcessor->setValue($placeholder, $this->resolveTemplateValue($placeholder, $templateValues));
         }
 
         $filename = 'Surat_' . $jenis . '_' . ($surat['nik'] ?? '') . '.docx';
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        $outputDirectory = WRITEPATH . 'cache';
+        if (! is_dir($outputDirectory)) {
+            mkdir($outputDirectory, 0775, true);
+        }
 
-        $templateProcessor->saveAs('php://output');
+        $outputPath = tempnam($outputDirectory, 'surat_');
+
+        if ($outputPath === false) {
+            return redirect()->back()->with('error', 'Gagal menyiapkan file surat.');
+        }
+
+        $templateProcessor->saveAs($outputPath);
+        $unresolvedPlaceholders = $this->getUnresolvedDocxPlaceholders($outputPath);
+
+        if ($unresolvedPlaceholders !== []) {
+            @unlink($outputPath);
+
+            return redirect()->back()->with(
+                'error',
+                'Masih ada placeholder surat yang belum ter-render: ' . implode(', ', $unresolvedPlaceholders)
+            );
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Content-Length: ' . filesize($outputPath));
+
+        readfile($outputPath);
+        @unlink($outputPath);
         exit;
         return redirect()->to('admin/surat');
     }
@@ -329,7 +355,7 @@ class SuratController extends BaseController
             'USIA' => $this->getAge($penduduk['tanggallahir'] ?? null),
         ];
 
-        return array_map(static fn($value) => (string) $value, $values);
+        return $this->withTemplatePlaceholderDefaults($this->getSupportedTemplatePlaceholders(), $values);
     }
 
     private function withTemplatePlaceholderDefaults(array $placeholders, array $values): array
@@ -343,6 +369,290 @@ class SuratController extends BaseController
         }
 
         return array_map(static fn($value) => (string) $value, $values);
+    }
+
+    private function getTemplatePlaceholdersForRender(array $templatePlaceholders): array
+    {
+        return array_values(array_unique(array_merge($this->getSupportedTemplatePlaceholders(), $templatePlaceholders)));
+    }
+
+    private function getUnresolvedDocxPlaceholders(string $filePath): array
+    {
+        $placeholders = [];
+
+        foreach ($this->getDocxXmlParts($filePath) as $contents) {
+            $text = html_entity_decode(strip_tags($contents), ENT_QUOTES | ENT_XML1);
+            preg_match_all('/\$\{([^}]+)\}/', $text, $matches);
+
+            foreach ($matches[1] as $placeholder) {
+                $placeholders[$placeholder] = true;
+            }
+        }
+
+        ksort($placeholders);
+
+        return array_keys($placeholders);
+    }
+
+    private function getDocxXmlParts(string $filePath): array
+    {
+        if (class_exists(\ZipArchive::class)) {
+            return $this->getDocxXmlPartsFromZipArchive($filePath);
+        }
+
+        return $this->getDocxXmlPartsFromUnzip($filePath);
+    }
+
+    private function getDocxXmlPartsFromZipArchive(string $filePath): array
+    {
+        $zip = new \ZipArchive();
+        if ($zip->open($filePath) !== true) {
+            return [];
+        }
+
+        $parts = [];
+
+        for ($index = 0; $index < $zip->numFiles; $index++) {
+            $entryName = $zip->getNameIndex($index);
+            if (! $entryName || ! preg_match('#^word/(document|header\d+|footer\d+)\.xml$#', $entryName)) {
+                continue;
+            }
+
+            $contents = $zip->getFromName($entryName);
+            if ($contents === false) {
+                continue;
+            }
+
+            $parts[] = $contents;
+        }
+
+        $zip->close();
+
+        return $parts;
+    }
+
+    private function getDocxXmlPartsFromUnzip(string $filePath): array
+    {
+        if (! function_exists('shell_exec')) {
+            return [];
+        }
+
+        $entryList = shell_exec('unzip -Z1 ' . escapeshellarg($filePath));
+        if (! is_string($entryList) || $entryList === '') {
+            return [];
+        }
+
+        $parts = [];
+
+        foreach (preg_split('/\R/', trim($entryList)) ?: [] as $entryName) {
+            if (! preg_match('#^word/(document|header\d+|footer\d+)\.xml$#', $entryName)) {
+                continue;
+            }
+
+            $contents = shell_exec('unzip -p ' . escapeshellarg($filePath) . ' ' . escapeshellarg($entryName));
+            if (is_string($contents) && $contents !== '') {
+                $parts[] = $contents;
+            }
+        }
+
+        return $parts;
+    }
+
+    private function getSupportedTemplatePlaceholders(): array
+    {
+        return [
+            '2010',
+            'AGAMA',
+            'AGAMA_CALON',
+            'AGAMA_WALI',
+            'ALAMAT',
+            'ALAMAT_CALON',
+            'ALAMAT_DES',
+            'ALAMAT_MAIL',
+            'ALAMAT_NIKAH',
+            'ALAMAT_SEKARANG',
+            'ALAMAT_TERMOHON',
+            'ALAMAT_WALI',
+            'AYAH_AGAMA',
+            'AYAH_ALAMAT',
+            'AYAH_NAMA',
+            'AYAH_NAMA_AYAH',
+            'AYAH_NIK',
+            'AYAH_NO_KK',
+            'AYAH_PEKERJAAN',
+            'AYAH_PENDIDIKAN',
+            'AYAH_SEX',
+            'AYAH_STATUS_KAWIN',
+            'AYAH_TTL',
+            'AYAH_USIA',
+            'AYAH_WARGA_NEGARA',
+            'BIDANG_KEG',
+            'BIN',
+            'BINTI',
+            'HARI',
+            'HARI_LAHIR',
+            'HARI_MATI',
+            'HARI_NIKAH',
+            'HUBKEL_BARU1',
+            'HUBKEL_BARU2',
+            'HUBKEL_BARU3',
+            'HUBKEL_BARU4',
+            'HUBKEL_BARU5',
+            'HUBKEL_BARU6',
+            'HUBUNGAN',
+            'HUBUNGAN_WALI',
+            'HUB_LAPOR',
+            'IBU_AGAMA',
+            'IBU_ALAMAT',
+            'IBU_NAMA',
+            'IBU_NAMA_AYAH',
+            'IBU_NIK',
+            'IBU_PEKERJAAN',
+            'IBU_SEX',
+            'IBU_TTL',
+            'IBU_USIA',
+            'IBU_WARGA_NEGARA',
+            'IDENTITAS_BEDA',
+            'ISTRI_LAMA',
+            'JABATAN',
+            'JABAT_KEG',
+            'JAM_LAHIR',
+            'JAM_MATI',
+            'JAM_NIKAH',
+            'JENIS_KEG',
+            'JURUSAN',
+            'KARTU_BEDA',
+            'KELAMIN_WALI',
+            'KELAS',
+            'KEPERLUAN',
+            'KERJA_CALON',
+            'KETERANGAN',
+            'KODE_DESA',
+            'KUA',
+            'LOKASI_KEG',
+            'MULAI_BERLAKU',
+            'NAMA',
+            'NAMA_AYAH',
+            'NAMA_BARU',
+            'NAMA_BARU1',
+            'NAMA_BARU2',
+            'NAMA_BARU3',
+            'NAMA_BARU4',
+            'NAMA_BARU5',
+            'NAMA_BARU6',
+            'NAMA_BEDA',
+            'NAMA_CALON',
+            'NAMA_DES',
+            'NAMA_DESA',
+            'NAMA_DESA_JAWA',
+            'NAMA_IBU',
+            'NAMA_KAB',
+            'NAMA_KABUPATEN',
+            'NAMA_KEC',
+            'NAMA_KECAMATAN',
+            'NAMA_KEPALA_CAMAT',
+            'NAMA_LAHIR',
+            'NAMA_PAMONG',
+            'NAMA_WALI',
+            'NIK',
+            'NIK_CALON',
+            'NIK_LAHIR',
+            'NIK_WALI',
+            'NIP_KEPALA_CAMAT',
+            'NIP_PAMONG',
+            'NO',
+            'NOMOR_NIKAH',
+            'NOMOR_SURAT',
+            'NO_DTKS',
+            'NO_KK',
+            'NO_KTP',
+            'PEKERJAAN',
+            'PENDIDIKAN',
+            'PESERTA_KEG',
+            'PRIA_STATUS',
+            'PX_HUBUNGAN',
+            'PX_NAMA',
+            'PX_NIK',
+            'PX_TTL',
+            'PX_TTL2',
+            'RPHURUF',
+            'SAKSI_ALAMAT1',
+            'SAKSI_ALAMAT2',
+            'SAKSI_BARU1',
+            'SAKSI_BARU2',
+            'SAKSI_PEKERJAAN1',
+            'SAKSI_PEKERJAAN2',
+            'SAKSI_UMUR1',
+            'SAKSI_UMUR2',
+            'SEBAB_MATI',
+            'SEBAB_WALI',
+            'SEKOLAH',
+            'SEX',
+            'SEX_LAHIR',
+            'STATUS_KAWIN',
+            'STATUS_PEMOHON',
+            'STATUS_TERMOHON',
+            'TAHUN',
+            'TEMPATLAHIR',
+            'TEMPAT_RAWAT',
+            'TGLLAHIR',
+            'TGLLHR_WALI',
+            'TGL_AKHIR',
+            'TGL_BARU1',
+            'TGL_BARU2',
+            'TGL_BARU3',
+            'TGL_BARU4',
+            'TGL_BARU5',
+            'TGL_BARU6',
+            'TGL_KEG',
+            'TGL_LAHIR',
+            'TGL_LAHIR_CALON',
+            'TGL_MATI',
+            'TGL_NIKAH',
+            'TGL_SURAT',
+            'TINDAKAN',
+            'TOTAL',
+            'TPTLHR_WALI',
+            'TPT_BARU1',
+            'TPT_BARU2',
+            'TPT_BARU3',
+            'TPT_BARU4',
+            'TPT_BARU5',
+            'TPT_BARU6',
+            'TPT_LAHIR',
+            'TPT_LAHIR_CALON',
+            'TPT_MATI',
+            'TPT_NIKAH',
+            'TTL',
+            'TUJUAN',
+            'USIA',
+            'WAKTU',
+            'WANITA_STATUS',
+            'WARGA_NEGARA',
+            'WARGA_NEGARA_CALON',
+            'agama',
+            'alamat_kantor',
+            'alamat_sekarang',
+            'email',
+            'keperluan',
+            'nama',
+            'nama_desa',
+            'nama_kabupaten',
+            'nama_kades',
+            'nama_kecamatan',
+            'nik',
+            'nomor_surat',
+            'nomorsurat',
+            'pekerjaan',
+            'pendidikan',
+            'sex',
+            'status_kawin',
+            'tanggal',
+            'tanggal_lahir',
+            'tempat_lahir',
+            'web',
+            ...array_map(static fn($number) => 'PERTANYAAN' . $number, range(1, 44)),
+        ];
     }
 
     private function resolveTemplateValue(string $placeholder, array $values): string
